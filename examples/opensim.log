@@ -1,0 +1,832 @@
+[2023-03-26 14:16:31.640] [info] Loaded model Wrist_Model from file D:\repos\opensim_hand_project\model\WristModel_Marker_AllMuscles.osim
+[2023-03-26 14:16:31.641] [warning] Couldn't find file 'humerus.vtp'.
+[2023-03-26 14:16:31.641] [warning] Couldn't find file 'ulna.vtp'.
+[2023-03-26 14:16:31.641] [warning] Couldn't find file 'radius.vtp'.
+[2023-03-26 14:16:31.641] [warning] Couldn't find file 'r_scaph.vtp'.
+[2023-03-26 14:16:31.641] [warning] Couldn't find file 'r_lun.vtp'.
+[2023-03-26 14:16:31.642] [warning] Couldn't find file 'r_trpzm.vtp'.
+[2023-03-26 14:16:31.642] [warning] Couldn't find file 'r_trpzd.vtp'.
+[2023-03-26 14:16:31.642] [warning] Couldn't find file 'r_cap.vtp'.
+[2023-03-26 14:16:31.642] [warning] Couldn't find file 'r_pis.vtp'.
+[2023-03-26 14:16:31.642] [warning] Couldn't find file 'r_triq.vtp'.
+[2023-03-26 14:16:31.642] [warning] Couldn't find file 'r_ham.vtp'.
+[2023-03-26 14:16:31.642] [warning] Couldn't find file 'fingers1.vtp'.
+[2023-03-26 14:16:31.642] [warning] Couldn't find file 'fingers8.vtp'.
+[2023-03-26 14:16:31.642] [warning] Couldn't find file 'fingers12.vtp'.
+[2023-03-26 14:16:31.643] [warning] Couldn't find file 'fingers16.vtp'.
+[2023-03-26 14:16:31.643] [warning] Couldn't find file 'humerus.vtp'.
+[2023-03-26 14:16:31.643] [warning] Couldn't find file 'fingers17.vtp'.
+[2023-03-26 14:16:31.643] [warning] Couldn't find file 'fingers18.vtp'.
+[2023-03-26 14:16:31.643] [warning] Couldn't find file 'fingers19.vtp'.
+[2023-03-26 14:16:31.643] [warning] Couldn't find file 'fingers2.vtp'.
+[2023-03-26 14:16:31.643] [warning] Couldn't find file 'fingers3.vtp'.
+[2023-03-26 14:16:31.643] [warning] Couldn't find file 'fingers4.vtp'.
+[2023-03-26 14:16:31.643] [warning] Couldn't find file 'fingers7.vtp'.
+[2023-03-26 14:16:31.643] [warning] Couldn't find file 'fingers6.vtp'.
+[2023-03-26 14:16:31.643] [warning] Couldn't find file 'fingers5.vtp'.
+[2023-03-26 14:16:31.643] [warning] Couldn't find file 'fingers11.vtp'.
+[2023-03-26 14:16:31.644] [warning] Couldn't find file 'fingers10.vtp'.
+[2023-03-26 14:16:31.644] [warning] Couldn't find file 'fingers9.vtp'.
+[2023-03-26 14:16:31.644] [warning] Couldn't find file 'fingers15.vtp'.
+[2023-03-26 14:16:31.644] [warning] Couldn't find file 'fingers14.vtp'.
+[2023-03-26 14:16:31.644] [warning] Couldn't find file 'fingers13.vtp'.
+[2023-03-26 14:17:05.603] [info] Loaded model Wrist_Model from file D:\repos\opensim_hand_project\model\WristModel_Marker_AllMuscles.osim
+[2023-03-26 14:17:05.603] [warning] Couldn't find file 'humerus.vtp'.
+[2023-03-26 14:17:05.603] [warning] Couldn't find file 'ulna.vtp'.
+[2023-03-26 14:17:05.603] [warning] Couldn't find file 'radius.vtp'.
+[2023-03-26 14:17:05.604] [warning] Couldn't find file 'r_scaph.vtp'.
+[2023-03-26 14:17:05.604] [warning] Couldn't find file 'r_lun.vtp'.
+[2023-03-26 14:17:05.604] [warning] Couldn't find file 'r_trpzm.vtp'.
+[2023-03-26 14:17:05.604] [warning] Couldn't find file 'r_trpzd.vtp'.
+[2023-03-26 14:17:05.604] [warning] Couldn't find file 'r_cap.vtp'.
+[2023-03-26 14:17:05.604] [warning] Couldn't find file 'r_pis.vtp'.
+[2023-03-26 14:17:05.604] [warning] Couldn't find file 'r_triq.vtp'.
+[2023-03-26 14:17:05.604] [warning] Couldn't find file 'r_ham.vtp'.
+[2023-03-26 14:17:05.604] [warning] Couldn't find file 'fingers1.vtp'.
+[2023-03-26 14:17:05.604] [warning] Couldn't find file 'fingers8.vtp'.
+[2023-03-26 14:17:05.604] [warning] Couldn't find file 'fingers12.vtp'.
+[2023-03-26 14:17:05.604] [warning] Couldn't find file 'fingers16.vtp'.
+[2023-03-26 14:17:05.604] [warning] Couldn't find file 'humerus.vtp'.
+[2023-03-26 14:17:05.604] [warning] Couldn't find file 'fingers17.vtp'.
+[2023-03-26 14:17:05.605] [warning] Couldn't find file 'fingers18.vtp'.
+[2023-03-26 14:17:05.605] [warning] Couldn't find file 'fingers19.vtp'.
+[2023-03-26 14:17:05.605] [warning] Couldn't find file 'fingers2.vtp'.
+[2023-03-26 14:17:05.605] [warning] Couldn't find file 'fingers3.vtp'.
+[2023-03-26 14:17:05.605] [warning] Couldn't find file 'fingers4.vtp'.
+[2023-03-26 14:17:05.605] [warning] Couldn't find file 'fingers7.vtp'.
+[2023-03-26 14:17:05.605] [warning] Couldn't find file 'fingers6.vtp'.
+[2023-03-26 14:17:05.605] [warning] Couldn't find file 'fingers5.vtp'.
+[2023-03-26 14:17:05.605] [warning] Couldn't find file 'fingers11.vtp'.
+[2023-03-26 14:17:05.605] [warning] Couldn't find file 'fingers10.vtp'.
+[2023-03-26 14:17:05.605] [warning] Couldn't find file 'fingers9.vtp'.
+[2023-03-26 14:17:05.605] [warning] Couldn't find file 'fingers15.vtp'.
+[2023-03-26 14:17:05.605] [warning] Couldn't find file 'fingers14.vtp'.
+[2023-03-26 14:17:05.606] [warning] Couldn't find file 'fingers13.vtp'.
+[2023-03-26 14:23:53.840] [info] Loaded model Wrist_Model from file D:\repos\opensim_hand_project\model\WristModel_Marker_AllMuscles.osim
+[2023-03-26 14:48:12.541] [info] Loaded model Wrist_Model from file D:\repos\opensim_hand_project\model\WristModel_Marker_AllMuscles.osim
+[2023-03-26 14:49:11.375] [info] Loaded model Wrist_Model from file D:\repos\opensim_hand_project\model\WristModel_Marker_AllMuscles.osim
+[2023-03-26 14:49:27.680] [info] Loaded model Wrist_Model from file D:\repos\opensim_hand_project\model\WristModel_Marker_AllMuscles.osim
+[2023-03-26 14:51:45.255] [info] Loaded model Wrist_Model from file D:\repos\opensim_hand_project\model\WristModel_Marker_AllMuscles.osim
+[2023-03-26 15:04:32.432] [info] Loaded model Wrist_Model from file D:\repos\opensim_hand_project\model\WristModel_Marker_AllMuscles.osim
+[2023-03-26 15:05:07.744] [info] Loaded model Wrist_Model from file D:\repos\opensim_hand_project\model\WristModel_Marker_AllMuscles.osim
+[2023-03-26 15:06:08.317] [info] Loaded model Wrist_Model from file D:\repos\opensim_hand_project\model\WristModel_Marker_AllMuscles.osim
+[2023-03-26 15:06:08.416] [info] Loaded model Wrist_Model from file .\model_save.osim
+[2023-03-26 15:06:34.156] [info] Loaded model Wrist_Model from file D:\repos\opensim_hand_project\model\WristModel_Marker_AllMuscles.osim
+[2023-03-26 15:08:28.820] [info] Loaded model Wrist_Model from file D:\repos\opensim_hand_project\model\WristModel_Marker_AllMuscles.osim
+[2023-03-26 15:08:35.861] [info] Loaded model Wrist_Model from file .\model_save.osim
+[2023-03-26 15:09:14.397] [info] Loaded model Wrist_Model from file D:\repos\opensim_hand_project\model\WristModel_Marker_AllMuscles.osim
+[2023-03-26 15:09:21.084] [info] Loaded model Wrist_Model from file .\model_save.osim
+[2023-03-26 15:10:51.492] [info] Loaded model Wrist_Model from file D:\repos\opensim_hand_project\model\WristModel_Marker_AllMuscles.osim
+[2023-03-26 15:10:51.595] [info] Loaded model Wrist_Model from file .\model_save.osim
+[2023-03-26 15:12:19.447] [info] Loaded model Wrist_Model from file D:\repos\opensim_hand_project\model\WristModel_Marker_AllMuscles.osim
+[2023-03-26 15:12:19.607] [info] Loaded model Wrist_Model from file .\model_save.osim
+[2023-03-26 15:13:46.667] [info] Loaded model Wrist_Model from file D:\repos\opensim_hand_project\model\WristModel_Marker_AllMuscles.osim
+[2023-03-26 15:13:46.792] [info] Loaded model Wrist_Model from file .\model_save.osim
+[2023-03-26 15:13:52.479] [info] Loaded model Wrist_Model from file D:\repos\opensim_hand_project\model\WristModel_Marker_AllMuscles.osim
+[2023-03-26 15:14:25.302] [info] Loaded model Wrist_Model from file D:\repos\opensim_hand_project\model\WristModel_Marker_AllMuscles.osim
+[2023-03-26 15:14:25.418] [info] Loaded model Wrist_Model from file .\model_save.osim
+[2023-03-26 15:15:17.909] [info] Loaded model Wrist_Model from file D:\repos\opensim_hand_project\model\WristModel_Marker_AllMuscles.osim
+[2023-03-26 15:16:30.683] [info] Loaded model Wrist_Model from file .\model_save.osim
+[2023-03-26 15:18:30.171] [info] Loaded model Wrist_Model from file D:\repos\opensim_hand_project\model\WristModel_Marker_AllMuscles.osim
+[2023-03-26 15:18:30.228] [info] Loaded model Wrist_Model from file D:\repos\opensim_hand_project\model\WristModel_without_Muscle.osim
+[2023-03-26 15:23:22.237] [info] Loaded model Wrist_Model from file D:\repos\opensim_hand_project\model\WristModel_Marker_AllMuscles.osim
+[2023-03-26 15:23:42.246] [info] Loaded model Wrist_Model from file D:\repos\opensim_hand_project\model\WristModel_Marker_AllMuscles.osim
+[2023-03-26 15:23:50.258] [info] Loaded model Wrist_Model from file D:\repos\opensim_hand_project\model\WristModel_Marker_AllMuscles.osim
+[2023-03-26 15:23:50.371] [info] Loaded model Wrist_Model from file .\model_save.osim
+[2023-03-26 15:25:05.402] [info] Loaded model Wrist_Model from file D:\repos\opensim_hand_project\model\WristModel_Marker_AllMuscles.osim
+[2023-03-26 15:25:19.129] [info] Loaded model Wrist_Model from file D:\repos\opensim_hand_project\model\WristModel_Marker_AllMuscles.osim
+[2023-03-26 15:26:34.068] [info] Loaded model Wrist_Model from file D:\repos\opensim_hand_project\model\WristModel_Marker_AllMuscles.osim
+[2023-03-26 15:26:39.774] [info] Loaded model Wrist_Model from file .\model_save.osim
+[2023-03-26 22:26:05.390] [info] Loaded model Wrist_Model from file D:\repos\opensim_hand_project\model\WristModel_Marker_AllMuscles.osim
+[2023-03-26 22:26:05.472] [info] Loaded model Wrist_Model from file D:\repos\opensim_hand_project\model\WristModel_Marker_AllMuscles.osim
+[2023-03-26 22:27:39.289] [info] Loaded model Wrist_Model from file D:\repos\opensim_hand_project\model\WristModel_Marker_AllMuscles.osim
+[2023-03-26 22:27:39.358] [info] Loaded model Wrist_Model from file D:\repos\opensim_hand_project\model\WristModel_Marker_AllMuscles.osim
+[2023-03-26 22:27:44.549] [info] Loaded model Wrist_Model from file D:\repos\opensim_hand_project\model\WristModel_Marker_AllMuscles.osim
+[2023-03-26 22:27:44.621] [info] Loaded model Wrist_Model from file D:\repos\opensim_hand_project\model\WristModel_Marker_AllMuscles.osim
+[2023-03-26 22:28:42.148] [info] Loaded model Wrist_Model from file D:\repos\opensim_hand_project\model\WristModel_Marker_AllMuscles.osim
+[2023-03-26 22:28:42.218] [info] Loaded model Wrist_Model from file D:\repos\opensim_hand_project\model\WristModel_Marker_AllMuscles.osim
+[2023-03-26 22:28:51.684] [info] Loaded model Wrist_Model from file D:\repos\opensim_hand_project\model\WristModel_Marker_AllMuscles.osim
+[2023-03-26 22:28:51.755] [info] Loaded model Wrist_Model from file D:\repos\opensim_hand_project\model\WristModel_Marker_AllMuscles.osim
+[2023-03-26 22:29:24.230] [info] Loaded model Wrist_Model from file .\model_save.osim
+[2023-03-26 22:29:39.624] [info] Loaded model Wrist_Model from file .\model_save.osim
+[2023-03-26 22:29:39.686] [info] Loaded model Wrist_Model from file .\model_save2.osim
+[2023-03-26 22:30:14.465] [info] Loaded model Wrist_Model from file D:\repos\opensim_hand_project\model\WristModel_Marker_AllMuscles.osim
+[2023-03-26 22:30:14.534] [info] Loaded model Wrist_Model from file D:\repos\opensim_hand_project\model\WristModel_Marker_AllMuscles.osim
+[2023-03-26 22:30:34.038] [info] Loaded model Wrist_Model from file D:\repos\opensim_hand_project\model\WristModel_Marker_AllMuscles.osim
+[2023-03-26 22:30:34.110] [info] Loaded model Wrist_Model from file D:\repos\opensim_hand_project\model\WristModel_Marker_AllMuscles.osim
+[2023-03-26 22:31:06.064] [info] Loaded model Wrist_Model from file D:\repos\opensim_hand_project\model\WristModel_Marker_AllMuscles.osim
+[2023-03-26 22:31:06.134] [info] Loaded model Wrist_Model from file D:\repos\opensim_hand_project\model\WristModel_Marker_AllMuscles.osim
+[2023-03-26 22:31:42.439] [info] Loaded model Wrist_Model from file D:\repos\opensim_hand_project\model\WristModel_Marker_AllMuscles.osim
+[2023-03-26 22:31:42.518] [info] Loaded model Wrist_Model from file D:\repos\opensim_hand_project\model\WristModel_Marker_AllMuscles.osim
+[2023-03-26 22:33:36.756] [info] Loaded model Wrist_Model from file D:\repos\opensim_hand_project\model\WristModel_Marker_AllMuscles.osim
+[2023-03-26 22:33:36.829] [info] Loaded model Wrist_Model from file D:\repos\opensim_hand_project\model\WristModel_Marker_AllMuscles.osim
+[2023-03-26 22:33:51.182] [info] Loaded model Wrist_Model from file .\model_save.osim
+[2023-03-26 22:33:51.246] [info] Loaded model Wrist_Model from file .\model_save2.osim
+[2023-03-26 22:33:51.313] [info] Loaded model Wrist_Model from file .\model_save3.osim
+[2023-03-26 22:36:37.690] [info] Loaded model Wrist_Model from file .\model_save.osim
+[2023-03-26 22:36:54.417] [info] Loaded model Wrist_Model from file .\model_save2.osim
+[2023-03-26 22:39:17.147] [info] Loaded model Wrist_Model from file D:\repos\opensim_hand_project\model\WristModel_Marker_AllMuscles.osim
+[2023-03-26 22:39:17.214] [info] Loaded model Wrist_Model from file D:\repos\opensim_hand_project\model\WristModel_Marker_AllMuscles.osim
+[2023-03-26 22:41:23.088] [info] Loaded model Wrist_Model from file D:\repos\opensim_hand_project\model\WristModel_Marker_AllMuscles.osim
+[2023-03-26 22:41:23.166] [info] Loaded model Wrist_Model from file D:\repos\opensim_hand_project\model\WristModel_Marker_AllMuscles.osim
+[2023-03-26 22:44:52.782] [info] Loaded model Wrist_Model from file D:\repos\opensim_hand_project\model\WristModel_Marker_AllMuscles.osim
+[2023-03-26 22:45:33.208] [info] Loaded model Wrist_Model from file D:\repos\opensim_hand_project\model\WristModel_Marker_AllMuscles.osim
+[2023-03-26 22:46:36.158] [info] Loaded model Wrist_Model from file .\model_save.osim
+[2023-03-26 22:46:45.301] [info] Loaded model Wrist_Model from file .\model_save.osim
+[2023-03-26 22:49:51.205] [info] Loaded model Wrist_Model from file .\model_save4.osim
+[2023-03-26 22:50:01.294] [info] Loaded model Wrist_Model from file .\model_save4.osim
+[2023-03-27 14:39:10.854] [info] Loaded model Wrist_Model from file D:\repos\opensim_hand_project\model\WristModel_Marker_AllMuscles.osim
+[2023-03-27 14:40:30.144] [info] Loaded model Wrist_Model from file D:\repos\opensim_hand_project\model\WristModel_Marker_AllMuscles.osim
+[2023-03-27 14:41:31.684] [info] Loaded model Wrist_Model from file .\model_save.osim
+[2023-03-27 14:43:15.122] [info] Loaded model Wrist_Model from file .\model_save.osim
+[2023-03-27 14:44:30.757] [info] Loaded model Wrist_Model from file .\model_save.osim
+[2023-03-27 14:45:39.684] [info] Loaded model Wrist_Model from file D:\repos\opensim_hand_project\model\WristModel_Marker_AllMuscles.osim
+[2023-03-27 14:47:23.900] [info] Loaded model Wrist_Model from file .\model_save.osim
+[2023-03-27 14:47:43.948] [info] Loaded model Wrist_Model from file D:\repos\opensim_hand_project\examples\model_save.osim
+[2023-03-27 14:47:48.802] [info] Loaded model Wrist_Model from file D:\repos\opensim_hand_project\examples\model_save.osim
+[2023-03-27 14:48:55.296] [info] Loaded model Wrist_Model from file D:\repos\opensim_hand_project\examples\model_save.osim
+[2023-03-27 14:54:09.116] [info] Loaded model Wrist_Model from file D:\repos\opensim_hand_project\model\WristModel_Marker_AllMuscles.osim
+[2023-03-27 14:54:38.804] [info] Loaded model Wrist_Model from file D:\repos\opensim_hand_project\model\WristModel_Marker_AllMuscles.osim
+[2023-03-27 14:56:12.374] [info] Loaded model Wrist_Model from file D:\repos\opensim_hand_project\model\WristModel_Marker_AllMuscles.osim
+[2023-03-27 14:56:29.835] [info] Loaded model Wrist_Model from file D:\repos\opensim_hand_project\model\WristModel_Marker_AllMuscles.osim
+[2023-03-27 14:56:40.209] [info] Loaded model Wrist_Model from file D:\repos\opensim_hand_project\examples\model_save.osim
+[2023-03-27 15:00:28.142] [info] Loaded model Wrist_Model from file D:\repos\opensim_hand_project\model\WristModel_Marker_AllMuscles.osim
+[2023-03-27 15:00:37.355] [info] Loaded model Wrist_Model from file D:\repos\opensim_hand_project\model\WristModel_Marker_AllMuscles.osim
+[2023-03-27 15:00:50.638] [info] Loaded model Wrist_Model from file D:\repos\opensim_hand_project\model\WristModel_Marker_AllMuscles.osim
+[2023-03-27 15:01:02.660] [info] Loaded model Wrist_Model from file D:\repos\opensim_hand_project\model\WristModel_Marker_AllMuscles.osim
+[2023-03-27 15:01:11.098] [info] Loaded model Wrist_Model from file D:\repos\opensim_hand_project\model\WristModel_Marker_AllMuscles.osim
+[2023-03-27 15:02:12.383] [info] Loaded model Wrist_Model from file D:\repos\opensim_hand_project\model\WristModel_Marker_AllMuscles.osim
+[2023-03-27 15:02:27.928] [info] Loaded model Wrist_Model from file D:\repos\opensim_hand_project\examples\model_save.osim
+[2023-03-27 15:02:36.705] [info] Loaded model Wrist_Model from file D:\repos\opensim_hand_project\model\WristModel_Marker_AllMuscles.osim
+[2023-03-27 15:02:46.558] [info] Loaded model Wrist_Model from file D:\repos\opensim_hand_project\model\WristModel_Marker_AllMuscles.osim
+[2023-03-27 15:03:01.299] [info] Loaded model Wrist_Model from file D:\repos\opensim_hand_project\examples\model_save.osim
+[2023-03-27 15:04:44.001] [info] Loaded model Wrist_Model from file ..\model\wrist_test.osim
+[2023-03-27 15:05:21.855] [info] Loaded model Wrist_Model from file ..\model\wrist_test.osim
+[2023-03-27 15:06:24.008] [info] Loaded model Wrist_Model from file ..\model\wrist_test.osim
+[2023-03-27 15:07:30.505] [info] Loaded model Wrist_Model from file .\WristModel_without_Muscle.osim
+[2023-03-27 15:08:33.875] [info] Loaded model Wrist_Model from file D:\repos\opensim_hand_project\model\WristModel_Marker_AllMuscles.osim
+[2023-03-27 15:09:32.552] [info] Loaded model Wrist_Model from file D:\repos\opensim_hand_project\model\WristModel_Marker_AllMuscles.osim
+[2023-03-27 15:10:46.369] [info] Loaded model Wrist_Model from file D:\repos\opensim_hand_project\model\WristModel_Marker_AllMuscles.osim
+[2023-03-27 15:19:01.865] [info] Loaded model Wrist_Model from file D:\repos\opensim_hand_project\model\WristModel_Marker_AllMuscles.osim
+[2023-03-27 15:20:20.626] [info] Loaded model Wrist_Model from file D:\repos\opensim_hand_project\model\WristModel_Marker_AllMuscles.osim
+[2023-03-27 15:26:45.254] [info] Loaded model Wrist_Model from file D:\repos\opensim_hand_project\examples\model_save.osim
+[2023-03-27 15:28:21.698] [info] Loaded model Wrist_Model from file D:\repos\opensim_hand_project\model\WristModel_Marker_AllMuscles.osim
+[2023-03-27 15:31:24.571] [info] Loaded model Wrist_Model from file D:\repos\opensim_hand_project\examples\model_save.osim
+[2023-03-27 15:35:37.368] [info] Loaded model Wrist_Model from file D:\repos\opensim_hand_project\model\WristModel_Marker_AllMuscles.osim
+[2023-03-28 15:18:21.504] [info] Loaded model Wrist_Model from file D:\repos\opensim_hand_project\model\WristModel_Marker_AllMuscles.osim
+[2023-03-28 15:36:13.902] [info] Processing subject scaled_subject_05...
+[2023-03-28 15:36:13.902] [info] Step 1: Loading generic model
+[2023-03-28 15:36:13.904] [error] Object: Cannot open file d:\repos\opensim_hand_project\examples\WristModel_Marker_AllMuscles.osim. It may not exist or you do not have permission to read it.
+	Thrown at Object.cpp:105 in Object().
+[2023-03-28 15:36:13.904] [error] Unable to load the generic model or marker set file.
+[2023-03-28 15:36:13.904] [error] ScaleTool: No model specified.
+[2023-03-28 15:36:53.845] [info] Processing subject scaled_subject_05...
+[2023-03-28 15:36:53.845] [info] Step 1: Loading generic model
+[2023-03-28 15:36:53.845] [error] Object: Cannot open file d:\repos\opensim_hand_project\examples\WristModel_Marker_AllMuscles.osim. It may not exist or you do not have permission to read it.
+	Thrown at Object.cpp:105 in Object().
+[2023-03-28 15:36:53.845] [error] Unable to load the generic model or marker set file.
+[2023-03-28 15:36:53.845] [error] ScaleTool: No model specified.
+[2023-03-28 15:45:55.793] [info] Loaded model Wrist_Model from file D:\repos\opensim_hand_project\model\WristModel_Marker_AllMuscles.osim
+[2023-03-28 15:46:40.956] [info] Processing subject scaled_subject_05...
+[2023-03-28 15:46:40.956] [info] Step 1: Loading generic model
+[2023-03-28 15:46:40.956] [error] Object: Cannot open file d:\repos\opensim_hand_project\examples\WristModel_Marker_AllMuscles.osim. It may not exist or you do not have permission to read it.
+	Thrown at Object.cpp:105 in Object().
+[2023-03-28 15:46:40.956] [error] Unable to load the generic model or marker set file.
+[2023-03-28 15:46:40.956] [error] ScaleTool: No model specified.
+[2023-03-28 15:47:27.524] [info] Processing subject scaled_subject_05...
+[2023-03-28 15:47:27.524] [info] Step 1: Loading generic model
+[2023-03-28 15:47:27.542] [info] Loaded model Wrist_Model from file d:\repos\opensim_hand_project\examples\WristModel_Marker_AllMuscles.osim
+[2023-03-28 15:47:27.565] [info] Loading marker set from '.\markerfile.xml'.
+[2023-03-28 15:47:27.656] [info] Updated markers in model Wrist_Model
+[2023-03-28 15:47:27.656] [info] Step 2: Scaling generic model
+[2023-03-28 15:47:27.704] [info] Loaded marker file .\statics_05.trc (26 markers, 720 frames)
+[2023-03-28 15:47:27.704] [info] Measurement 'Proximalphalanx1'
+[2023-03-28 15:47:27.705] [info] 	pair 0 (MP1, IP): model = 0.0315904, experimental = 0.0314617
+[2023-03-28 15:47:27.705] [info] 	overall scale factor = 0.995926
+[2023-03-28 15:47:27.705] [info] Measurement 'Proximalphalanx2'
+[2023-03-28 15:47:27.705] [info] 	pair 0 (MP2, PP2): model = 0.0498379, experimental = 0.0483109
+[2023-03-28 15:47:27.705] [info] 	overall scale factor = 0.96936
+[2023-03-28 15:47:27.705] [info] Measurement 'Proximalphalanx3'
+[2023-03-28 15:47:27.705] [info] 	pair 0 (MP3, PP3): model = 0.0554018, experimental = 0.0519467
+[2023-03-28 15:47:27.705] [info] 	overall scale factor = 0.937636
+[2023-03-28 15:47:27.705] [info] Measurement 'Proximalphalanx4'
+[2023-03-28 15:47:27.705] [info] 	pair 0 (MP4, PP4): model = 0.0547565, experimental = 0.0467745
+[2023-03-28 15:47:27.705] [info] 	overall scale factor = 0.854228
+[2023-03-28 15:47:27.705] [info] Measurement 'Proximalphalanx5'
+[2023-03-28 15:47:27.705] [info] 	pair 0 (MP5, PP5): model = 0.0406137, experimental = 0.0341336
+[2023-03-28 15:47:27.705] [info] 	overall scale factor = 0.840446
+[2023-03-28 15:47:27.705] [info] Measurement 'Medialphalanx2'
+[2023-03-28 15:47:27.705] [info] 	pair 0 (PP2, DP2): model = 0.0298703, experimental = 0.0288723
+[2023-03-28 15:47:27.705] [info] 	overall scale factor = 0.96659
+[2023-03-28 15:47:27.705] [info] Measurement 'Medialphalanx3'
+[2023-03-28 15:47:27.705] [info] 	pair 0 (PP3, DP3): model = 0.033126, experimental = 0.0327778
+[2023-03-28 15:47:27.705] [info] 	overall scale factor = 0.989486
+[2023-03-28 15:47:27.705] [info] Measurement 'Medialphalanx4'
+[2023-03-28 15:47:27.705] [info] 	pair 0 (PP4, DP4): model = 0.0319013, experimental = 0.0312045
+[2023-03-28 15:47:27.705] [info] 	overall scale factor = 0.97816
+[2023-03-28 15:47:27.705] [info] Measurement 'Medialphalanx5'
+[2023-03-28 15:47:27.705] [info] 	pair 0 (PP5, DP5): model = 0.0256484, experimental = 0.0208609
+[2023-03-28 15:47:27.705] [info] 	overall scale factor = 0.813341
+[2023-03-28 15:47:27.705] [info] Measurement 'Distalphalanx1'
+[2023-03-28 15:47:27.705] [info] 	pair 0 (IP, FT1): model = 0.0258725, experimental = 0.0233624
+[2023-03-28 15:47:27.705] [info] 	overall scale factor = 0.902980
+[2023-03-28 15:47:27.705] [info] Measurement 'Distalphalanx2'
+[2023-03-28 15:47:27.705] [info] 	pair 0 (DP2, FT2): model = 0.0182318, experimental = 0.0211325
+[2023-03-28 15:47:27.705] [info] 	overall scale factor = 1.1591
+[2023-03-28 15:47:27.705] [info] Measurement 'Distalphalanx3'
+[2023-03-28 15:47:27.705] [info] 	pair 0 (DP3, FT3): model = 0.0192047, experimental = 0.0206872
+[2023-03-28 15:47:27.705] [info] 	overall scale factor = 1.07719
+[2023-03-28 15:47:27.705] [info] Measurement 'Distalphalanx4'
+[2023-03-28 15:47:27.705] [info] 	pair 0 (DP4, FT4): model = 0.0165017, experimental = 0.0206313
+[2023-03-28 15:47:27.705] [info] 	overall scale factor = 1.25025
+[2023-03-28 15:47:27.705] [info] Measurement 'Distalphalanx5'
+[2023-03-28 15:47:27.705] [info] 	pair 0 (DP5, FT5): model = 0.0182434, experimental = 0.0190783
+[2023-03-28 15:47:27.705] [info] 	overall scale factor = 1.04577
+[2023-03-28 15:47:27.705] [info] Measurement 'metacarpal2_length'
+[2023-03-28 15:47:27.705] [info] 	pair 0 (CMC2, PP2): model = 0.113574, experimental = 0.0933094
+[2023-03-28 15:47:27.705] [info] 	overall scale factor = 0.821575
+[2023-03-28 15:47:27.705] [info] Measurement 'metacarpal5_length'
+[2023-03-28 15:47:27.705] [info] 	pair 0 (CMC5, PP5): model = 0.0916254, experimental = 0.0730205
+[2023-03-28 15:47:27.705] [info] 	overall scale factor = 0.796946
+[2023-03-28 15:47:27.705] [info] Measurement 'metacarpal4_length'
+[2023-03-28 15:47:27.705] [info] 	pair 0 (CMC5, PP5): model = 0.0916254, experimental = 0.0730205
+[2023-03-28 15:47:27.705] [info] 	overall scale factor = 0.796946
+[2023-03-28 15:47:27.705] [info] Measurement 'metacarpal3_length'
+[2023-03-28 15:47:27.705] [info] 	pair 0 (CMC2, PP2): model = 0.113574, experimental = 0.0933094
+[2023-03-28 15:47:27.705] [info] 	overall scale factor = 0.821575
+[2023-03-28 15:47:27.705] [info] Measurement 'metacarpal1'
+[2023-03-28 15:47:27.705] [info] 	pair 0 (CMC1, MP1): model = 0.0480998, experimental = 0.0391842
+[2023-03-28 15:47:27.705] [info] 	overall scale factor = 0.814645
+[2023-03-28 15:47:27.705] [info] Measurement 'ulna'
+[2023-03-28 15:47:27.705] [info] 	pair 0 (EM, US): model = 0.222055, experimental = 0.284229
+[2023-03-28 15:47:27.705] [info] 	overall scale factor = 1.27999
+[2023-03-28 15:47:27.705] [info] Measurement 'radius'
+[2023-03-28 15:47:27.705] [info] 	pair 0 (EL, RS): model = 0.223422, experimental = 0.280073
+[2023-03-28 15:47:27.705] [info] 	overall scale factor = 1.25356
+[2023-03-28 15:47:27.769] [info] Wrote model file 'subject01_scaledOnly.osim' from model.
+[2023-03-28 15:47:27.770] [info] Wrote scale file 'subject01_scaleSet_applied.xml' for model scaled_subject_05.
+[2023-03-28 15:47:27.771] [info] Step 3: Placing markers on model
+[2023-03-28 15:47:27.820] [info] Loaded marker file .\statics_05.trc (26 markers, 720 frames)
+[2023-03-28 15:47:27.820] [info] Averaged frames from time 0.0 to 4.79333 in .\statics_05.trc (frames 1 to 720)
+[2023-03-28 15:47:27.820] [info] Deleted 0 unused markers from model scaled_subject_05.
+[2023-03-28 15:47:28.107] [info] Frame at (t = 0.0):	 total squared error = 0.00276736, marker error: RMS = 0.0101240, max = 0.0191987 (RS)
+[2023-03-28 15:47:28.107] [info] Moved markers in model scaled_subject_05 to match locations in marker file '.\statics_05.trc'.
+[2023-03-28 15:47:28.129] [info] Wrote model file 'scaled_subject05.osim' from model scaled_subject_05.
+[2023-03-28 16:46:55.961] [info] Processing subject scaled_subject_05...
+[2023-03-28 16:46:55.961] [info] Step 1: Loading generic model
+[2023-03-28 16:46:55.980] [info] Loaded model Wrist_Model from file d:\repos\opensim_hand_project\examples\WristModel_Marker_AllMuscles.osim
+[2023-03-28 16:46:56.006] [info] Loading marker set from '.\markerfile.xml'.
+[2023-03-28 16:46:56.096] [info] Updated markers in model Wrist_Model
+[2023-03-28 16:46:56.096] [info] Step 2: Scaling generic model
+[2023-03-28 16:46:56.132] [info] Loaded marker file .\statics_05.trc (26 markers, 720 frames)
+[2023-03-28 16:46:56.132] [info] Measurement 'Proximalphalanx1'
+[2023-03-28 16:46:56.133] [info] 	pair 0 (MP1, IP): model = 0.0315904, experimental = 0.0314617
+[2023-03-28 16:46:56.133] [info] 	overall scale factor = 0.995926
+[2023-03-28 16:46:56.133] [info] Measurement 'Proximalphalanx2'
+[2023-03-28 16:46:56.133] [info] 	pair 0 (MP2, PP2): model = 0.0498379, experimental = 0.0483109
+[2023-03-28 16:46:56.133] [info] 	overall scale factor = 0.96936
+[2023-03-28 16:46:56.133] [info] Measurement 'Proximalphalanx3'
+[2023-03-28 16:46:56.133] [info] 	pair 0 (MP3, PP3): model = 0.0554018, experimental = 0.0519467
+[2023-03-28 16:46:56.133] [info] 	overall scale factor = 0.937636
+[2023-03-28 16:46:56.133] [info] Measurement 'Proximalphalanx4'
+[2023-03-28 16:46:56.133] [info] 	pair 0 (MP4, PP4): model = 0.0547565, experimental = 0.0467745
+[2023-03-28 16:46:56.133] [info] 	overall scale factor = 0.854228
+[2023-03-28 16:46:56.133] [info] Measurement 'Proximalphalanx5'
+[2023-03-28 16:46:56.133] [info] 	pair 0 (MP5, PP5): model = 0.0406137, experimental = 0.0341336
+[2023-03-28 16:46:56.133] [info] 	overall scale factor = 0.840446
+[2023-03-28 16:46:56.133] [info] Measurement 'Medialphalanx2'
+[2023-03-28 16:46:56.133] [info] 	pair 0 (PP2, DP2): model = 0.0298703, experimental = 0.0288723
+[2023-03-28 16:46:56.133] [info] 	overall scale factor = 0.96659
+[2023-03-28 16:46:56.133] [info] Measurement 'Medialphalanx3'
+[2023-03-28 16:46:56.133] [info] 	pair 0 (PP3, DP3): model = 0.033126, experimental = 0.0327778
+[2023-03-28 16:46:56.133] [info] 	overall scale factor = 0.989486
+[2023-03-28 16:46:56.133] [info] Measurement 'Medialphalanx4'
+[2023-03-28 16:46:56.133] [info] 	pair 0 (PP4, DP4): model = 0.0319013, experimental = 0.0312045
+[2023-03-28 16:46:56.133] [info] 	overall scale factor = 0.97816
+[2023-03-28 16:46:56.133] [info] Measurement 'Medialphalanx5'
+[2023-03-28 16:46:56.133] [info] 	pair 0 (PP5, DP5): model = 0.0256484, experimental = 0.0208609
+[2023-03-28 16:46:56.133] [info] 	overall scale factor = 0.813341
+[2023-03-28 16:46:56.133] [info] Measurement 'Distalphalanx1'
+[2023-03-28 16:46:56.133] [info] 	pair 0 (IP, FT1): model = 0.0258725, experimental = 0.0233624
+[2023-03-28 16:46:56.133] [info] 	overall scale factor = 0.902980
+[2023-03-28 16:46:56.133] [info] Measurement 'Distalphalanx2'
+[2023-03-28 16:46:56.133] [info] 	pair 0 (DP2, FT2): model = 0.0182318, experimental = 0.0211325
+[2023-03-28 16:46:56.133] [info] 	overall scale factor = 1.1591
+[2023-03-28 16:46:56.133] [info] Measurement 'Distalphalanx3'
+[2023-03-28 16:46:56.133] [info] 	pair 0 (DP3, FT3): model = 0.0192047, experimental = 0.0206872
+[2023-03-28 16:46:56.133] [info] 	overall scale factor = 1.07719
+[2023-03-28 16:46:56.133] [info] Measurement 'Distalphalanx4'
+[2023-03-28 16:46:56.133] [info] 	pair 0 (DP4, FT4): model = 0.0165017, experimental = 0.0206313
+[2023-03-28 16:46:56.133] [info] 	overall scale factor = 1.25025
+[2023-03-28 16:46:56.133] [info] Measurement 'Distalphalanx5'
+[2023-03-28 16:46:56.133] [info] 	pair 0 (DP5, FT5): model = 0.0182434, experimental = 0.0190783
+[2023-03-28 16:46:56.133] [info] 	overall scale factor = 1.04577
+[2023-03-28 16:46:56.133] [info] Measurement 'metacarpal2_length'
+[2023-03-28 16:46:56.133] [info] 	pair 0 (CMC2, PP2): model = 0.113574, experimental = 0.0933094
+[2023-03-28 16:46:56.133] [info] 	overall scale factor = 0.821575
+[2023-03-28 16:46:56.133] [info] Measurement 'metacarpal5_length'
+[2023-03-28 16:46:56.133] [info] 	pair 0 (CMC5, PP5): model = 0.0916254, experimental = 0.0730205
+[2023-03-28 16:46:56.133] [info] 	overall scale factor = 0.796946
+[2023-03-28 16:46:56.133] [info] Measurement 'metacarpal4_length'
+[2023-03-28 16:46:56.133] [info] 	pair 0 (CMC5, PP5): model = 0.0916254, experimental = 0.0730205
+[2023-03-28 16:46:56.133] [info] 	overall scale factor = 0.796946
+[2023-03-28 16:46:56.133] [info] Measurement 'metacarpal3_length'
+[2023-03-28 16:46:56.133] [info] 	pair 0 (CMC2, PP2): model = 0.113574, experimental = 0.0933094
+[2023-03-28 16:46:56.133] [info] 	overall scale factor = 0.821575
+[2023-03-28 16:46:56.133] [info] Measurement 'metacarpal1'
+[2023-03-28 16:46:56.133] [info] 	pair 0 (CMC1, MP1): model = 0.0480998, experimental = 0.0391842
+[2023-03-28 16:46:56.133] [info] 	overall scale factor = 0.814645
+[2023-03-28 16:46:56.133] [info] Measurement 'ulna'
+[2023-03-28 16:46:56.133] [info] 	pair 0 (EM, US): model = 0.222055, experimental = 0.284229
+[2023-03-28 16:46:56.133] [info] 	overall scale factor = 1.27999
+[2023-03-28 16:46:56.133] [info] Measurement 'radius'
+[2023-03-28 16:46:56.133] [info] 	pair 0 (EL, RS): model = 0.223422, experimental = 0.280073
+[2023-03-28 16:46:56.133] [info] 	overall scale factor = 1.25356
+[2023-03-28 16:46:56.193] [info] Wrote model file 'subject01_scaledOnly.osim' from model.
+[2023-03-28 16:46:56.195] [info] Wrote scale file 'subject01_scaleSet_applied.xml' for model scaled_subject_05.
+[2023-03-28 16:46:56.195] [info] Step 3: Placing markers on model
+[2023-03-28 16:46:56.244] [info] Loaded marker file .\statics_05.trc (26 markers, 720 frames)
+[2023-03-28 16:46:56.244] [info] Averaged frames from time 0.0 to 4.79333 in .\statics_05.trc (frames 1 to 720)
+[2023-03-28 16:46:56.244] [info] Deleted 0 unused markers from model scaled_subject_05.
+[2023-03-28 16:46:56.544] [info] Frame at (t = 0.0):	 total squared error = 0.00276736, marker error: RMS = 0.0101240, max = 0.0191987 (RS)
+[2023-03-28 16:46:56.544] [info] Moved markers in model scaled_subject_05 to match locations in marker file '.\statics_05.trc'.
+[2023-03-28 16:46:56.556] [info] Wrote model file 'scaled_subject05.osim' from model scaled_subject_05.
+[2023-03-28 16:56:16.193] [info] Processing subject scaled_subject_05...
+[2023-03-28 16:56:16.193] [info] Step 1: Loading generic model
+[2023-03-28 16:56:16.212] [info] Loaded model Wrist_Model from file d:\repos\opensim_hand_project\examples\WristModel_Marker_AllMuscles.osim
+[2023-03-28 16:56:16.238] [info] Loading marker set from '.\markerfile.xml'.
+[2023-03-28 16:56:16.336] [info] Updated markers in model Wrist_Model
+[2023-03-28 16:56:16.336] [info] Step 2: Scaling generic model
+[2023-03-28 16:56:16.373] [info] Loaded marker file .\statics_05.trc (26 markers, 720 frames)
+[2023-03-28 16:56:16.373] [info] Measurement 'Proximalphalanx1'
+[2023-03-28 16:56:16.373] [info] 	pair 0 (MP1, IP): model = 0.0315904, experimental = 0.0314617
+[2023-03-28 16:56:16.373] [info] 	overall scale factor = 0.995926
+[2023-03-28 16:56:16.373] [info] Measurement 'Proximalphalanx2'
+[2023-03-28 16:56:16.373] [info] 	pair 0 (MP2, PP2): model = 0.0498379, experimental = 0.0483109
+[2023-03-28 16:56:16.373] [info] 	overall scale factor = 0.96936
+[2023-03-28 16:56:16.373] [info] Measurement 'Proximalphalanx3'
+[2023-03-28 16:56:16.373] [info] 	pair 0 (MP3, PP3): model = 0.0554018, experimental = 0.0519467
+[2023-03-28 16:56:16.373] [info] 	overall scale factor = 0.937636
+[2023-03-28 16:56:16.373] [info] Measurement 'Proximalphalanx4'
+[2023-03-28 16:56:16.373] [info] 	pair 0 (MP4, PP4): model = 0.0547565, experimental = 0.0467745
+[2023-03-28 16:56:16.373] [info] 	overall scale factor = 0.854228
+[2023-03-28 16:56:16.373] [info] Measurement 'Proximalphalanx5'
+[2023-03-28 16:56:16.373] [info] 	pair 0 (MP5, PP5): model = 0.0406137, experimental = 0.0341336
+[2023-03-28 16:56:16.373] [info] 	overall scale factor = 0.840446
+[2023-03-28 16:56:16.373] [info] Measurement 'Medialphalanx2'
+[2023-03-28 16:56:16.373] [info] 	pair 0 (PP2, DP2): model = 0.0298703, experimental = 0.0288723
+[2023-03-28 16:56:16.374] [info] 	overall scale factor = 0.96659
+[2023-03-28 16:56:16.374] [info] Measurement 'Medialphalanx3'
+[2023-03-28 16:56:16.374] [info] 	pair 0 (PP3, DP3): model = 0.033126, experimental = 0.0327778
+[2023-03-28 16:56:16.374] [info] 	overall scale factor = 0.989486
+[2023-03-28 16:56:16.374] [info] Measurement 'Medialphalanx4'
+[2023-03-28 16:56:16.374] [info] 	pair 0 (PP4, DP4): model = 0.0319013, experimental = 0.0312045
+[2023-03-28 16:56:16.374] [info] 	overall scale factor = 0.97816
+[2023-03-28 16:56:16.374] [info] Measurement 'Medialphalanx5'
+[2023-03-28 16:56:16.374] [info] 	pair 0 (PP5, DP5): model = 0.0256484, experimental = 0.0208609
+[2023-03-28 16:56:16.374] [info] 	overall scale factor = 0.813341
+[2023-03-28 16:56:16.374] [info] Measurement 'Distalphalanx1'
+[2023-03-28 16:56:16.374] [info] 	pair 0 (IP, FT1): model = 0.0258725, experimental = 0.0233624
+[2023-03-28 16:56:16.374] [info] 	overall scale factor = 0.902980
+[2023-03-28 16:56:16.374] [info] Measurement 'Distalphalanx2'
+[2023-03-28 16:56:16.374] [info] 	pair 0 (DP2, FT2): model = 0.0182318, experimental = 0.0211325
+[2023-03-28 16:56:16.374] [info] 	overall scale factor = 1.1591
+[2023-03-28 16:56:16.374] [info] Measurement 'Distalphalanx3'
+[2023-03-28 16:56:16.374] [info] 	pair 0 (DP3, FT3): model = 0.0192047, experimental = 0.0206872
+[2023-03-28 16:56:16.374] [info] 	overall scale factor = 1.07719
+[2023-03-28 16:56:16.374] [info] Measurement 'Distalphalanx4'
+[2023-03-28 16:56:16.374] [info] 	pair 0 (DP4, FT4): model = 0.0165017, experimental = 0.0206313
+[2023-03-28 16:56:16.374] [info] 	overall scale factor = 1.25025
+[2023-03-28 16:56:16.374] [info] Measurement 'Distalphalanx5'
+[2023-03-28 16:56:16.374] [info] 	pair 0 (DP5, FT5): model = 0.0182434, experimental = 0.0190783
+[2023-03-28 16:56:16.374] [info] 	overall scale factor = 1.04577
+[2023-03-28 16:56:16.374] [info] Measurement 'metacarpal2_length'
+[2023-03-28 16:56:16.374] [info] 	pair 0 (CMC2, PP2): model = 0.113574, experimental = 0.0933094
+[2023-03-28 16:56:16.374] [info] 	overall scale factor = 0.821575
+[2023-03-28 16:56:16.374] [info] Measurement 'metacarpal5_length'
+[2023-03-28 16:56:16.374] [info] 	pair 0 (CMC5, PP5): model = 0.0916254, experimental = 0.0730205
+[2023-03-28 16:56:16.374] [info] 	overall scale factor = 0.796946
+[2023-03-28 16:56:16.374] [info] Measurement 'metacarpal4_length'
+[2023-03-28 16:56:16.374] [info] 	pair 0 (CMC5, PP5): model = 0.0916254, experimental = 0.0730205
+[2023-03-28 16:56:16.374] [info] 	overall scale factor = 0.796946
+[2023-03-28 16:56:16.374] [info] Measurement 'metacarpal3_length'
+[2023-03-28 16:56:16.374] [info] 	pair 0 (CMC2, PP2): model = 0.113574, experimental = 0.0933094
+[2023-03-28 16:56:16.374] [info] 	overall scale factor = 0.821575
+[2023-03-28 16:56:16.374] [info] Measurement 'metacarpal1'
+[2023-03-28 16:56:16.374] [info] 	pair 0 (CMC1, MP1): model = 0.0480998, experimental = 0.0391842
+[2023-03-28 16:56:16.374] [info] 	overall scale factor = 0.814645
+[2023-03-28 16:56:16.374] [info] Measurement 'ulna'
+[2023-03-28 16:56:16.374] [info] 	pair 0 (EM, US): model = 0.222055, experimental = 0.284229
+[2023-03-28 16:56:16.374] [info] 	overall scale factor = 1.27999
+[2023-03-28 16:56:16.374] [info] Measurement 'radius'
+[2023-03-28 16:56:16.374] [info] 	pair 0 (EL, RS): model = 0.223422, experimental = 0.280073
+[2023-03-28 16:56:16.374] [info] 	overall scale factor = 1.25356
+[2023-03-28 16:56:16.440] [info] Wrote model file 'subject01_scaledOnly.osim' from model.
+[2023-03-28 16:56:16.442] [info] Wrote scale file 'subject01_scaleSet_applied.xml' for model scaled_subject_05.
+[2023-03-28 16:56:16.442] [info] Step 3: Placing markers on model
+[2023-03-28 16:56:16.493] [info] Loaded marker file .\statics_05.trc (26 markers, 720 frames)
+[2023-03-28 16:56:16.493] [info] Averaged frames from time 0.0 to 4.79333 in .\statics_05.trc (frames 1 to 720)
+[2023-03-28 16:56:16.493] [info] Deleted 0 unused markers from model scaled_subject_05.
+[2023-03-28 16:56:16.806] [info] Frame at (t = 0.0):	 total squared error = 0.00276736, marker error: RMS = 0.0101240, max = 0.0191987 (RS)
+[2023-03-28 16:56:16.806] [info] Moved markers in model scaled_subject_05 to match locations in marker file '.\statics_05.trc'.
+[2023-03-28 16:56:16.819] [info] Wrote model file 'scaled_subject05.osim' from model scaled_subject_05.
+[2023-03-28 16:57:31.330] [info] Processing subject scaled_subject_05...
+[2023-03-28 16:57:31.330] [info] Step 1: Loading generic model
+[2023-03-28 16:57:31.348] [info] Loaded model Wrist_Model from file d:\repos\opensim_hand_project\examples\WristModel_Marker_AllMuscles.osim
+[2023-03-28 16:57:31.373] [info] Loading marker set from '.\markerfile.xml'.
+[2023-03-28 16:57:31.468] [info] Updated markers in model Wrist_Model
+[2023-03-28 16:57:31.468] [info] Step 2: Scaling generic model
+[2023-03-28 16:57:31.506] [info] Loaded marker file .\statics_05.trc (26 markers, 720 frames)
+[2023-03-28 16:57:31.506] [info] Measurement 'Proximalphalanx1'
+[2023-03-28 16:57:31.506] [info] 	pair 0 (MP1, IP): model = 0.0315904, experimental = 0.0314617
+[2023-03-28 16:57:31.506] [info] 	overall scale factor = 0.995926
+[2023-03-28 16:57:31.506] [info] Measurement 'Proximalphalanx2'
+[2023-03-28 16:57:31.506] [info] 	pair 0 (MP2, PP2): model = 0.0498379, experimental = 0.0483109
+[2023-03-28 16:57:31.506] [info] 	overall scale factor = 0.96936
+[2023-03-28 16:57:31.506] [info] Measurement 'Proximalphalanx3'
+[2023-03-28 16:57:31.506] [info] 	pair 0 (MP3, PP3): model = 0.0554018, experimental = 0.0519467
+[2023-03-28 16:57:31.506] [info] 	overall scale factor = 0.937636
+[2023-03-28 16:57:31.506] [info] Measurement 'Proximalphalanx4'
+[2023-03-28 16:57:31.506] [info] 	pair 0 (MP4, PP4): model = 0.0547565, experimental = 0.0467745
+[2023-03-28 16:57:31.506] [info] 	overall scale factor = 0.854228
+[2023-03-28 16:57:31.506] [info] Measurement 'Proximalphalanx5'
+[2023-03-28 16:57:31.506] [info] 	pair 0 (MP5, PP5): model = 0.0406137, experimental = 0.0341336
+[2023-03-28 16:57:31.506] [info] 	overall scale factor = 0.840446
+[2023-03-28 16:57:31.506] [info] Measurement 'Medialphalanx2'
+[2023-03-28 16:57:31.506] [info] 	pair 0 (PP2, DP2): model = 0.0298703, experimental = 0.0288723
+[2023-03-28 16:57:31.506] [info] 	overall scale factor = 0.96659
+[2023-03-28 16:57:31.506] [info] Measurement 'Medialphalanx3'
+[2023-03-28 16:57:31.506] [info] 	pair 0 (PP3, DP3): model = 0.033126, experimental = 0.0327778
+[2023-03-28 16:57:31.506] [info] 	overall scale factor = 0.989486
+[2023-03-28 16:57:31.506] [info] Measurement 'Medialphalanx4'
+[2023-03-28 16:57:31.506] [info] 	pair 0 (PP4, DP4): model = 0.0319013, experimental = 0.0312045
+[2023-03-28 16:57:31.506] [info] 	overall scale factor = 0.97816
+[2023-03-28 16:57:31.507] [info] Measurement 'Medialphalanx5'
+[2023-03-28 16:57:31.507] [info] 	pair 0 (PP5, DP5): model = 0.0256484, experimental = 0.0208609
+[2023-03-28 16:57:31.507] [info] 	overall scale factor = 0.813341
+[2023-03-28 16:57:31.507] [info] Measurement 'Distalphalanx1'
+[2023-03-28 16:57:31.507] [info] 	pair 0 (IP, FT1): model = 0.0258725, experimental = 0.0233624
+[2023-03-28 16:57:31.507] [info] 	overall scale factor = 0.902980
+[2023-03-28 16:57:31.507] [info] Measurement 'Distalphalanx2'
+[2023-03-28 16:57:31.507] [info] 	pair 0 (DP2, FT2): model = 0.0182318, experimental = 0.0211325
+[2023-03-28 16:57:31.507] [info] 	overall scale factor = 1.1591
+[2023-03-28 16:57:31.507] [info] Measurement 'Distalphalanx3'
+[2023-03-28 16:57:31.507] [info] 	pair 0 (DP3, FT3): model = 0.0192047, experimental = 0.0206872
+[2023-03-28 16:57:31.507] [info] 	overall scale factor = 1.07719
+[2023-03-28 16:57:31.507] [info] Measurement 'Distalphalanx4'
+[2023-03-28 16:57:31.507] [info] 	pair 0 (DP4, FT4): model = 0.0165017, experimental = 0.0206313
+[2023-03-28 16:57:31.507] [info] 	overall scale factor = 1.25025
+[2023-03-28 16:57:31.507] [info] Measurement 'Distalphalanx5'
+[2023-03-28 16:57:31.507] [info] 	pair 0 (DP5, FT5): model = 0.0182434, experimental = 0.0190783
+[2023-03-28 16:57:31.507] [info] 	overall scale factor = 1.04577
+[2023-03-28 16:57:31.507] [info] Measurement 'metacarpal2_length'
+[2023-03-28 16:57:31.507] [info] 	pair 0 (CMC2, PP2): model = 0.113574, experimental = 0.0933094
+[2023-03-28 16:57:31.507] [info] 	overall scale factor = 0.821575
+[2023-03-28 16:57:31.507] [info] Measurement 'metacarpal5_length'
+[2023-03-28 16:57:31.507] [info] 	pair 0 (CMC5, PP5): model = 0.0916254, experimental = 0.0730205
+[2023-03-28 16:57:31.507] [info] 	overall scale factor = 0.796946
+[2023-03-28 16:57:31.507] [info] Measurement 'metacarpal4_length'
+[2023-03-28 16:57:31.507] [info] 	pair 0 (CMC5, PP5): model = 0.0916254, experimental = 0.0730205
+[2023-03-28 16:57:31.507] [info] 	overall scale factor = 0.796946
+[2023-03-28 16:57:31.507] [info] Measurement 'metacarpal3_length'
+[2023-03-28 16:57:31.507] [info] 	pair 0 (CMC2, PP2): model = 0.113574, experimental = 0.0933094
+[2023-03-28 16:57:31.507] [info] 	overall scale factor = 0.821575
+[2023-03-28 16:57:31.507] [info] Measurement 'metacarpal1'
+[2023-03-28 16:57:31.507] [info] 	pair 0 (CMC1, MP1): model = 0.0480998, experimental = 0.0391842
+[2023-03-28 16:57:31.507] [info] 	overall scale factor = 0.814645
+[2023-03-28 16:57:31.507] [info] Measurement 'ulna'
+[2023-03-28 16:57:31.507] [info] 	pair 0 (EM, US): model = 0.222055, experimental = 0.284229
+[2023-03-28 16:57:31.507] [info] 	overall scale factor = 1.27999
+[2023-03-28 16:57:31.507] [info] Measurement 'radius'
+[2023-03-28 16:57:31.507] [info] 	pair 0 (EL, RS): model = 0.223422, experimental = 0.280073
+[2023-03-28 16:57:31.507] [info] 	overall scale factor = 1.25356
+[2023-03-28 16:57:31.572] [info] Wrote model file 'subject01_scaledOnly.osim' from model.
+[2023-03-28 16:57:31.574] [info] Wrote scale file 'subject01_scaleSet_applied.xml' for model scaled_subject_05.
+[2023-03-28 16:57:31.574] [info] Step 3: Placing markers on model
+[2023-03-28 16:57:31.623] [info] Loaded marker file .\statics_05.trc (26 markers, 720 frames)
+[2023-03-28 16:57:31.623] [info] Averaged frames from time 0.0 to 4.79333 in .\statics_05.trc (frames 1 to 720)
+[2023-03-28 16:57:31.623] [info] Deleted 0 unused markers from model scaled_subject_05.
+[2023-03-28 16:57:31.921] [info] Frame at (t = 0.0):	 total squared error = 0.00276736, marker error: RMS = 0.0101240, max = 0.0191987 (RS)
+[2023-03-28 16:57:31.921] [info] Moved markers in model scaled_subject_05 to match locations in marker file '.\statics_05.trc'.
+[2023-03-28 16:57:31.934] [info] Wrote model file 'scaled_subject05.osim' from model scaled_subject_05.
+[2023-03-28 17:15:32.960] [info] Loaded model Wrist_Model from file D:\repos\opensim_hand_project\model\WristModel_Marker_AllMuscles.osim
+[2023-03-28 17:17:44.029] [info] Processing subject scaled_subject_05...
+[2023-03-28 17:17:44.029] [info] Step 1: Loading generic model
+[2023-03-28 17:17:44.047] [info] Loaded model Wrist_Model from file d:\repos\opensim_hand_project\examples\WristModel_Marker_AllMuscles.osim
+[2023-03-28 17:17:44.073] [info] Loading marker set from '.\markerfile.xml'.
+[2023-03-28 17:17:44.173] [info] Updated markers in model Wrist_Model
+[2023-03-28 17:17:44.173] [info] Step 2: Scaling generic model
+[2023-03-28 17:17:44.209] [info] Loaded marker file .\statics_05.trc (26 markers, 720 frames)
+[2023-03-28 17:17:44.209] [info] Measurement 'Proximalphalanx1'
+[2023-03-28 17:17:44.209] [info] 	pair 0 (MP1, IP): model = 0.0315904, experimental = 0.0314617
+[2023-03-28 17:17:44.209] [info] 	overall scale factor = 0.995926
+[2023-03-28 17:17:44.209] [info] Measurement 'Proximalphalanx2'
+[2023-03-28 17:17:44.209] [info] 	pair 0 (MP2, PP2): model = 0.0498379, experimental = 0.0483109
+[2023-03-28 17:17:44.209] [info] 	overall scale factor = 0.96936
+[2023-03-28 17:17:44.209] [info] Measurement 'Proximalphalanx3'
+[2023-03-28 17:17:44.209] [info] 	pair 0 (MP3, PP3): model = 0.0554018, experimental = 0.0519467
+[2023-03-28 17:17:44.209] [info] 	overall scale factor = 0.937636
+[2023-03-28 17:17:44.209] [info] Measurement 'Proximalphalanx4'
+[2023-03-28 17:17:44.209] [info] 	pair 0 (MP4, PP4): model = 0.0547565, experimental = 0.0467745
+[2023-03-28 17:17:44.209] [info] 	overall scale factor = 0.854228
+[2023-03-28 17:17:44.209] [info] Measurement 'Proximalphalanx5'
+[2023-03-28 17:17:44.209] [info] 	pair 0 (MP5, PP5): model = 0.0406137, experimental = 0.0341336
+[2023-03-28 17:17:44.209] [info] 	overall scale factor = 0.840446
+[2023-03-28 17:17:44.209] [info] Measurement 'Medialphalanx2'
+[2023-03-28 17:17:44.209] [info] 	pair 0 (PP2, DP2): model = 0.0298703, experimental = 0.0288723
+[2023-03-28 17:17:44.209] [info] 	overall scale factor = 0.96659
+[2023-03-28 17:17:44.209] [info] Measurement 'Medialphalanx3'
+[2023-03-28 17:17:44.210] [info] 	pair 0 (PP3, DP3): model = 0.033126, experimental = 0.0327778
+[2023-03-28 17:17:44.210] [info] 	overall scale factor = 0.989486
+[2023-03-28 17:17:44.210] [info] Measurement 'Medialphalanx4'
+[2023-03-28 17:17:44.210] [info] 	pair 0 (PP4, DP4): model = 0.0319013, experimental = 0.0312045
+[2023-03-28 17:17:44.210] [info] 	overall scale factor = 0.97816
+[2023-03-28 17:17:44.210] [info] Measurement 'Medialphalanx5'
+[2023-03-28 17:17:44.210] [info] 	pair 0 (PP5, DP5): model = 0.0256484, experimental = 0.0208609
+[2023-03-28 17:17:44.210] [info] 	overall scale factor = 0.813341
+[2023-03-28 17:17:44.210] [info] Measurement 'Distalphalanx1'
+[2023-03-28 17:17:44.210] [info] 	pair 0 (IP, FT1): model = 0.0258725, experimental = 0.0233624
+[2023-03-28 17:17:44.210] [info] 	overall scale factor = 0.902980
+[2023-03-28 17:17:44.210] [info] Measurement 'Distalphalanx2'
+[2023-03-28 17:17:44.210] [info] 	pair 0 (DP2, FT2): model = 0.0182318, experimental = 0.0211325
+[2023-03-28 17:17:44.210] [info] 	overall scale factor = 1.1591
+[2023-03-28 17:17:44.210] [info] Measurement 'Distalphalanx3'
+[2023-03-28 17:17:44.210] [info] 	pair 0 (DP3, FT3): model = 0.0192047, experimental = 0.0206872
+[2023-03-28 17:17:44.210] [info] 	overall scale factor = 1.07719
+[2023-03-28 17:17:44.210] [info] Measurement 'Distalphalanx4'
+[2023-03-28 17:17:44.210] [info] 	pair 0 (DP4, FT4): model = 0.0165017, experimental = 0.0206313
+[2023-03-28 17:17:44.210] [info] 	overall scale factor = 1.25025
+[2023-03-28 17:17:44.210] [info] Measurement 'Distalphalanx5'
+[2023-03-28 17:17:44.210] [info] 	pair 0 (DP5, FT5): model = 0.0182434, experimental = 0.0190783
+[2023-03-28 17:17:44.210] [info] 	overall scale factor = 1.04577
+[2023-03-28 17:17:44.210] [info] Measurement 'metacarpal2_length'
+[2023-03-28 17:17:44.210] [info] 	pair 0 (CMC2, PP2): model = 0.113574, experimental = 0.0933094
+[2023-03-28 17:17:44.210] [info] 	overall scale factor = 0.821575
+[2023-03-28 17:17:44.210] [info] Measurement 'metacarpal5_length'
+[2023-03-28 17:17:44.210] [info] 	pair 0 (CMC5, PP5): model = 0.0916254, experimental = 0.0730205
+[2023-03-28 17:17:44.210] [info] 	overall scale factor = 0.796946
+[2023-03-28 17:17:44.210] [info] Measurement 'metacarpal4_length'
+[2023-03-28 17:17:44.210] [info] 	pair 0 (CMC5, PP5): model = 0.0916254, experimental = 0.0730205
+[2023-03-28 17:17:44.210] [info] 	overall scale factor = 0.796946
+[2023-03-28 17:17:44.210] [info] Measurement 'metacarpal3_length'
+[2023-03-28 17:17:44.210] [info] 	pair 0 (CMC2, PP2): model = 0.113574, experimental = 0.0933094
+[2023-03-28 17:17:44.210] [info] 	overall scale factor = 0.821575
+[2023-03-28 17:17:44.210] [info] Measurement 'metacarpal1'
+[2023-03-28 17:17:44.210] [info] 	pair 0 (CMC1, MP1): model = 0.0480998, experimental = 0.0391842
+[2023-03-28 17:17:44.210] [info] 	overall scale factor = 0.814645
+[2023-03-28 17:17:44.210] [info] Measurement 'ulna'
+[2023-03-28 17:17:44.210] [info] 	pair 0 (EM, US): model = 0.222055, experimental = 0.284229
+[2023-03-28 17:17:44.210] [info] 	overall scale factor = 1.27999
+[2023-03-28 17:17:44.210] [info] Measurement 'radius'
+[2023-03-28 17:17:44.210] [info] 	pair 0 (EL, RS): model = 0.223422, experimental = 0.280073
+[2023-03-28 17:17:44.210] [info] 	overall scale factor = 1.25356
+[2023-03-28 17:17:44.272] [info] Wrote model file '.\results\scaled_subject05.osim' from model.
+[2023-03-28 17:17:44.273] [info] Step 3: Placing markers on model
+[2023-03-28 17:17:44.322] [info] Loaded marker file .\statics_05.trc (26 markers, 720 frames)
+[2023-03-28 17:17:44.322] [info] Averaged frames from time 0.0 to 4.79333 in .\statics_05.trc (frames 1 to 720)
+[2023-03-28 17:17:44.322] [info] Deleted 0 unused markers from model scaled_subject_05.
+[2023-03-28 17:17:44.630] [info] Frame at (t = 0.0):	 total squared error = 0.00276736, marker error: RMS = 0.0101240, max = 0.0191987 (RS)
+[2023-03-28 17:17:44.630] [info] Moved markers in model scaled_subject_05 to match locations in marker file '.\statics_05.trc'.
+[2023-03-28 17:17:44.643] [info] Wrote model file 'scaled_subject05_marker.osim' from model scaled_subject_05.
+[2023-03-28 20:01:34.768] [info] Loaded model Wrist_Model from file D:\repos\opensim_hand_project\model\WristModel_Marker_AllMuscles.osim
+[2023-03-28 20:04:03.605] [info] Loaded model Wrist_Model from file D:\repos\opensim_hand_project\model\WristModel_Marker_AllMuscles.osim
+[2023-03-28 20:08:09.626] [info] Loaded model Wrist_Model from file D:\repos\opensim_hand_project\model\WristModel_Marker_AllMuscles.osim
+[2023-03-28 20:09:08.166] [info] Loaded model Wrist_Model from file D:\repos\opensim_hand_project\model\WristModel_Marker_AllMuscles.osim
+[2023-03-28 20:09:17.745] [info] Loaded model Wrist_Model from file D:\repos\opensim_hand_project\model\WristModel_Marker_AllMuscles.osim
+[2023-03-28 20:11:11.135] [info] Processing subject scaled_subject_05.osim...
+[2023-03-28 20:11:11.135] [info] Step 1: Loading generic model
+[2023-03-28 20:11:11.135] [error] Object: Cannot open file d:\repos\opensim_hand_project\examples\results\WristModel_Marker_AllMusclesosim. It may not exist or you do not have permission to read it.
+	Thrown at Object.cpp:105 in Object().
+[2023-03-28 20:11:11.135] [error] Unable to load the generic model or marker set file.
+[2023-03-28 20:11:11.135] [error] ScaleTool: No model specified.
+[2023-03-28 20:13:11.870] [info] Loaded model Wrist_Model from file D:\repos\opensim_hand_project\model\WristModel_Marker_AllMuscles.osim
+[2023-03-28 20:13:17.661] [info] Processing subject scaled_subject_05.osim...
+[2023-03-28 20:13:17.661] [info] Step 1: Loading generic model
+[2023-03-28 20:13:17.661] [error] Object: Cannot open file d:\repos\opensim_hand_project\examples\results\WristModel_Marker_AllMuscles.osim. It may not exist or you do not have permission to read it.
+	Thrown at Object.cpp:105 in Object().
+[2023-03-28 20:13:17.661] [error] Unable to load the generic model or marker set file.
+[2023-03-28 20:13:17.661] [error] ScaleTool: No model specified.
+[2023-03-28 20:14:16.135] [info] Loaded model Wrist_Model from file D:\repos\opensim_hand_project\model\WristModel_Marker_AllMuscles.osim
+[2023-03-28 20:14:19.110] [info] Processing subject scaled_subject_05.osim...
+[2023-03-28 20:14:19.110] [info] Step 1: Loading generic model
+[2023-03-28 20:14:19.128] [info] Loaded model Wrist_Model from file d:\repos\opensim_hand_project\model\WristModel_Marker_AllMuscles.osim
+[2023-03-28 20:14:19.153] [info] Loading marker set from '.\results\markerfile.xml'.
+[2023-03-28 20:14:19.163] [error] Object: Cannot open file d:\repos\opensim_hand_project\examples\results\markerfile.xml. It may not exist or you do not have permission to read it.
+	Thrown at Object.cpp:105 in Object().
+[2023-03-28 20:14:19.163] [error] Unable to load the generic model or marker set file.
+[2023-03-28 20:14:19.163] [error] ScaleTool: No model specified.
+[2023-03-28 20:19:37.700] [info] Processing subject scaled_subject_05.osim...
+[2023-03-28 20:19:37.700] [info] Step 1: Loading generic model
+[2023-03-28 20:19:37.719] [info] Loaded model Wrist_Model from file d:\repos\opensim_hand_project\model\WristModel_Marker_AllMuscles.osim
+[2023-03-28 20:19:37.744] [info] Loading marker set from '.\results\markerfile.xml'.
+[2023-03-28 20:19:37.744] [error] Object: Cannot open file d:\repos\opensim_hand_project\examples\results\markerfile.xml. It may not exist or you do not have permission to read it.
+	Thrown at Object.cpp:105 in Object().
+[2023-03-28 20:19:37.744] [error] Unable to load the generic model or marker set file.
+[2023-03-28 20:19:37.744] [error] ScaleTool: No model specified.
+[2023-03-28 20:22:24.272] [info] Loaded model Wrist_Model from file D:\repos\opensim_hand_project\model\WristModel_Marker_AllMuscles.osim
+[2023-03-28 20:22:28.343] [info] Processing subject scaled_subject_05.osim...
+[2023-03-28 20:22:28.343] [info] Step 1: Loading generic model
+[2023-03-28 20:22:28.361] [info] Loaded model Wrist_Model from file d:\repos\opensim_hand_project\model\WristModel_Marker_AllMuscles.osim
+[2023-03-28 20:22:28.387] [info] Loading marker set from '.\results\markerfile.xml'.
+[2023-03-28 20:22:28.387] [error] Object: Cannot open file d:\repos\opensim_hand_project\examples\results\markerfile.xml. It may not exist or you do not have permission to read it.
+	Thrown at Object.cpp:105 in Object().
+[2023-03-28 20:22:28.387] [error] Unable to load the generic model or marker set file.
+[2023-03-28 20:22:28.387] [error] ScaleTool: No model specified.
+[2023-03-28 20:22:46.334] [info] Processing subject scaled_subject_05.osim...
+[2023-03-28 20:22:46.334] [info] Step 1: Loading generic model
+[2023-03-28 20:22:46.352] [info] Loaded model Wrist_Model from file d:\repos\opensim_hand_project\model\WristModel_Marker_AllMuscles.osim
+[2023-03-28 20:22:46.377] [info] Loading marker set from '.\results\markerfile.xml'.
+[2023-03-28 20:22:46.377] [error] Object: Cannot open file d:\repos\opensim_hand_project\examples\results\markerfile.xml. It may not exist or you do not have permission to read it.
+	Thrown at Object.cpp:105 in Object().
+[2023-03-28 20:22:46.377] [error] Unable to load the generic model or marker set file.
+[2023-03-28 20:22:46.377] [error] ScaleTool: No model specified.
+[2023-03-28 20:23:08.447] [info] Loaded model Wrist_Model from file D:\repos\opensim_hand_project\model\WristModel_Marker_AllMuscles.osim
+[2023-03-28 20:23:19.310] [info] Processing subject scaled_subject_05.osim...
+[2023-03-28 20:23:19.310] [info] Step 1: Loading generic model
+[2023-03-28 20:23:19.310] [error] Object: Cannot open file d:\repos\opensim_hand_project\examples\results\WristModel_Marker_AllMuscles.osim. It may not exist or you do not have permission to read it.
+	Thrown at Object.cpp:105 in Object().
+[2023-03-28 20:23:19.310] [error] Unable to load the generic model or marker set file.
+[2023-03-28 20:23:19.310] [error] ScaleTool: No model specified.
+[2023-03-28 20:23:35.983] [info] Processing subject scaled_subject_05.osim...
+[2023-03-28 20:23:35.983] [info] Step 1: Loading generic model
+[2023-03-28 20:23:35.983] [error] Object: Cannot open file d:\repos\opensim_hand_project\examples\results\WristModel_Marker_AllMuscles.osim. It may not exist or you do not have permission to read it.
+	Thrown at Object.cpp:105 in Object().
+[2023-03-28 20:23:35.983] [error] Unable to load the generic model or marker set file.
+[2023-03-28 20:23:35.983] [error] ScaleTool: No model specified.
+[2023-03-28 20:23:41.383] [info] Processing subject scaled_subject_05.osim...
+[2023-03-28 20:23:41.383] [info] Step 1: Loading generic model
+[2023-03-28 20:23:41.401] [info] Loaded model Wrist_Model from file d:\repos\opensim_hand_project\examples\results\WristModel_Marker_AllMuscles.osim
+[2023-03-28 20:23:41.425] [info] Loading marker set from '.\results\markerfile.xml'.
+[2023-03-28 20:23:41.425] [error] Object: Cannot open file d:\repos\opensim_hand_project\examples\results\markerfile.xml. It may not exist or you do not have permission to read it.
+	Thrown at Object.cpp:105 in Object().
+[2023-03-28 20:23:41.425] [error] Unable to load the generic model or marker set file.
+[2023-03-28 20:23:41.425] [error] ScaleTool: No model specified.
+[2023-03-28 20:24:07.456] [info] Processing subject scaled_subject_05.osim...
+[2023-03-28 20:24:07.456] [info] Step 1: Loading generic model
+[2023-03-28 20:24:07.473] [info] Loaded model Wrist_Model from file d:\repos\opensim_hand_project\examples\WristModel_Marker_AllMuscles.osim
+[2023-03-28 20:24:07.498] [info] Loading marker set from '.\markerfile.xml'.
+[2023-03-28 20:24:07.596] [info] Updated markers in model Wrist_Model
+[2023-03-28 20:24:07.596] [info] Step 2: Scaling generic model
+[2023-03-28 20:24:07.634] [info] Loaded marker file .\statics_05.trc (26 markers, 720 frames)
+[2023-03-28 20:24:07.634] [info] Measurement 'Proximalphalanx1'
+[2023-03-28 20:24:07.634] [info] 	pair 0 (MP1, IP): model = 0.0315904, experimental = 0.0314617
+[2023-03-28 20:24:07.634] [info] 	overall scale factor = 0.995926
+[2023-03-28 20:24:07.634] [info] Measurement 'Proximalphalanx2'
+[2023-03-28 20:24:07.634] [info] 	pair 0 (MP2, PP2): model = 0.0498379, experimental = 0.0483109
+[2023-03-28 20:24:07.634] [info] 	overall scale factor = 0.96936
+[2023-03-28 20:24:07.634] [info] Measurement 'Proximalphalanx3'
+[2023-03-28 20:24:07.634] [info] 	pair 0 (MP3, PP3): model = 0.0554018, experimental = 0.0519467
+[2023-03-28 20:24:07.634] [info] 	overall scale factor = 0.937636
+[2023-03-28 20:24:07.634] [info] Measurement 'Proximalphalanx4'
+[2023-03-28 20:24:07.634] [info] 	pair 0 (MP4, PP4): model = 0.0547565, experimental = 0.0467745
+[2023-03-28 20:24:07.634] [info] 	overall scale factor = 0.854228
+[2023-03-28 20:24:07.634] [info] Measurement 'Proximalphalanx5'
+[2023-03-28 20:24:07.635] [info] 	pair 0 (MP5, PP5): model = 0.0406137, experimental = 0.0341336
+[2023-03-28 20:24:07.635] [info] 	overall scale factor = 0.840446
+[2023-03-28 20:24:07.635] [info] Measurement 'Medialphalanx2'
+[2023-03-28 20:24:07.635] [info] 	pair 0 (PP2, DP2): model = 0.0298703, experimental = 0.0288723
+[2023-03-28 20:24:07.635] [info] 	overall scale factor = 0.96659
+[2023-03-28 20:24:07.635] [info] Measurement 'Medialphalanx3'
+[2023-03-28 20:24:07.635] [info] 	pair 0 (PP3, DP3): model = 0.033126, experimental = 0.0327778
+[2023-03-28 20:24:07.635] [info] 	overall scale factor = 0.989486
+[2023-03-28 20:24:07.635] [info] Measurement 'Medialphalanx4'
+[2023-03-28 20:24:07.635] [info] 	pair 0 (PP4, DP4): model = 0.0319013, experimental = 0.0312045
+[2023-03-28 20:24:07.635] [info] 	overall scale factor = 0.97816
+[2023-03-28 20:24:07.635] [info] Measurement 'Medialphalanx5'
+[2023-03-28 20:24:07.635] [info] 	pair 0 (PP5, DP5): model = 0.0256484, experimental = 0.0208609
+[2023-03-28 20:24:07.635] [info] 	overall scale factor = 0.813341
+[2023-03-28 20:24:07.635] [info] Measurement 'Distalphalanx1'
+[2023-03-28 20:24:07.635] [info] 	pair 0 (IP, FT1): model = 0.0258725, experimental = 0.0233624
+[2023-03-28 20:24:07.635] [info] 	overall scale factor = 0.902980
+[2023-03-28 20:24:07.635] [info] Measurement 'Distalphalanx2'
+[2023-03-28 20:24:07.635] [info] 	pair 0 (DP2, FT2): model = 0.0182318, experimental = 0.0211325
+[2023-03-28 20:24:07.635] [info] 	overall scale factor = 1.1591
+[2023-03-28 20:24:07.635] [info] Measurement 'Distalphalanx3'
+[2023-03-28 20:24:07.635] [info] 	pair 0 (DP3, FT3): model = 0.0192047, experimental = 0.0206872
+[2023-03-28 20:24:07.635] [info] 	overall scale factor = 1.07719
+[2023-03-28 20:24:07.635] [info] Measurement 'Distalphalanx4'
+[2023-03-28 20:24:07.635] [info] 	pair 0 (DP4, FT4): model = 0.0165017, experimental = 0.0206313
+[2023-03-28 20:24:07.635] [info] 	overall scale factor = 1.25025
+[2023-03-28 20:24:07.635] [info] Measurement 'Distalphalanx5'
+[2023-03-28 20:24:07.635] [info] 	pair 0 (DP5, FT5): model = 0.0182434, experimental = 0.0190783
+[2023-03-28 20:24:07.635] [info] 	overall scale factor = 1.04577
+[2023-03-28 20:24:07.635] [info] Measurement 'metacarpal2_length'
+[2023-03-28 20:24:07.635] [info] 	pair 0 (CMC2, PP2): model = 0.113574, experimental = 0.0933094
+[2023-03-28 20:24:07.635] [info] 	overall scale factor = 0.821575
+[2023-03-28 20:24:07.635] [info] Measurement 'metacarpal5_length'
+[2023-03-28 20:24:07.635] [info] 	pair 0 (CMC5, PP5): model = 0.0916254, experimental = 0.0730205
+[2023-03-28 20:24:07.635] [info] 	overall scale factor = 0.796946
+[2023-03-28 20:24:07.635] [info] Measurement 'metacarpal4_length'
+[2023-03-28 20:24:07.635] [info] 	pair 0 (CMC5, PP5): model = 0.0916254, experimental = 0.0730205
+[2023-03-28 20:24:07.635] [info] 	overall scale factor = 0.796946
+[2023-03-28 20:24:07.635] [info] Measurement 'metacarpal3_length'
+[2023-03-28 20:24:07.635] [info] 	pair 0 (CMC2, PP2): model = 0.113574, experimental = 0.0933094
+[2023-03-28 20:24:07.635] [info] 	overall scale factor = 0.821575
+[2023-03-28 20:24:07.635] [info] Measurement 'metacarpal1'
+[2023-03-28 20:24:07.635] [info] 	pair 0 (CMC1, MP1): model = 0.0480998, experimental = 0.0391842
+[2023-03-28 20:24:07.635] [info] 	overall scale factor = 0.814645
+[2023-03-28 20:24:07.635] [info] Measurement 'ulna'
+[2023-03-28 20:24:07.635] [info] 	pair 0 (EM, US): model = 0.222055, experimental = 0.284229
+[2023-03-28 20:24:07.635] [info] 	overall scale factor = 1.27999
+[2023-03-28 20:24:07.635] [info] Measurement 'radius'
+[2023-03-28 20:24:07.635] [info] 	pair 0 (EL, RS): model = 0.223422, experimental = 0.280073
+[2023-03-28 20:24:07.635] [info] 	overall scale factor = 1.25356
+[2023-03-28 20:24:07.709] [info] Wrote model file '.\results\scaled_subject_05.osim' from model.
+[2023-03-28 20:24:07.709] [info] Step 3: Placing markers on model
+[2023-03-28 20:24:07.758] [info] Loaded marker file .\statics_05.trc (26 markers, 720 frames)
+[2023-03-28 20:24:07.758] [info] Averaged frames from time 0.0 to 4.79333 in .\statics_05.trc (frames 1 to 720)
+[2023-03-28 20:24:07.758] [info] Deleted 0 unused markers from model scaled_subject_05.osim.
+[2023-03-28 20:24:08.057] [info] Frame at (t = 0.0):	 total squared error = 0.00276736, marker error: RMS = 0.0101240, max = 0.0191987 (RS)
+[2023-03-28 20:24:08.057] [info] Moved markers in model scaled_subject_05.osim to match locations in marker file '.\statics_05.trc'.
+[2023-03-28 20:24:08.069] [info] Wrote model file '.\results\scaled_marker_subject_05.osim' from model scaled_subject_05.osim.
+[2023-03-28 20:24:30.192] [info] Loaded model Wrist_Model from file D:\repos\opensim_hand_project\model\WristModel_Marker_AllMuscles.osim
+[2023-03-28 20:24:33.223] [info] Processing subject scaled_subject_05.osim...
+[2023-03-28 20:24:33.223] [info] Step 1: Loading generic model
+[2023-03-28 20:24:33.223] [error] Object: Cannot open file d:\repos\opensim_hand_project\examples\WristModel_Marker_AllMuscles.osim. It may not exist or you do not have permission to read it.
+	Thrown at Object.cpp:105 in Object().
+[2023-03-28 20:24:33.223] [error] Unable to load the generic model or marker set file.
+[2023-03-28 20:24:33.223] [error] ScaleTool: No model specified.
+[2023-03-28 20:24:41.463] [info] Processing subject scaled_subject_05.osim...
+[2023-03-28 20:24:41.464] [info] Step 1: Loading generic model
+[2023-03-28 20:24:41.464] [error] Object: Cannot open file d:\repos\opensim_hand_project\examples\WristModel_Marker_AllMuscles.osim. It may not exist or you do not have permission to read it.
+	Thrown at Object.cpp:105 in Object().
+[2023-03-28 20:24:41.464] [error] Unable to load the generic model or marker set file.
+[2023-03-28 20:24:41.464] [error] ScaleTool: No model specified.
+[2023-03-28 20:24:54.657] [info] Processing subject scaled_subject_05.osim...
+[2023-03-28 20:24:54.657] [info] Step 1: Loading generic model
+[2023-03-28 20:24:54.675] [info] Loaded model Wrist_Model from file d:\repos\opensim_hand_project\examples\WristModel_Marker_AllMuscles.osim
+[2023-03-28 20:24:54.699] [info] Loading marker set from '.\markerfile.xml'.
+[2023-03-28 20:24:54.793] [info] Updated markers in model Wrist_Model
+[2023-03-28 20:24:54.793] [info] Step 2: Scaling generic model
+[2023-03-28 20:24:54.829] [info] Loaded marker file .\statics_05.trc (26 markers, 720 frames)
+[2023-03-28 20:24:54.829] [info] Measurement 'Proximalphalanx1'
+[2023-03-28 20:24:54.829] [info] 	pair 0 (MP1, IP): model = 0.0315904, experimental = 0.0314617
+[2023-03-28 20:24:54.829] [info] 	overall scale factor = 0.995926
+[2023-03-28 20:24:54.829] [info] Measurement 'Proximalphalanx2'
+[2023-03-28 20:24:54.829] [info] 	pair 0 (MP2, PP2): model = 0.0498379, experimental = 0.0483109
+[2023-03-28 20:24:54.829] [info] 	overall scale factor = 0.96936
+[2023-03-28 20:24:54.829] [info] Measurement 'Proximalphalanx3'
+[2023-03-28 20:24:54.829] [info] 	pair 0 (MP3, PP3): model = 0.0554018, experimental = 0.0519467
+[2023-03-28 20:24:54.829] [info] 	overall scale factor = 0.937636
+[2023-03-28 20:24:54.829] [info] Measurement 'Proximalphalanx4'
+[2023-03-28 20:24:54.829] [info] 	pair 0 (MP4, PP4): model = 0.0547565, experimental = 0.0467745
+[2023-03-28 20:24:54.829] [info] 	overall scale factor = 0.854228
+[2023-03-28 20:24:54.829] [info] Measurement 'Proximalphalanx5'
+[2023-03-28 20:24:54.829] [info] 	pair 0 (MP5, PP5): model = 0.0406137, experimental = 0.0341336
+[2023-03-28 20:24:54.829] [info] 	overall scale factor = 0.840446
+[2023-03-28 20:24:54.829] [info] Measurement 'Medialphalanx2'
+[2023-03-28 20:24:54.829] [info] 	pair 0 (PP2, DP2): model = 0.0298703, experimental = 0.0288723
+[2023-03-28 20:24:54.829] [info] 	overall scale factor = 0.96659
+[2023-03-28 20:24:54.829] [info] Measurement 'Medialphalanx3'
+[2023-03-28 20:24:54.829] [info] 	pair 0 (PP3, DP3): model = 0.033126, experimental = 0.0327778
+[2023-03-28 20:24:54.829] [info] 	overall scale factor = 0.989486
+[2023-03-28 20:24:54.829] [info] Measurement 'Medialphalanx4'
+[2023-03-28 20:24:54.829] [info] 	pair 0 (PP4, DP4): model = 0.0319013, experimental = 0.0312045
+[2023-03-28 20:24:54.829] [info] 	overall scale factor = 0.97816
+[2023-03-28 20:24:54.829] [info] Measurement 'Medialphalanx5'
+[2023-03-28 20:24:54.829] [info] 	pair 0 (PP5, DP5): model = 0.0256484, experimental = 0.0208609
+[2023-03-28 20:24:54.829] [info] 	overall scale factor = 0.813341
+[2023-03-28 20:24:54.829] [info] Measurement 'Distalphalanx1'
+[2023-03-28 20:24:54.829] [info] 	pair 0 (IP, FT1): model = 0.0258725, experimental = 0.0233624
+[2023-03-28 20:24:54.829] [info] 	overall scale factor = 0.902980
+[2023-03-28 20:24:54.829] [info] Measurement 'Distalphalanx2'
+[2023-03-28 20:24:54.829] [info] 	pair 0 (DP2, FT2): model = 0.0182318, experimental = 0.0211325
+[2023-03-28 20:24:54.829] [info] 	overall scale factor = 1.1591
+[2023-03-28 20:24:54.829] [info] Measurement 'Distalphalanx3'
+[2023-03-28 20:24:54.829] [info] 	pair 0 (DP3, FT3): model = 0.0192047, experimental = 0.0206872
+[2023-03-28 20:24:54.829] [info] 	overall scale factor = 1.07719
+[2023-03-28 20:24:54.829] [info] Measurement 'Distalphalanx4'
+[2023-03-28 20:24:54.829] [info] 	pair 0 (DP4, FT4): model = 0.0165017, experimental = 0.0206313
+[2023-03-28 20:24:54.829] [info] 	overall scale factor = 1.25025
+[2023-03-28 20:24:54.829] [info] Measurement 'Distalphalanx5'
+[2023-03-28 20:24:54.829] [info] 	pair 0 (DP5, FT5): model = 0.0182434, experimental = 0.0190783
+[2023-03-28 20:24:54.829] [info] 	overall scale factor = 1.04577
+[2023-03-28 20:24:54.829] [info] Measurement 'metacarpal2_length'
+[2023-03-28 20:24:54.829] [info] 	pair 0 (CMC2, PP2): model = 0.113574, experimental = 0.0933094
+[2023-03-28 20:24:54.829] [info] 	overall scale factor = 0.821575
+[2023-03-28 20:24:54.829] [info] Measurement 'metacarpal5_length'
+[2023-03-28 20:24:54.829] [info] 	pair 0 (CMC5, PP5): model = 0.0916254, experimental = 0.0730205
+[2023-03-28 20:24:54.829] [info] 	overall scale factor = 0.796946
+[2023-03-28 20:24:54.829] [info] Measurement 'metacarpal4_length'
+[2023-03-28 20:24:54.829] [info] 	pair 0 (CMC5, PP5): model = 0.0916254, experimental = 0.0730205
+[2023-03-28 20:24:54.829] [info] 	overall scale factor = 0.796946
+[2023-03-28 20:24:54.829] [info] Measurement 'metacarpal3_length'
+[2023-03-28 20:24:54.829] [info] 	pair 0 (CMC2, PP2): model = 0.113574, experimental = 0.0933094
+[2023-03-28 20:24:54.829] [info] 	overall scale factor = 0.821575
+[2023-03-28 20:24:54.829] [info] Measurement 'metacarpal1'
+[2023-03-28 20:24:54.829] [info] 	pair 0 (CMC1, MP1): model = 0.0480998, experimental = 0.0391842
+[2023-03-28 20:24:54.829] [info] 	overall scale factor = 0.814645
+[2023-03-28 20:24:54.829] [info] Measurement 'ulna'
+[2023-03-28 20:24:54.829] [info] 	pair 0 (EM, US): model = 0.222055, experimental = 0.284229
+[2023-03-28 20:24:54.829] [info] 	overall scale factor = 1.27999
+[2023-03-28 20:24:54.829] [info] Measurement 'radius'
+[2023-03-28 20:24:54.829] [info] 	pair 0 (EL, RS): model = 0.223422, experimental = 0.280073
+[2023-03-28 20:24:54.829] [info] 	overall scale factor = 1.25356
+[2023-03-28 20:24:54.890] [info] Wrote model file '.\results\scaled_subject_05.osim' from model.
+[2023-03-28 20:24:54.890] [info] Step 3: Placing markers on model
+[2023-03-28 20:24:54.939] [info] Loaded marker file .\statics_05.trc (26 markers, 720 frames)
+[2023-03-28 20:24:54.939] [info] Averaged frames from time 0.0 to 4.79333 in .\statics_05.trc (frames 1 to 720)
+[2023-03-28 20:24:54.939] [info] Deleted 0 unused markers from model scaled_subject_05.osim.
+[2023-03-28 20:24:55.251] [info] Frame at (t = 0.0):	 total squared error = 0.00276736, marker error: RMS = 0.0101240, max = 0.0191987 (RS)
+[2023-03-28 20:24:55.251] [info] Moved markers in model scaled_subject_05.osim to match locations in marker file '.\statics_05.trc'.
+[2023-03-28 20:24:55.274] [info] Wrote model file '.\results\scaled_marker_subject_05.osim' from model scaled_subject_05.osim.
