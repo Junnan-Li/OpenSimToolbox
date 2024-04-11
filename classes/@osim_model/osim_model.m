@@ -157,12 +157,8 @@ classdef osim_model < handle
             import org.opensim.modeling.*;
             num_marker_point = length(om.marker_point_list);
             for i = 1:num_marker_point
-                mp_i = om.marker_point_list{i};
-                body_i = om.BodySet.get(mp_i.body_name);
-                w_body_p = osimMatrix2matrix(body_i.getTransformInGround(om.state).p);
-                w_body_R = osimMatrix2matrix(body_i.getTransformInGround(om.state).R);
-                w_p = w_body_p + w_body_R*mp_i.p;
-                om.plot_frame(w_p,w_body_R,0.1);
+                [~, w_p, w_R] = om.get_mp_frame(i);
+                om.plot_frame(w_p,w_R,0.1);
             end
             axis equal
             grid on
@@ -186,13 +182,14 @@ classdef osim_model < handle
                     'Color',color_axis{i},'LineWidth',linewidth);
                 set(h,'AutoScale','on', 'AutoScaleFactor',1)
                 hold on
+                drawnow
             end
             xlabel('x')
             ylabel('y')
             zlabel('z')
         end
 
-
+            
         function set_scalefile(om,setting)
             import org.opensim.modeling.*;
             om.scale_tool = ScaleTool(setting);
@@ -400,6 +397,22 @@ classdef osim_model < handle
             om.update_system;
             om.update_set;
         end
+
+        function [x_p, w_p, w_R] = get_mp_frame(om, mp_index)
+            % plot the body frame origin in matlab plot
+            import org.opensim.modeling.*;
+            num_marker_point = length(om.marker_point_list);
+            assert(mp_index<=num_marker_point, 'get_mp_frame: no such marker_point!')
+            mp_i = om.marker_point_list{mp_index};
+            body_i = om.BodySet.get(mp_i.body_name);
+            w_body_p = osimMatrix2matrix(body_i.getTransformInGround(om.state).p);
+            w_R = osimMatrix2matrix(body_i.getTransformInGround(om.state).R);
+            w_p = w_body_p + w_R*mp_i.p;
+            x_p = [w_p;R2euler_XYZ(w_R)];
+
+        end
+
+
 
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
