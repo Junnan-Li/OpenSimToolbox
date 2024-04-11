@@ -35,14 +35,14 @@ muscle_list = {'ECRL','ECRB','ECU','FCR','FCU','EDCI'};
 coord_list = {'elv_angle','shoulder_elv', 'shoulder_rot', 'elbow_flexion',...
     'pro_sup','deviation','flexion'};
 
-coord_value = 1*ones(7,1);
+coord_value = [0 0 0 2 2 1 2];
 model.set_coordinate_value(coord_list,coord_value);
-
+coord_q_value = model.get_coordinate_value(coord_list);
 %% Visualization
 model.model_visualize
-model.plot_all_body;
-model.plot_world_frame;
-model.plot_mp_frame;
+% model.plot_all_body;
+% model.plot_world_frame;
+% model.plot_mp_frame;
 
 %% Jacobian
 Jacobian_all = model.getJacobian_mp_all(1); % Jacobian of all coordinates
@@ -64,25 +64,7 @@ mus_ML_vec = model.get_muscleLength(muscle_list);
 MA_matrix = model.get_MomentArmMatrix(coord_list, muscle_list)
 
 return
-%%
-% model.muscleSet.get(2)
-for i = 1:model.noutput
-    model.muscleSet.remove(model.muscleSet.get(0));
-    model.forceSet.remove(model.forceSet.get(0));
-end
-% model.update_set();
-% set2list(model.muscleSet)
-% set2list(model.model.getMuscles())
-model.list_elements
-return
-%%
 
-state = model.model.initSystem();
-model.model.finalizeConnections();
-% model_save_path = 'D:\repos\opensim_hand_project\examples\model_save.osim';
-% model.save_model(model_save_path)
-
-set2list(model.model.getMuscles());
 
 %% scaling 
 % 
@@ -92,19 +74,19 @@ set2list(model.model.getMuscles());
 % model.show_scale_info;
 % model.scale_tool.run()
 
-%% generate scaling setting file 
-%TODO: parameters merge into the class funciton
-
-model = osim_model('D:\repos\opensim_hand_project\model\WristModel_Marker_AllMuscles.osim');
-model.model.setName('WristModel_Marker_AllMuscles');
-
-
-model.generate_scaling_setup_file('statics_05.trc', '05', 4, 4.79333, '.\results')
-%% scale the model 
-% TODO .osim should be in the same folder 
-model.set_scalefile('.\scaled_setup_subject_05.xml')
-model.show_scale_info;
-model.scale_tool.run()
+% %% generate scaling setting file 
+% %TODO: parameters merge into the class funciton
+% 
+% model = osim_model('D:\repos\opensim_hand_project\model\WristModel_Marker_AllMuscles.osim');
+% model.model.setName('WristModel_Marker_AllMuscles');
+% 
+% 
+% model.generate_scaling_setup_file('statics_05.trc', '05', 4, 4.79333, '.\results')
+% %% scale the model 
+% % TODO .osim should be in the same folder 
+% model.set_scalefile('.\scaled_setup_subject_05.xml')
+% model.show_scale_info;
+% model.scale_tool.run()
 
 
 

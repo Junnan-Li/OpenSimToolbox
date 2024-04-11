@@ -241,6 +241,13 @@ classdef osim_model < handle
             om.model.equilibrateMuscles(om.state);
         end
 
+        function coord_value = get_coordinate_value(om, coordinate_name_list)
+           coord_value = zeros(length(coordinate_name_list),1);
+            for i = 1: length(coordinate_name_list)
+                coord_value(i) = om.CoordinateSet.get(coordinate_name_list{i}).getValue(om.state);
+            end
+        end
+
 
         function Jacobian_matrix = getJacobian_mp_all(om, marker_point_index)
             % Jacobian matrix according to the selected marker_point
