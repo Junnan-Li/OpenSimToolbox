@@ -131,7 +131,7 @@ classdef osim_model < handle
             % plot the body frame origin in matlab plot
             import org.opensim.modeling.*;
             num_body = om.BodySet.getSize;
-            figure
+            
             for i = 1:num_body % eul2rotm([0,0,pi/2])*
             w_p_bodyi_pos = osimMatrix2matrix(om.BodySet.get(i-1).getTransformInGround(om.state).p);
             plot3(w_p_bodyi_pos(1),w_p_bodyi_pos(2),w_p_bodyi_pos(3),'.-',MarkerSize=15,Color='r')
@@ -273,6 +273,15 @@ classdef osim_model < handle
             Jacobian_matrix_revert = osimMatrix2matrix(Jacobian_m);
             Jacobian_matrix(1:3,:) = Jacobian_matrix_revert(4:6,coord_index);
             Jacobian_matrix(4:6,:) = Jacobian_matrix_revert(1:3,coord_index);
+        end
+
+        function Jacobian_ana = getJacobian_point_sub_ana(om, marker_point_index,coordinate_name_list )
+            % analytical Jacobian with euler XYZ
+            import org.opensim.modeling.*
+            Jacobian_matrix = getJacobian_point_sub(om, marker_point_index,coordinate_name_list );
+            [~,~, w_R] = get_mp_frame(om, marker_point_index);
+
+            Jacobian_ana = [Jacobian_matrix(1:3,:);w_R*Jacobian_matrix(4:6,:)];
         end
 
         function MassMatrix = getMassMatrix_all(om)
