@@ -37,7 +37,7 @@ for i = 1:iter_max
     om.set_coordinate_value(coord_list, q_value);
     q_value = om.get_coordinate_value(coord_list);
     x_p_i = om.get_mp_frame(mp_index);
-    om.plot_all_body;
+%     om.plot_all_body;
     om.plot_mp_frame
     delta_x_i = x_d - x_p_i;
     if isempty(find(abs(delta_x_i)-tol)>0)
@@ -50,6 +50,8 @@ for i = 1:iter_max
     end
 
     delta_q = alpha * J_inv * delta_x_i;
+%     max(delta_q)
+%     max(delta_x_i)
 %     delta_q_sar = 0.1/max(abs(delta_q)) * delta_q;
     q_value = q_value + delta_q; 
 

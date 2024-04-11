@@ -281,7 +281,7 @@ classdef osim_model < handle
             Jacobian_matrix = getJacobian_point_sub(om, marker_point_index,coordinate_name_list );
             [~,~, w_R] = get_mp_frame(om, marker_point_index);
 
-            Jacobian_ana = [Jacobian_matrix(1:3,:);w_R*Jacobian_matrix(4:6,:)];
+            Jacobian_ana = [Jacobian_matrix(1:3,:);w_R'*Jacobian_matrix(4:6,:)];
         end
 
         function MassMatrix = getMassMatrix_all(om)
@@ -416,8 +416,8 @@ classdef osim_model < handle
             body_i = om.BodySet.get(mp_i.body_name);
             w_body_p = osimMatrix2matrix(body_i.getTransformInGround(om.state).p);
             w_R = osimMatrix2matrix(body_i.getTransformInGround(om.state).R);
-            w_p = w_body_p + w_R*mp_i.p;
-            x_p = [w_p;R2euler_XYZ(w_R)];
+            w_p = w_body_p; % + w_R*mp_i.p;
+            x_p = [w_body_p;R2euler_XYZ(w_R)];
 
         end
 
