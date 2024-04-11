@@ -8,21 +8,32 @@ classdef osim_model < handle
     
     properties
         model_path
-        visualize
+        
 %         integrator_accuracy = 5e-5;
         model
-        model_state
-%         brain
-        muscleSet
-        forceSet
-        bodySet
-        jointSet
-        markerSet
-        contactGeometrySet
-        noutput
+        init_state % init state
+        state % state for update
+        viz
+        MuscleSet
+        MuscleSet_list
+        ForceSet
+        ForceSet_list
+        BodySet
+        BodySet_list
+        CoordinateSet
+        CoordinateSet_list
+        JointSet
+        JointSet_list
+        MarkerSet
+        MarkerSet_list
+        ContactGeometrySet
+        ContactGeometrySet_list
+        smss % MatterSubsystem
+        marker_point_list
+%         noutput
         scale_tool
 %         last_action
-        state
+%         state
         manager
 %         istep
 %         state_desc
@@ -46,65 +57,45 @@ classdef osim_model < handle
             end
 
             om.model = org.opensim.modeling.Model(om.model_path);
-            om.model_state = om.model.initSystem();
-            om.visualize = false;
-            om.model.setUseVisualizer(om.visualize);
+            
+            om.viz = [];
+            om.model.setUseVisualizer(false);
+            om.model.initSystem();
+            om.update_system;
+            om.update_set(); % update all set and lists of the model
+            om.marker_point_list = {};
+%             om.scale_tool = ScaleTool();
 
-            om.update_set();
-            om.scale_tool = ScaleTool();
-
-            om.noutput = om.muscleSet.getSize();
-            om.model_state = om.model.initSystem();         
+%             om.noutput = om.muscleSet.getSize();    
         end
     
 
-        function list_elements(om)
 
-            fprintf("-------JOINTS-------\n")
-            for i = 0:(om.jointSet.getSize()-1)
-                fprintf('%3d ',i+1)
-                disp(om.jointSet.get(i).getName())
-                fprintf('%c%c', 8, 8);
-                fprintf('\n');
-            end
-            fprintf("\n-------BODIES-------\n")
-            for i = 0:(om.bodySet.getSize()-1)
-                fprintf('%3d ',i+1)
-                disp(om.bodySet.get(i).getName())
-                fprintf('%c%c', 8, 8);
-                fprintf('\n');
-            end
-            fprintf("\n-------MUSCLES-------\n")
-            for i = 0:(om.muscleSet.getSize()-1)
-                fprintf('%3d ',i+1)
-                disp(om.muscleSet.get(i).getName())
-                fprintf('%c%c', 8, 8);
-                fprintf('\n');
-            end
-            fprintf("\n-------FORCES-------\n")
-            for i = 0:(om.forceSet.getSize()-1)
-                fprintf('%3d ',i+1)
-                disp(om.forceSet.get(i).getName())
-                fprintf('%c%c', 8, 8);
-                fprintf('\n');
-            end
-            fprintf("\n-------MARKERS-------\n")
-            for i = 0:(om.markerSet.getSize()-1)
-                fprintf('%3d ',i+1)
-                disp(om.markerSet.get(i).getName())
-                fprintf('%c%c', 8, 8);
-                fprintf('\n');
-            end
-        end      
-        
+        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        %%% update system
         function update_set(om)
             import org.opensim.modeling.*;
-            om.muscleSet = om.model.getMuscles();
-            om.forceSet = om.model.getForceSet();
-            om.bodySet = om.model.getBodySet();
-            om.jointSet = om.model.getJointSet();
-            om.markerSet = om.model.getMarkerSet();
-            om.contactGeometrySet = om.model.getContactGeometrySet();
+            om.MuscleSet = om.model.getMuscles();
+            om.MuscleSet_list = Setlist_read(om.MuscleSet);
+            om.ForceSet = om.model.getForceSet();
+            om.ForceSet_list = Setlist_read(om.ForceSet);
+            om.BodySet = om.model.getBodySet();
+            om.BodySet_list = Setlist_read(om.BodySet);
+            om.JointSet = om.model.getJointSet();
+            om.JointSet_list = Setlist_read(om.JointSet);
+            om.CoordinateSet = om.model.getCoordinateSet();
+            om.CoordinateSet_list = Setlist_read(om.CoordinateSet);
+            om.MarkerSet = om.model.getMarkerSet();
+            om.MarkerSet_list = Setlist_read(om.MarkerSet);
+            om.ContactGeometrySet = om.model.getContactGeometrySet();
+            om.ContactGeometrySet_list = Setlist_read(om.ContactGeometrySet);
+        end
+
+        function update_system(om)
+            import org.opensim.modeling.*;
+            om.init_state = om.model.initSystem();
+            om.state = om.init_state;
+            om.smss = om.model.getMatterSubsystem();
         end
 
         function status = save_model(om,path)
@@ -113,7 +104,93 @@ classdef osim_model < handle
             fprintf('OpenSim model saved \n');
             status = 1;
         end
+        
+        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        %%% visualization
 
+        function set_visualize(om)
+            import org.opensim.modeling.*;
+            om.model.setUseVisualizer(true);
+            om.init_state = om.model.initSystem();
+            om.state = om.init_state;
+            om.update_set(); % update all set and lists of the model
+            om.smss = om.model.getMatterSubsystem();
+            om.viz = om.model.updVisualizer().updSimbodyVisualizer();
+            om.viz.setShowSimTime(true);
+            om.viz.setBackgroundColor(Vec3(0)); % white
+            om.viz.setGroundHeight(-5)
+        end
+
+        function model_visualize(om)
+            import org.opensim.modeling.*;
+%             om.model.setUseVisualizer(true);
+            om.model.getVisualizer().show(om.state);
+        end
+
+        function plot_all_body(om)
+            % plot the body frame origin in matlab plot
+            import org.opensim.modeling.*;
+            num_body = om.BodySet.getSize;
+            figure
+            for i = 1:num_body % eul2rotm([0,0,pi/2])*
+            w_p_bodyi_pos = osimMatrix2matrix(om.BodySet.get(i-1).getTransformInGround(om.state).p);
+            plot3(w_p_bodyi_pos(1),w_p_bodyi_pos(2),w_p_bodyi_pos(3),'.-',MarkerSize=15,Color='r')
+            hold on
+            axis equal
+            grid on
+            end
+        end
+        
+        function plot_world_frame(om)
+            % plot the body frame origin in matlab plot
+            import org.opensim.modeling.*;
+            ground = om.model.getGround;
+            w_p = osimMatrix2matrix(ground.getTransformInGround(om.state).p);
+            w_R = osimMatrix2matrix(ground.getTransformInGround(om.state).R);
+            om.plot_frame(w_p,w_R,0.1);
+            axis equal
+            grid on
+        end
+
+        function plot_mp_frame(om)
+            % plot the body frame origin in matlab plot
+            import org.opensim.modeling.*;
+            num_marker_point = length(om.marker_point_list);
+            for i = 1:num_marker_point
+                mp_i = om.marker_point_list{i};
+                body_i = om.BodySet.get(mp_i.body_name);
+                w_body_p = osimMatrix2matrix(body_i.getTransformInGround(om.state).p);
+                w_body_R = osimMatrix2matrix(body_i.getTransformInGround(om.state).R);
+                w_p = w_body_p + w_body_R*mp_i.p;
+                om.plot_frame(w_p,w_body_R,0.1);
+            end
+            axis equal
+            grid on
+        end
+
+        function plot_frame(om, w_p, w_R, axis_len)
+            % plot the x y z axis with given transformation matrix
+            % x: red
+            % y: blue
+            % z: black
+            assert(length(w_p)==3,'plot_frame: incorrect input dimension!')
+            assert(isequal(size(w_R),[3 3]),'plot_frame: incorrect input dimension!')
+            color_axis = {'r','b','k'};
+            linewidth = 2;
+            for i = 1:3
+                axis_pos_i = zeros(3,1);
+                axis_pos_i(i) = axis_len;
+                w_p_axis = w_R*axis_pos_i;% + w_p;
+                h = quiver3(w_p(1),w_p(2),w_p(3),...
+                    w_p_axis(1),w_p_axis(2),w_p_axis(3),...
+                    'Color',color_axis{i},'LineWidth',linewidth);
+                set(h,'AutoScale','on', 'AutoScaleFactor',1)
+                hold on
+            end
+            xlabel('x')
+            ylabel('y')
+            zlabel('z')
+        end
 
 
         function set_scalefile(om,setting)
@@ -121,6 +198,8 @@ classdef osim_model < handle
             om.scale_tool = ScaleTool(setting);
 
         end
+
+
 
         function show_scale_info(om)
             
@@ -142,6 +221,180 @@ classdef osim_model < handle
             fprintf('Subject total mass: %.4f \n',subject_mass);
 
         end
+        
+        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        %%% Coordinate operations
+
+        function set_coordinate_value(om, coordinate_name_list, coordinate_value)
+            % TODO:
+            %   generate message when the desired value is out of the range
+            assert(length(coordinate_value) == length(coordinate_name_list),'input dimension wrong')
+            for i = 1: length(coordinate_name_list)
+                value_i = coordinate_value(i);
+                range_i = [om.CoordinateSet.get(coordinate_name_list{i}).getRangeMin,...
+                    om.CoordinateSet.get(coordinate_name_list{i}).getRangeMax];
+                if value_i < range_i(1) || value_i > range_i(2)
+                    fprintf('the value of coordinate %s is out of range! \n', coordinate_name_list{i})
+                end
+                om.CoordinateSet.get(coordinate_name_list{i}).setValue(om.state,value_i);
+            end
+            om.model.equilibrateMuscles(om.state);
+        end
+
+
+        function Jacobian_matrix = getJacobian_mp_all(om, marker_point_index)
+            % Jacobian matrix according to the selected marker_point
+            % Jacobian [6xn]: translational;rotational
+            import org.opensim.modeling.*;
+            Jacobian_m = Matrix();
+            mp_i = om.marker_point_list{marker_point_index};
+            body_index = om.BodySet.get(mp_i.body_name).getMobilizedBodyIndex()-1;
+            om.smss.calcFrameJacobian(om.state, body_index, Vec3(0), Jacobian_m);
+            Jacobian_matrix_revert = osimMatrix2matrix(Jacobian_m);
+            Jacobian_matrix(1:3,:) = Jacobian_matrix_revert(4:6,:);
+            Jacobian_matrix(4:6,:) = Jacobian_matrix_revert(1:3,:);
+        end
+
+
+        function Jacobian_matrix = getJacobian_point_sub(om, marker_point_index,coordinate_name_list )
+            import org.opensim.modeling.*
+            Jacobian_m = Matrix();
+            coord_index = zeros(length(coordinate_name_list),1);
+            for i = 1:length(coordinate_name_list)
+                coord_index(i) = find(matches(om.CoordinateSet_list,coordinate_name_list{i}));
+            end
+            mp_i = om.marker_point_list{marker_point_index};
+            body_index = om.BodySet.get(mp_i.body_name).getMobilizedBodyIndex()-1;
+            om.smss.calcFrameJacobian(om.state, body_index, Vec3(0), Jacobian_m);
+            Jacobian_matrix_revert = osimMatrix2matrix(Jacobian_m);
+            Jacobian_matrix(1:3,:) = Jacobian_matrix_revert(4:6,coord_index);
+            Jacobian_matrix(4:6,:) = Jacobian_matrix_revert(1:3,coord_index);
+        end
+
+        function MassMatrix = getMassMatrix_all(om)
+            import org.opensim.modeling.*;
+            M = Matrix();
+            om.smss.calcM(om.state,M);
+            MassMatrix = osimMatrix2matrix(M);
+        end
+        
+        function MassMatrix_sub = getMassMatrix_sub(om, coordinate_name_list)
+            import org.opensim.modeling.*;
+            M = Matrix();
+            om.smss.calcM(om.state,M);
+            MassMatrix = osimMatrix2matrix(M);
+            for i = 1:length(coordinate_name_list)
+                coord_index(i) = find(matches(om.CoordinateSet_list,coordinate_name_list{i}));
+            end
+            MassMatrix_sub = MassMatrix(coord_index,coord_index);
+        end
+
+
+        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        %% muscle information
+
+        function MA_matrix = get_MomentArmMatrix(om, Coord_Name_list, mus_name_list)
+            % moment arm matrix 
+            %   row: coordinates
+            %   colomn: muscles
+            import org.opensim.modeling.*
+            MA_matrix = zeros(length(Coord_Name_list),length(mus_name_list));
+            for i = 1:length(mus_name_list)
+                for j = 1:length(Coord_Name_list)
+                    muscle_i = om.MuscleSet.get(mus_name_list{i});
+                    MA_matrix(j,i) = muscle_i.computeMomentArm(om.state,om.CoordinateSet.get(Coord_Name_list{j}));
+                end
+            end
+        end
+
+        function mus_MIF_vec = get_MaxIsometricForce(om, mus_name_list)
+            % maximal isometric force
+            import org.opensim.modeling.*
+
+            mus_MIF_vec = zeros(length(mus_name_list),1);
+            for i = 1:length(mus_name_list)
+                muscle_i = om.MuscleSet.get(mus_name_list{i});
+                mus_MIF_vec(i) = muscle_i.getMaxIsometricForce;
+            end
+        end
+
+        function mus_PTF_vec = get_PassiveTendonForce(om, mus_name_list)
+            % passive tendon force
+            import org.opensim.modeling.*
+            mus_PTF_vec = zeros(length(mus_name_list),1);
+            for i = 1:length(mus_name_list)
+                muscle_i = om.MuscleSet.get(mus_name_list{i});
+                mus_PTF_vec(i) = muscle_i.getTendonForce(om.state);
+            end
+        end
+
+        function mus_PA_vec = get_PennationAngle(om, mus_name_list)
+            % Pennation angle
+            import org.opensim.modeling.*
+            mus_PA_vec = zeros(length(mus_name_list),1);
+            for i = 1:length(mus_name_list)
+                muscle_i = om.MuscleSet.get(mus_name_list{i});
+                mus_PA_vec(i) = muscle_i.getPennationAngle(om.state);
+            end
+        end
+
+        function mus_ML_vec = get_muscleLength(om, mus_name_list)
+            % muscle length
+            import org.opensim.modeling.*
+            mus_ML_vec = zeros(length(mus_name_list),1);
+            for i = 1:length(mus_name_list)
+                muscle_i = om.MuscleSet.get(mus_name_list{i});
+                mus_ML_vec(i) = muscle_i.getLength(om.state);
+            end
+        end
+
+        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        %% marker information
+        function delete_all_markers(om)
+            % muscle length
+            import org.opensim.modeling.*
+            num_marker = om.MarkerSet.getSize;
+            for i = 1:num_marker
+                om.MarkerSet.remove(om.MarkerSet.get(0));
+            end
+            om.MarkerSet = om.model.getMarkerSet();
+            om.MarkerSet_list = Setlist_read(om.MarkerSet);
+        end
+
+        function add_marker_points(om,mp_name, body_name_list, pos_vec_list )
+            % add a marker_point at the attached body frame with position
+            % and orientation input 
+            import org.opensim.modeling.*
+            num_marker = length(body_name_list);
+            sphere_geometry = Sphere();
+            sphere_geometry.set_radius(0.02);
+            sphere_geometry.setColor(Vec3(1, 1,0));
+            for i = 1:num_marker
+                markeri = Body();
+                markeri.setName(mp_name);
+                markeri.setMass(0);
+                markeri.setMassCenter(Vec3(0));
+                markeri.setInertia( Inertia(0,0,0,0,0,0) );
+                jointi = WeldJoint("Weldjoint", ...
+                             om.BodySet.get(body_name_list{i}), ...
+                             pos_vec_list{i}, ...
+                             Vec3(0), ...
+                             markeri, ...
+                             Vec3(0, 0, 0), ...
+                             Vec3(0, 0, 0));
+                om.model.addBody(markeri);
+                markeri.attachGeometry(sphere_geometry);
+                om.model.addJoint(jointi);
+%                 w_R_i = osimMatrix2matrix(om.BodySet.get(body_name_list{i}).getTransformInGround(om.state).R);
+                i_R_i = eye(3);
+                marker_point_i = marker_point(markeri.getName, body_name_list{i},osimMatrix2matrix(pos_vec_list{i}),i_R_i);
+                om.marker_point_list{end+1} = marker_point_i;
+            end
+            om.update_system;
+            om.update_set;
+        end
+
+        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
 %         function om = actuate(om, action)
 %             action(action>1) = 1;
@@ -171,9 +424,7 @@ classdef osim_model < handle
 %             end
 %         end
             
-            
-        
-        
+
 %         function [res, om] = compute_state_desc(om)
 %             om.model.realizeAcceleration(om.state)
 % 
@@ -313,31 +564,68 @@ classdef osim_model < handle
 %         end
         
         
-        
+        %         function list_elements(om)
+% 
+%             fprintf("-------JOINTS-------\n")
+%             for i = 0:(om.jointSet.getSize()-1)
+%                 fprintf('%3d ',i+1)
+%                 disp(om.jointSet.get(i).getName())
+%                 fprintf('%c%c', 8, 8);
+%                 fprintf('\n');
+%             end
+%             fprintf("\n-------BODIES-------\n")
+%             for i = 0:(om.bodySet.getSize()-1)
+%                 fprintf('%3d ',i+1)
+%                 disp(om.bodySet.get(i).getName())
+%                 fprintf('%c%c', 8, 8);
+%                 fprintf('\n');
+%             end
+%             fprintf("\n-------MUSCLES-------\n")
+%             for i = 0:(om.muscleSet.getSize()-1)
+%                 fprintf('%3d ',i+1)
+%                 disp(om.muscleSet.get(i).getName())
+%                 fprintf('%c%c', 8, 8);
+%                 fprintf('\n');
+%             end
+%             fprintf("\n-------FORCES-------\n")
+%             for i = 0:(om.forceSet.getSize()-1)
+%                 fprintf('%3d ',i+1)
+%                 disp(om.forceSet.get(i).getName())
+%                 fprintf('%c%c', 8, 8);
+%                 fprintf('\n');
+%             end
+%             fprintf("\n-------MARKERS-------\n")
+%             for i = 0:(om.markerSet.getSize()-1)
+%                 fprintf('%3d ',i+1)
+%                 disp(om.markerSet.get(i).getName())
+%                 fprintf('%c%c', 8, 8);
+%                 fprintf('\n');
+%             end
+%         end      
         
         
         function body_ = get_body(om, name)
-            body_ = om.bodySet.get(name);
+            body_ = om.BodySet.get(name);
         end
 
         function jointSet_ = get_joint(om, name)
-            jointSet_ = om.jointSet.get(name);
+            jointSet_ = om.JointSet.get(name);
         end
 
         function muscleSet_ = get_muscle(om, name)
-            muscleSet_  = om.muscleSet.get(name);
+            muscleSet_  = om.MuscleSet.get(name);
         end
         
         function markerSet_ = get_marker(om, name)
-            markerSet_ = om.markerSet.get(name);
+            markerSet_ = om.MarkerSet.get(name);
         end
         
         function contactGeometrySet_ = get_contact_geometry(om, name)
-            contactGeometrySet_ = om.contactGeometrySet.get(name);
+            contactGeometrySet_ = om.ContactGeometrySet.get(name);
         end
         
         function forceSet_ = get_force(om, name)
-            forceSet_ = om.forceSet.get(name);
+            forceSet_ = om.ForceSet.get(name);
         end
         
         function noutput_ = get_action_space_size(om)
