@@ -68,10 +68,11 @@ MA_matrix = model.get_MomentArmMatrix(coord_list, muscle_list);
 % iterative ik 
 close all
 % q_init = model.get_coordinate_value(coord_list);
-q_des = 0.1*rand(7,1);
+q_des = 0.5*rand(7,1);
+% q_des = 5*[0.0655,0.0171,0.0706, 0.0032,0.0277,0.0046,0.009]';
 model.set_coordinate_value(coord_list,q_des);
 x_p_des = model.get_mp_frame(1);
-q_init = 1*rand(7,1);
+q_init = rand(7,1);
 model.set_coordinate_value(coord_list,q_init);
 
 model.plot_all_body;
@@ -79,9 +80,9 @@ model.plot_world_frame;
 model.plot_mp_frame;
 model.plot_frame(x_p_des(1:3), euler2R_XYZ(x_p_des(4:6)),0.2);
 
-[q,x_res,phi_x,iter] = model.ik_numeric( coord_list, 1, x_p_des);
+[q,x_res,phi_x,iter] = model.ik_numeric( coord_list, 1, x_p_des,200, [1e-4*ones(3,1);1e-2*ones(3,1)],0.2);
 % model.plot_mp_frame;
-
+% [q,x_res,phi_x_2,iter_2] = model.ik_numeric( coord_list, 1, x_p_des);
 return
 
 
