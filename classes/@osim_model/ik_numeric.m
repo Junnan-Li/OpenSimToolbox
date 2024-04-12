@@ -37,8 +37,12 @@ for i = 1:iter_max
     om.set_coordinate_value(coord_list, q_value);
     q_value = om.get_coordinate_value(coord_list);
     x_p_i = om.get_mp_frame(mp_index);
+    % visualization
 %     om.plot_all_body;
     om.plot_mp_frame
+    om.model_visualize;
+
+    % update 
     delta_x_i = x_d - x_p_i;
     if isempty(find(abs(delta_x_i)-tol>0))
         disp('ik_numeric: ik finished!')
