@@ -104,6 +104,20 @@ classdef osim_model < handle
             fprintf('OpenSim model saved \n');
             status = 1;
         end
+
+        function stateNames = get_systemStateNames(om)
+            % system state includes Y = [Q,U,Z];
+            % Q: joint angle
+            % U: coordinate velocity
+            % Z: auxiliary variables (muscle activation and fiber length)
+            import org.opensim.modeling.*;
+            stateNames = Setlist_read(om.model.getStateVariableNames);
+        end
+
+        function stateValues = get_systemStateValues(om)
+            import org.opensim.modeling.*;
+            stateValues = osimMatrix2matrix(om.model.getStateVariableValues(om.state));
+        end
         
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         %%% visualization
@@ -223,8 +237,7 @@ classdef osim_model < handle
         %%% Coordinate operations
 
         function set_coordinate_value(om, coordinate_name_list, coordinate_value)
-            % TODO:
-            %   generate message when the desired value is out of the range
+            % set the value to the given coordinates
             assert(length(coordinate_value) == length(coordinate_name_list),'input dimension wrong')
             for i = 1: length(coordinate_name_list)
                 value_i = coordinate_value(i);
@@ -360,6 +373,27 @@ classdef osim_model < handle
                 mus_ML_vec(i) = muscle_i.getLength(om.state);
             end
         end
+
+        function [PathPoints] = get_musclePathPoint(om, mus_name_list)
+            % muscle Path Points
+            % PathPoint cell array
+            % 
+            import org.opensim.modeling.*
+            PathPoints = {};
+            for i = 1:length(mus_name_list)
+                muscle_i = om.MuscleSet.get(mus_name_list{i});
+                Geometrypath_i = muscle_i.getGeometryPath();
+                PathPointSet_i = Geometrypath_i.getPathPointSet;
+                num_pp = PathPointSet_i.getSize;
+                for j = 1:num_pp
+                    PP_i = PathPointSet_i.get(j-1);
+                    PathPoints{2*i-1,1} = char(muscle_i.getName);
+                    PathPoints{2*i-1,1+j} = char(PP_i.getBodyName);
+                    PathPoints{2*i,1+j} = osimVec3ToArray(PP_i.getLocation(om.state));
+                end
+            end
+        end
+
 
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         %% marker information
