@@ -81,9 +81,9 @@ if IK_on
     model.plot_all_body;
     model.plot_world_frame;
     model.plot_mp_frame;
-    model.plot_frame(x_p_des(1:3), euler2R_XYZ(x_p_des(4:6)),0.2);
+    model.plot_frame(x_p_des(1:3), euler2R_XYZ(x_p_des(4:6)),0.15);
 
-    [q,x_res,phi_x,iter] = model.ik_numeric( coord_list, 1, x_p_des);
+    [q,x_res,phi_x,iter] = model.ik_numeric( coord_list, 1, x_p_des,200, [1e-4*ones(3,1);1e-2*ones(3,1)],0.2);
     % model.plot_mp_frame;
 end
 
