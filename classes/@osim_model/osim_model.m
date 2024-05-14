@@ -344,7 +344,7 @@ classdef osim_model < handle
             end
         end
 
-        function mus_PTF_vec = get_PassiveTendonForce(om, mus_name_list)
+        function mus_PTF_vec = get_TendonForce(om, mus_name_list)
             % passive tendon force
             import org.opensim.modeling.*
             mus_PTF_vec = zeros(length(mus_name_list),1);
@@ -371,6 +371,25 @@ classdef osim_model < handle
             for i = 1:length(mus_name_list)
                 muscle_i = om.MuscleSet.get(mus_name_list{i});
                 mus_ML_vec(i) = muscle_i.getLength(om.state);
+            end
+        end
+
+        function mus_ML_vec = get_fiberforce(om, mus_name_list)
+            % muscle length
+            import org.opensim.modeling.*
+            mus_ML_vec = zeros(length(mus_name_list),1);
+            for i = 1:length(mus_name_list)
+                muscle_i = om.MuscleSet.get(mus_name_list{i});
+                mus_ML_vec(i) = muscle_i.getFiberForce(om.state);
+            end
+        end
+        function mus_ML_vec = get_fiberforcealongtendon(om, mus_name_list)
+            % muscle length
+            import org.opensim.modeling.*
+            mus_ML_vec = zeros(length(mus_name_list),1);
+            for i = 1:length(mus_name_list)
+                muscle_i = om.MuscleSet.get(mus_name_list{i});
+                mus_ML_vec(i) = muscle_i.getFiberForceAlongTendon(om.state);
             end
         end
 

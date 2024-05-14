@@ -12,11 +12,11 @@ folder_path = pwd;
 geometry_folder_path = strcat(folder_path,'\geometry_folder\Geometry_MoBL_ARMS\');
 ModelVisualizer.addDirToGeometrySearchPaths(geometry_folder_path);
 
-IK_on = 0;
+IK_on = 1;
 
 %% load model
 
-model = osim_model(strcat(folder_path,'\model\MOBL_ARMS_fixed_41.osim'));
+model = osim_model(strcat(folder_path,'\model\MOBL_ARMS_fixed_41.osim')); % MOBL_ARMS_fixed_41
 
 % check body list, joint list, ...
 model.BodySet_list;
@@ -57,10 +57,11 @@ M_sub = model.getMassMatrix_sub(coord_list);
 
 %% Muscle parameters
 mus_MIF_vec = model.get_MaxIsometricForce(muscle_list);
-mus_PTF_vec = model.get_PassiveTendonForce(muscle_list);
+mus_PTF_vec = model.get_TendonForce(muscle_list);
 mus_PA_vec = model.get_PennationAngle( muscle_list);
 mus_ML_vec = model.get_muscleLength(muscle_list);
-
+mus_FF_vec = model.get_fiberforce(muscle_list); % fiber force
+mus_FFAT_vec = model.get_fiberforcealongtendon(muscle_list);% fiber force along tendon
 %% Moment arm matrix
 % FCU muscle has moment arm at shoulder joint
 MA_matrix = model.get_MomentArmMatrix(coord_list, muscle_list);
@@ -72,7 +73,7 @@ MA_matrix = model.get_MomentArmMatrix(coord_list, muscle_list);
 if IK_on
     close all
     % q_init = model.get_coordinate_value(coord_list);
-    q_des = 0.1*rand(7,1);
+    q_des = coord_q_value + 0.2*rand(7,1)-0.1;
     model.set_coordinate_value(coord_list,q_des);
     x_p_des = model.get_mp_frame(1);
     q_init = 1*rand(7,1);
@@ -83,7 +84,7 @@ if IK_on
     model.plot_mp_frame;
     model.plot_frame(x_p_des(1:3), euler2R_XYZ(x_p_des(4:6)),0.15);
 
-    [q,x_res,phi_x,iter] = model.ik_numeric( coord_list, 1, x_p_des,200, [1e-4*ones(3,1);1e-2*ones(3,1)],0.2);
+    [q,x_res,phi_x,iter] = model.ik_numeric( coord_list, 1, x_p_des,200, [1e-3*ones(3,1);5e-2*ones(3,1)],0.2);
     % model.plot_mp_frame;
 end
 
