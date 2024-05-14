@@ -12,7 +12,7 @@ folder_path = pwd;
 geometry_folder_path = strcat(folder_path,'\geometry_folder\Geometry_MoBL_ARMS\');
 ModelVisualizer.addDirToGeometrySearchPaths(geometry_folder_path);
 
-IK_on = 1;
+IK_on = 0;
 
 %% load model
 
@@ -95,28 +95,13 @@ state_value = model.get_systemStateValues;
 
 %% scaling 
 % 
-% Scaling_file = '.\Scale_Setup_05_2.xml';
-% model.set_scalefile(Scaling_file);
-% 
-% model.show_scale_info;
-% model.scale_tool.run()
 
-% %% generate scaling setting file 
-% %TODO: parameters merge into the class funciton
-% 
-% model = osim_model('D:\repos\opensim_hand_project\model\WristModel_Marker_AllMuscles.osim');
-% model.model.setName('WristModel_Marker_AllMuscles');
-% 
-% 
-% model.generate_scaling_setup_file('statics_05.trc', '05', 4, 4.79333, '.\results')
-% %% scale the model 
-% % TODO .osim should be in the same folder 
-% model.set_scalefile('.\scaled_setup_subject_05.xml')
-% model.show_scale_info;
-% model.scale_tool.run()
+coord_list = {'deviation','flexion','wrist_hand_r1', 'wrist_hand_r3'};
 
+q = [0.42,0,0,0]';
+model.set_coordinate_value(coord_list,q);
+coord_q_value = model.get_coordinate_value(coord_list)
 
-
-
-
+a = model.CoordinateSet.get('deviation')
+b = model.ConstraintSet.get('wrist_hand_r1_con')
 

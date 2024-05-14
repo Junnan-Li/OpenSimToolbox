@@ -22,6 +22,8 @@ classdef osim_model < handle
         BodySet_list
         CoordinateSet
         CoordinateSet_list
+        ConstraintSet
+        ConstraintSet_list
         JointSet
         JointSet_list
         MarkerSet
@@ -89,6 +91,8 @@ classdef osim_model < handle
             om.MarkerSet_list = Setlist_read(om.MarkerSet);
             om.ContactGeometrySet = om.model.getContactGeometrySet();
             om.ContactGeometrySet_list = Setlist_read(om.ContactGeometrySet);
+            om.ConstraintSet = om.model.getConstraintSet();
+            om.ConstraintSet_list = Setlist_read(om.ConstraintSet);
         end
 
         function update_system(om)
