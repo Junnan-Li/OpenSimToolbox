@@ -32,9 +32,10 @@ classdef osim_model < handle
         BodySet_list
         CoordinateSet
         CoordinateSet_list
+        CoordinateInOrder           % getCoordinateNamesInMultibodyTreeOrder the order in smss system
         ConstraintSet
         ConstraintSet_list
-%         FrameList
+        FrameList
         JointSet
         JointSet_list
         MarkerSet
@@ -105,6 +106,13 @@ classdef osim_model < handle
             om.ContactGeometrySet_list = Setlist_read(om.ContactGeometrySet);
             om.ConstraintSet = om.model.getConstraintSet();
             om.ConstraintSet_list = Setlist_read(om.ConstraintSet);
+            
+            CNIMTO = om.model.getCoordinateNamesInMultibodyTreeOrder;
+            om.CoordinateInOrder = [];
+            for i = 1:CNIMTO.capacity
+                om.CoordinateInOrder = [om.CoordinateInOrder;{char(CNIMTO.getElt(i-1))}];
+            end
+            
         end
 
         function update_system(om)
@@ -323,7 +331,7 @@ classdef osim_model < handle
             Jacobian_m = Matrix();
             coord_index = zeros(length(coordinate_name_list),1);
             for i = 1:length(coordinate_name_list)
-                coord_index(i) = find(matches(om.CoordinateSet_list,coordinate_name_list{i}));
+                coord_index(i) = find(matches(om.CoordinateInOrder,coordinate_name_list{i}));
             end
             mp_i = om.marker_point_list{marker_point_index};
             body_index = om.BodySet.get(mp_i.body_name).getMobilizedBodyIndex();% -1;
@@ -348,7 +356,7 @@ classdef osim_model < handle
             Jacobian_m = Matrix();
             coord_index = zeros(length(coordinate_name_list),1);
             for i = 1:length(coordinate_name_list)
-                coord_index(i) = find(matches(om.CoordinateSet_list,coordinate_name_list{i}));
+                coord_index(i) = find(matches(om.CoordinateInOrder,coordinate_name_list{i}));
             end
             body_index = om.BodySet.get(body_name).getMobilizedBodyIndex();% -1;
             om.smss.calcFrameJacobian(om.state, body_index, pos_vec3, Jacobian_m);
@@ -380,7 +388,7 @@ classdef osim_model < handle
             om.smss.calcM(om.state,M);
             MassMatrix = osimMatrix2matrix(M);
             for i = 1:length(coordinate_name_list)
-                coord_index(i) = find(matches(om.CoordinateSet_list,coordinate_name_list{i}));
+                coord_index(i) = find(matches(om.CoordinateInOrder,coordinate_name_list{i}));
             end
             MassMatrix_sub = MassMatrix(coord_index,coord_index);
         end

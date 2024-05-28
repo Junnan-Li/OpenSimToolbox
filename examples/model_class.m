@@ -27,9 +27,9 @@ model.MuscleSet_list;
 % delete markers
 model.delete_all_markers;
 %% add endefector/interest points as marker_point 
-body_name = {'humerus'}; % name of the attached body
+body_name = {'hand'}; % name of the attached body
 pos_vec = {Vec3(0,-0.1,0)}; % relative position in corresponding body frame
-% model.add_marker_points('Hand_endeffector', body_name,pos_vec);
+model.add_marker_points('Hand_endeffector', body_name,pos_vec);
 model.set_visualize;
 %% set the list of the target coordinates/frames and muscles
 
@@ -47,13 +47,11 @@ model.plot_world_frame;
 model.plot_mp_frame;
 
 %% Jacobian
-% Jacobian_all = model.getJacobian_mp_all(1); % Jacobian of all coordinates
-% Jacobian_sub = model.getJacobian_mp_sub(1,coord_list ); % Jacobian of selected coord.
-import org.opensim.modeling.*
-bodyname = 'scapula';
-% Jacobian_matrix = model.getJacobian_point(bodyname, Vec3(0) )
 
-% return
+Jacobian_point = model.getJacobian_point(body_name, Vec3(0,-0.1,0) );
+Jacobian_point_sub = model.getJacobian_point_sub(body_name, Vec3(0,-0.1,0),coord_list );
+Jacobian_all = model.getJacobian_mp_all(1); % Jacobian of all coordinates
+Jacobian_sub = model.getJacobian_mp_sub(1,coord_list ); % Jacobian of selected coord.
 %% Mass matrix
 
 M_all = model.getMassMatrix_all;
@@ -99,15 +97,6 @@ end
 state_name = model.get_systemStateNames;
 state_value = model.get_systemStateValues;
 
-%% scaling 
-% 
 
-coord_list = {'deviation','flexion','wrist_hand_r1', 'wrist_hand_r3'};
 
-q = [0.42,0,0,0]';
-model.set_coordinate_value(coord_list,q);
-coord_q_value = model.get_coordinate_value(coord_list)
-
-a = model.CoordinateSet.get('deviation')
-b = model.ConstraintSet.get('wrist_hand_r1_con')
 
