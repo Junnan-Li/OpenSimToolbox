@@ -1,0 +1,12 @@
+
+
+osim_model
+    
+    CoordinateInOrder: the order of coordiantes in smss system. the order 
+might be different from the order in CoordinateSet 
+
+
+
+
+
+
