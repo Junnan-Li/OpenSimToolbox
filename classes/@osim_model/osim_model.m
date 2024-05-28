@@ -1,3 +1,13 @@
+% 
+% Junnan Li
+% 
+% Comments:
+%   Jacobian function:  
+%       the column number does not match to the coordinateSet
+
+
+
+
 classdef osim_model < handle
 
     % Initialize simulation  
@@ -24,6 +34,7 @@ classdef osim_model < handle
         CoordinateSet_list
         ConstraintSet
         ConstraintSet_list
+%         FrameList
         JointSet
         JointSet_list
         MarkerSet
@@ -87,6 +98,7 @@ classdef osim_model < handle
             om.JointSet_list = Setlist_read(om.JointSet);
             om.CoordinateSet = om.model.getCoordinateSet();
             om.CoordinateSet_list = Setlist_read(om.CoordinateSet);
+            om.FrameList
             om.MarkerSet = om.model.getMarkerSet();
             om.MarkerSet_list = Setlist_read(om.MarkerSet);
             om.ContactGeometrySet = om.model.getContactGeometrySet();
@@ -159,6 +171,22 @@ classdef osim_model < handle
             end
         end
         
+        function plot_body(om, body_list)
+            % plot the body frame origin in matlab plot
+            import org.opensim.modeling.*;
+            num_body = length(body_list);
+            
+            for i = 1:num_body % eul2rotm([0,0,pi/2])*
+
+                w_p_bodyi_pos = osimMatrix2matrix(om.BodySet.get(body_list{i}).getTransformInGround(om.state).p);
+                plot3(w_p_bodyi_pos(1),w_p_bodyi_pos(2),w_p_bodyi_pos(3),'.-',MarkerSize=15,Color='r')
+                hold on
+                axis equal
+                grid on
+            end
+        end
+
+
         function plot_world_frame(om)
             % plot the body frame origin in matlab plot
             import org.opensim.modeling.*;
@@ -207,7 +235,9 @@ classdef osim_model < handle
             zlabel('z')
         end
 
-            
+        %%
+
+        
         function set_scalefile(om,setting)
             import org.opensim.modeling.*;
             om.scale_tool = ScaleTool(setting);
@@ -269,15 +299,26 @@ classdef osim_model < handle
             import org.opensim.modeling.*;
             Jacobian_m = Matrix();
             mp_i = om.marker_point_list{marker_point_index};
-            body_index = om.BodySet.get(mp_i.body_name).getMobilizedBodyIndex()-1;
+            body_index = om.BodySet.get(mp_i.body_name).getMobilizedBodyIndex();% -1;
             om.smss.calcFrameJacobian(om.state, body_index, Vec3(0), Jacobian_m);
             Jacobian_matrix_revert = osimMatrix2matrix(Jacobian_m);
             Jacobian_matrix(1:3,:) = Jacobian_matrix_revert(4:6,:);
             Jacobian_matrix(4:6,:) = Jacobian_matrix_revert(1:3,:);
         end
 
+        function Jacobian_matrix = getJacobian_mp_all_trans(om, marker_point_index)
+            % Jacobian matrix according to the selected marker_point
+            % Jacobian [6xn]: translational;rotational
+            import org.opensim.modeling.*;
+            Jacobian_m = Matrix();
+            mp_i = om.marker_point_list{marker_point_index};
+            body_index = om.BodySet.get(mp_i.body_name).getMobilizedBodyIndex(); % -1
+            om.smss.calcStationJacobian(om.state, body_index, Vec3(0), Jacobian_m);
+            Jacobian_matrix = osimMatrix2matrix(Jacobian_m);
+        end
 
-        function Jacobian_matrix = getJacobian_point_sub(om, marker_point_index,coordinate_name_list )
+
+        function Jacobian_matrix = getJacobian_mp_sub(om, marker_point_index,coordinate_name_list )
             import org.opensim.modeling.*
             Jacobian_m = Matrix();
             coord_index = zeros(length(coordinate_name_list),1);
@@ -285,17 +326,42 @@ classdef osim_model < handle
                 coord_index(i) = find(matches(om.CoordinateSet_list,coordinate_name_list{i}));
             end
             mp_i = om.marker_point_list{marker_point_index};
-            body_index = om.BodySet.get(mp_i.body_name).getMobilizedBodyIndex()-1;
+            body_index = om.BodySet.get(mp_i.body_name).getMobilizedBodyIndex();% -1;
             om.smss.calcFrameJacobian(om.state, body_index, Vec3(0), Jacobian_m);
             Jacobian_matrix_revert = osimMatrix2matrix(Jacobian_m);
             Jacobian_matrix(1:3,:) = Jacobian_matrix_revert(4:6,coord_index);
             Jacobian_matrix(4:6,:) = Jacobian_matrix_revert(1:3,coord_index);
         end
+        
+        function Jacobian_matrix = getJacobian_point(om, body_name, pos_vec3 )
+            import org.opensim.modeling.*
+            Jacobian_m = Matrix();
+            body_index = om.BodySet.get(body_name).getMobilizedBodyIndex();% -1;
+            om.smss.calcFrameJacobian(om.state, body_index, pos_vec3, Jacobian_m);
+            Jacobian_matrix_revert = osimMatrix2matrix(Jacobian_m);
+            Jacobian_matrix(1:3,:) = Jacobian_matrix_revert(4:6,:);
+            Jacobian_matrix(4:6,:) = Jacobian_matrix_revert(1:3,:);
+        end
 
-        function Jacobian_ana = getJacobian_point_sub_ana(om, marker_point_index,coordinate_name_list )
+        function Jacobian_matrix = getJacobian_point_sub(om, body_name, pos_vec3, coordinate_name_list )
+            import org.opensim.modeling.*
+            Jacobian_m = Matrix();
+            coord_index = zeros(length(coordinate_name_list),1);
+            for i = 1:length(coordinate_name_list)
+                coord_index(i) = find(matches(om.CoordinateSet_list,coordinate_name_list{i}));
+            end
+            body_index = om.BodySet.get(body_name).getMobilizedBodyIndex();% -1;
+            om.smss.calcFrameJacobian(om.state, body_index, pos_vec3, Jacobian_m);
+            Jacobian_matrix_revert = osimMatrix2matrix(Jacobian_m);
+            Jacobian_matrix(1:3,:) = Jacobian_matrix_revert(4:6,coord_index);
+            Jacobian_matrix(4:6,:) = Jacobian_matrix_revert(1:3,coord_index);
+        end
+
+
+        function Jacobian_ana = getJacobian_mp_sub_ana(om, marker_point_index,coordinate_name_list )
             % analytical Jacobian with euler XYZ
             import org.opensim.modeling.*
-            Jacobian_matrix = getJacobian_point_sub(om, marker_point_index,coordinate_name_list );
+            Jacobian_matrix = getJacobian_mp_sub(om, marker_point_index,coordinate_name_list );
             [~,~, w_R] = get_mp_frame(om, marker_point_index);
 
             Jacobian_ana = [Jacobian_matrix(1:3,:);w_R'*Jacobian_matrix(4:6,:)];

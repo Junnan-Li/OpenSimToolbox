@@ -27,9 +27,9 @@ model.MuscleSet_list;
 % delete markers
 model.delete_all_markers;
 %% add endefector/interest points as marker_point 
-body_name = {'hand'}; % name of the attached body
+body_name = {'humerus'}; % name of the attached body
 pos_vec = {Vec3(0,-0.1,0)}; % relative position in corresponding body frame
-model.add_marker_points('Hand_endeffector', body_name,pos_vec);
+% model.add_marker_points('Hand_endeffector', body_name,pos_vec);
 model.set_visualize;
 %% set the list of the target coordinates/frames and muscles
 
@@ -47,9 +47,13 @@ model.plot_world_frame;
 model.plot_mp_frame;
 
 %% Jacobian
-Jacobian_all = model.getJacobian_mp_all(1); % Jacobian of all coordinates
-Jacobian_sub = model.getJacobian_point_sub(1,coord_list ); % Jacobian of selected coord.
+% Jacobian_all = model.getJacobian_mp_all(1); % Jacobian of all coordinates
+% Jacobian_sub = model.getJacobian_mp_sub(1,coord_list ); % Jacobian of selected coord.
+import org.opensim.modeling.*
+bodyname = 'scapula';
+% Jacobian_matrix = model.getJacobian_point(bodyname, Vec3(0) )
 
+% return
 %% Mass matrix
 
 M_all = model.getMassMatrix_all;
@@ -84,7 +88,9 @@ if IK_on
     model.plot_mp_frame;
     model.plot_frame(x_p_des(1:3), euler2R_XYZ(x_p_des(4:6)),0.15);
 
-    [q,x_res,phi_x,iter] = model.ik_numeric( coord_list, 1, x_p_des,200, [1e-3*ones(3,1);5e-2*ones(3,1)],0.2);
+
+    [q,x_res,phi_x,iter] = model.ik_numeric( coord_list, 1, x_p_des,200, [1e-4*ones(3,1);1e-2*ones(3,1)],0.15);
+
     % model.plot_mp_frame;
 end
 
