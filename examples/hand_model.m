@@ -49,7 +49,7 @@ Jacobian_matrix2 = model.getJacobian_point('2distph', Vec3(0.1,0,0));
 Jacobian_matrix_sub = model.getJacobian_point_sub('2distph', Vec3(0.1,0,0),coord_list);
 %
 
-return
+% return
 %% Visualization
 model.model_visualize
 model.plot_all_body;
@@ -64,18 +64,67 @@ model.set_coordinate_value(coord_list,coord_value);
 Jacobian_all_trans2 = model.getJacobian_mp_all_trans(1);
 state_value2 = model.get_systemStateValues;
 
-coord_list = {'flexion', 'mp_flexion', '2mcp_flexion', '3mcp_flexion'};
-Jacobian_sub = model.getJacobian_point_sub(5,coord_list ); % Jacobian of selected coord.
 
 %% Mass matrix
 M_all = model.getMassMatrix_all;
 M_sub = model.getMassMatrix_sub(coord_list);
 
 %% Muscle parameters
-mus_MIF_vec = model.get_MaxIsometricForce(muscle_list);
-mus_PTF_vec = model.get_PassiveTendonForce(muscle_list);
-mus_PA_vec = model.get_PennationAngle( muscle_list);
-mus_ML_vec = model.get_muscleLength(muscle_list);
+
+a = model.MuscleSet.get(muscle_list{1});
+
+OFL = model.get_OptimalFiberLength(muscle_list);
+FL = model.get_FiberLength(muscle_list);
+TL = model.get_TendonLength(muscle_list);
+ML = model.get_muscleLength(muscle_list);
+b = a.getFiberLengthAlongTendon(model.state);
+% a.get_tendon_slack_length(model.state)
+% b + TL
+
+
+MIF = model.get_MaxIsometricForce(muscle_list);
+TF = model.get_TendonForce(muscle_list);
+FF = model.get_FiberForce(muscle_list);
+FFAT = model.get_FiberForceAlongTendon(muscle_list);
+PFF = model.get_PassiveFiberForce(muscle_list);
+AFF = model.get_ActiveFiberForce(muscle_list);
+
+b = a.getFiberForceAlongTendon(model.state);
+AFLf = model.get_activeforcelengthfactor(muscle_list);
+
+%% test muscle fiber length state
+coord_list = {'flexion', '2mcp_flexion', '2pm_flexion','2md_flexion'};
+m = model.MuscleSet.get(muscle_list{1});
+q1 = model.CoordinateSet.get('2mcp_flexion');
+model.set_coordinate_value({'2mcp_flexion'},0);
+a = q1.getValue(model.state);
+ 
+FL = model.get_FiberLength(muscle_list);
+FF = model.get_FiberForce(muscle_list);
+TL = model.get_TendonLength(muscle_list);
+s = q1.getSpeedValue(model.state);
+v = m.getFiberVelocity(model.state);
+% change q
+q1.setValue(model.state,0.6);
+FL1 = model.get_FiberLength(muscle_list);
+FF1 = model.get_FiberForce(muscle_list);
+TL1 = model.get_TendonLength(muscle_list);
+s1 = q1.getSpeedValue(model.state);
+v1 = m.getFiberVelocity(model.state);
+model.model.equilibrateMuscles(model.state);
+FL2 = model.get_FiberLength(muscle_list);
+FF2 = model.get_FiberForce(muscle_list);
+TL2 = model.get_TendonLength(muscle_list);
+s2 = q1.getSpeedValue(model.state);
+v2 = m.getFiberVelocity(model.state);
+% change qdot
+q1.setSpeedValue(model.state,0.4);
+model.model.equilibrateMuscles(model.state);
+FL3 = model.get_FiberLength(muscle_list);
+FF3 = model.get_FiberForce(muscle_list);
+TL3 = model.get_TendonLength(muscle_list);
+s3 = q1.getSpeedValue(model.state);
+v3 = m.getFiberVelocity(model.state);
 
 %% Moment arm matrix
 % FCU muscle has moment arm at shoulder joint

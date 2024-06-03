@@ -396,6 +396,11 @@ classdef osim_model < handle
 
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         %% muscle information
+        % length: MuscleLength = TendonLength + FiberLengthAlongTendon 
+        %           f(MuscleLength/OptimalMuscleLength) = ForceLengthMultiplier 
+        % Force: TendonForce = FiberForceAlongTendon
+        %       FiberForce = ActiveFiberForce + PassiveFiberForce
+        %       
 
         function MA_matrix = get_MomentArmMatrix(om, Coord_Name_list, mus_name_list)
             % moment arm matrix 
@@ -410,7 +415,8 @@ classdef osim_model < handle
                 end
             end
         end
-
+        
+        % muscle forces
         function mus_MIF_vec = get_MaxIsometricForce(om, mus_name_list)
             % maximal isometric force
             import org.opensim.modeling.*
@@ -422,16 +428,57 @@ classdef osim_model < handle
             end
         end
 
-        function mus_PTF_vec = get_TendonForce(om, mus_name_list)
+        function mus_TF_vec = get_TendonForce(om, mus_name_list)
             % passive tendon force
             import org.opensim.modeling.*
-            mus_PTF_vec = zeros(length(mus_name_list),1);
+            mus_TF_vec = zeros(length(mus_name_list),1);
             for i = 1:length(mus_name_list)
                 muscle_i = om.MuscleSet.get(mus_name_list{i});
-                mus_PTF_vec(i) = muscle_i.getTendonForce(om.state);
+                mus_TF_vec(i) = muscle_i.getTendonForce(om.state);
+            end
+        end
+        
+        function mus_AFF_vec = get_ActiveFiberForce(om, mus_name_list)
+            % passive fiber force
+            import org.opensim.modeling.*
+            mus_AFF_vec = zeros(length(mus_name_list),1);
+            for i = 1:length(mus_name_list)
+                muscle_i = om.MuscleSet.get(mus_name_list{i});
+                mus_AFF_vec(i) = muscle_i.getActiveFiberForce(om.state);
             end
         end
 
+        function mus_PFF_vec = get_PassiveFiberForce(om, mus_name_list)
+            % passive fiber force
+            import org.opensim.modeling.*
+            mus_PFF_vec = zeros(length(mus_name_list),1);
+            for i = 1:length(mus_name_list)
+                muscle_i = om.MuscleSet.get(mus_name_list{i});
+                mus_PFF_vec(i) = muscle_i.getPassiveFiberForce(om.state);
+            end
+        end
+        
+        function mus_FF_vec = get_FiberForce(om, mus_name_list)
+            % Fiber force = PFF + AFF
+            import org.opensim.modeling.*
+            mus_FF_vec = zeros(length(mus_name_list),1);
+            for i = 1:length(mus_name_list)
+                muscle_i = om.MuscleSet.get(mus_name_list{i});
+                mus_FF_vec(i) = muscle_i.getFiberForce(om.state);
+            end
+        end
+
+        function mus_FiberForceAlongTendon = get_FiberForceAlongTendon(om, mus_name_list)
+            % muscle length
+            import org.opensim.modeling.*
+            mus_FiberForceAlongTendon = zeros(length(mus_name_list),1);
+            for i = 1:length(mus_name_list)
+                muscle_i = om.MuscleSet.get(mus_name_list{i});
+                mus_FiberForceAlongTendon(i) = muscle_i.getFiberForceAlongTendon(om.state);
+            end
+        end
+
+        % length
         function mus_PA_vec = get_PennationAngle(om, mus_name_list)
             % Pennation angle
             import org.opensim.modeling.*
@@ -443,7 +490,7 @@ classdef osim_model < handle
         end
 
         function mus_ML_vec = get_muscleLength(om, mus_name_list)
-            % muscle length
+            % muscle length = TendonLength + FiberLengthAlongTendon
             import org.opensim.modeling.*
             mus_ML_vec = zeros(length(mus_name_list),1);
             for i = 1:length(mus_name_list)
@@ -452,22 +499,55 @@ classdef osim_model < handle
             end
         end
 
-        function mus_ML_vec = get_fiberforce(om, mus_name_list)
-            % muscle length
+        function mus_TL_vec = get_TendonLength(om, mus_name_list)
+            % tendon length
             import org.opensim.modeling.*
-            mus_ML_vec = zeros(length(mus_name_list),1);
+            mus_TL_vec = zeros(length(mus_name_list),1);
             for i = 1:length(mus_name_list)
                 muscle_i = om.MuscleSet.get(mus_name_list{i});
-                mus_ML_vec(i) = muscle_i.getFiberForce(om.state);
+                mus_TL_vec(i) = muscle_i.getTendonLength(om.state);
             end
         end
-        function mus_ML_vec = get_fiberforcealongtendon(om, mus_name_list)
-            % muscle length
+
+        function mus_FL_vec = get_FiberLength(om, mus_name_list)
+            % fiber length
             import org.opensim.modeling.*
-            mus_ML_vec = zeros(length(mus_name_list),1);
+            mus_FL_vec = zeros(length(mus_name_list),1);
             for i = 1:length(mus_name_list)
                 muscle_i = om.MuscleSet.get(mus_name_list{i});
-                mus_ML_vec(i) = muscle_i.getFiberForceAlongTendon(om.state);
+                mus_FL_vec(i) = muscle_i.getFiberLength(om.state);
+            end
+        end
+
+        function mus_OFL_vec = get_OptimalFiberLength(om, mus_name_list)
+            % muscle length
+            import org.opensim.modeling.*
+            mus_OFL_vec = zeros(length(mus_name_list),1);
+            for i = 1:length(mus_name_list)
+                muscle_i = om.MuscleSet.get(mus_name_list{i});
+                mus_OFL_vec(i) = muscle_i.get_optimal_fiber_length();
+            end
+        end
+
+
+
+        function mus_FVfactor = get_ForceVelocityfactor(om, mus_name_list)
+            % 
+            import org.opensim.modeling.*
+            mus_FVfactor = zeros(length(mus_name_list),1);
+            for i = 1:length(mus_name_list)
+                muscle_i = om.MuscleSet.get(mus_name_list{i});
+                mus_FVfactor(i) = muscle_i.getForceVelocityMultiplier(om.state);
+            end
+        end
+
+        function mus_ActiveFLfactor = get_activeforcelengthfactor(om, mus_name_list)
+            % AFLf = f(FL/OFL)
+            import org.opensim.modeling.*
+            mus_ActiveFLfactor = zeros(length(mus_name_list),1);
+            for i = 1:length(mus_name_list)
+                muscle_i = om.MuscleSet.get(mus_name_list{i});
+                mus_ActiveFLfactor(i) = muscle_i.getActiveForceLengthMultiplier(om.state);
             end
         end
 

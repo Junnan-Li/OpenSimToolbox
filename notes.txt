@@ -7,6 +7,13 @@ might be different from the order in CoordinateSet
 
 
 
+length: MuscleLength = TendonLength + FiberLengthAlongTendon 
+        f(MuscleLength/OptimalMuscleLength) = ForceLengthMultiplier 
+Force: TendonForce = FiberForceAlongTendon
+        FiberForce = ActiveFiberForce + PassiveFiberForce
+          
 
 
-
+model.equilibrateMuscles:
+    stabilize the muscle dynmaic, the fiber velocity converge to 0
+    fiber velocity do not equal to coordinate velocity.
