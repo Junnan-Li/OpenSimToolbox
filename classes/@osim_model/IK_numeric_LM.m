@@ -7,24 +7,24 @@
 % Junnan Li
 
 
-function [q,x_res,phi_x,iter] = ik_numeric(om, coord_list, mp_index, x_d, varargin)
+function [q,x_res,phi_x,iter] = IK_numeric_LM(om, coord_list, mp_index, x_d, W_e, W_d,varargin)
 
 assert(length(om.marker_point_list)>= mp_index, 'ik_numeric: no such a marker_point')
 assert(length(x_d)== 6, 'ik_numeric: incorrect dimension of xd')
 
-if nargin == 4
+if nargin == 6
     iter_max = 100;
     tol = [1e-3*ones(3,1);1e-2*ones(3,1);];
     alpha = 0.1;
-elseif nargin == 5
+elseif nargin == 7
     iter_max = varargin{1};
     tol = [1e-4*ones(3,1);1e-2*ones(3,1);];
     alpha = 0.1;
-elseif nargin == 6
+elseif nargin == 8
     iter_max = varargin{1};
     tol = varargin{2};
     alpha = 0.1;
-elseif nargin == 7
+elseif nargin == 9
     iter_max = varargin{1};
     tol = varargin{2};
     alpha = varargin{3};
@@ -45,20 +45,18 @@ for i = 1:iter_max
     % update 
     delta_x_i = x_d - x_p_i;
     if isempty(find(abs(delta_x_i)-tol>0))
-        disp('ik_numeric: ik finished!')
+        disp('IK_numeric_LM: ik finished!')
         break
     end
     J = om.getJacobian_mp_sub_ana(mp_index,coord_list );
-%     J = om.getJacobian_point_sub(mp_index,coord_list );
-    J_inv = pinv(J);
-    if rank(J) < min(size(J)) | rank(J_inv) < min(size(J_inv))
-        disp('ik_numeric: Jacobian rank deficit')
-    end
 
-    delta_q = alpha * J_inv * delta_x_i;
-%     max(delta_q)
-%     max(delta_x_i)
-%     delta_q_sar = 0.1/max(abs(delta_q)) * delta_q;
+%     J_inv = pinv(J);
+
+%     if rank(J) < min(size(J)) | rank(J_inv) < min(size(J_inv))
+%         disp('IK_numeric_LM: Jacobian rank deficit')
+%     end
+    g_i = J'*W_e*delta_x_i;
+    delta_q = inv(J'*W_e*J + W_d) * g_i;
     q_value = q_value + delta_q; 
 
 end

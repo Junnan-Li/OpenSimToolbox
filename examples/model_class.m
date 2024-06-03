@@ -12,7 +12,7 @@ folder_path = pwd;
 geometry_folder_path = strcat(folder_path,'\geometry_folder\Geometry_MoBL_ARMS\');
 ModelVisualizer.addDirToGeometrySearchPaths(geometry_folder_path);
 
-IK_on = 0;
+IK_on = 1;
 
 %% load model
 
@@ -62,8 +62,8 @@ mus_MIF_vec = model.get_MaxIsometricForce(muscle_list);
 mus_PTF_vec = model.get_TendonForce(muscle_list);
 mus_PA_vec = model.get_PennationAngle( muscle_list);
 mus_ML_vec = model.get_muscleLength(muscle_list);
-mus_FF_vec = model.get_fiberforce(muscle_list); % fiber force
-mus_FFAT_vec = model.get_fiberforcealongtendon(muscle_list);% fiber force along tendon
+mus_FF_vec = model.get_FiberForce(muscle_list); % fiber force
+mus_FFAT_vec = model.get_FiberForceAlongTendon(muscle_list);% fiber force along tendon
 %% Moment arm matrix
 % FCU muscle has moment arm at shoulder joint
 MA_matrix = model.get_MomentArmMatrix(coord_list, muscle_list);
@@ -71,16 +71,15 @@ MA_matrix = model.get_MomentArmMatrix(coord_list, muscle_list);
 
 %% inverse kinematic
 % iterative ik
+q_init = model.get_coordinate_value(coord_list);
+q_des = coord_q_value + 0.1*rand(7,1)-0.1;
+model.set_coordinate_value(coord_list,q_des);
+x_p_des = model.get_mp_frame(1);
+q_init = 1*rand(7,1);
 
 if IK_on
     close all
-    % q_init = model.get_coordinate_value(coord_list);
-    q_des = coord_q_value + 0.2*rand(7,1)-0.1;
-    model.set_coordinate_value(coord_list,q_des);
-    x_p_des = model.get_mp_frame(1);
-    q_init = 1*rand(7,1);
     model.set_coordinate_value(coord_list,q_init);
-
     model.plot_all_body;
     model.plot_world_frame;
     model.plot_mp_frame;
@@ -88,8 +87,10 @@ if IK_on
 
 
     [q,x_res,phi_x,iter] = model.ik_numeric( coord_list, 1, x_p_des,200, [1e-4*ones(3,1);1e-2*ones(3,1)],0.15);
-
-    % model.plot_mp_frame;
+%     [q2,x_res2,phi_x2,iter2] = model.IK_numeric_LM(coord_list, 1, x_p_des, ...
+%                 diag([1,1,1,1,1,1]), 0.1*diag([1,1,1,1,1,1,1]),200, [1e-4*ones(3,1);1e-2*ones(3,1)],0.15)
+%     [q3,x_res3,phi_x3,iter3] = model.IK_numeric_LM_adaptive(coord_list, 1, x_p_des, ...
+%                 diag([1,1,1,1,1,1]),200, [1e-4*ones(3,1);1e-2*ones(3,1)])
 end
 
 %% system state

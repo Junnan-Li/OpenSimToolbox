@@ -7,31 +7,27 @@
 % Junnan Li
 
 
-function [q,x_res,phi_x,iter] = ik_numeric(om, coord_list, mp_index, x_d, varargin)
+function [q,x_res,phi_x,iter] = IK_numeric_LM_adaptive(om, coord_list, mp_index, x_d, W_e, varargin)
 
-assert(length(om.marker_point_list)>= mp_index, 'ik_numeric: no such a marker_point')
-assert(length(x_d)== 6, 'ik_numeric: incorrect dimension of xd')
+assert(length(om.marker_point_list)>= mp_index, 'IK_numeric_LM_adaptive: no such a marker_point')
+assert(length(x_d)== 6, 'IK_numeric_LM_adaptive: incorrect dimension of xd')
 
-if nargin == 4
+if nargin == 5
     iter_max = 100;
     tol = [1e-3*ones(3,1);1e-2*ones(3,1);];
-    alpha = 0.1;
-elseif nargin == 5
-    iter_max = varargin{1};
-    tol = [1e-4*ones(3,1);1e-2*ones(3,1);];
-    alpha = 0.1;
 elseif nargin == 6
     iter_max = varargin{1};
-    tol = varargin{2};
-    alpha = 0.1;
+    tol = [1e-4*ones(3,1);1e-2*ones(3,1);];
 elseif nargin == 7
     iter_max = varargin{1};
     tol = varargin{2};
-    alpha = varargin{3};
+elseif nargin == 8
+    iter_max = varargin{1};
+    tol = varargin{2};
 end
 
 q_value = om.get_coordinate_value(coord_list);
-
+R_d = euler2R_XYZ(x_d(4:6));
 
 for i = 1:iter_max
     om.set_coordinate_value(coord_list, q_value);
@@ -43,22 +39,24 @@ for i = 1:iter_max
 %     om.model_visualize;
 
     % update 
-    delta_x_i = x_d - x_p_i;
+
+    delta_p_i = x_d(1:3) - x_p_i(1:3);
+    R_i = euler2R_XYZ(x_p_i(4:6));
+    R_cal = R_d*R_i';
+    l = [R_cal(3,2)-R_cal(2,3);R_cal(1,3)-R_cal(3,1);R_cal(2,1)-R_cal(1,2)];
+    delta_r_i = (atan2(norm(l),R_cal(1,1)+R_cal(2,2)+R_cal(3,3)-1))/norm(l)*l;
+    delta_x_i = [delta_p_i;delta_r_i];
+
+
     if isempty(find(abs(delta_x_i)-tol>0))
-        disp('ik_numeric: ik finished!')
+        disp('IK_numeric_LM_adaptive: ik finished!')
         break
     end
     J = om.getJacobian_mp_sub_ana(mp_index,coord_list );
-%     J = om.getJacobian_point_sub(mp_index,coord_list );
-    J_inv = pinv(J);
-    if rank(J) < min(size(J)) | rank(J_inv) < min(size(J_inv))
-        disp('ik_numeric: Jacobian rank deficit')
-    end
-
-    delta_q = alpha * J_inv * delta_x_i;
-%     max(delta_q)
-%     max(delta_x_i)
-%     delta_q_sar = 0.1/max(abs(delta_q)) * delta_q;
+%     J = om.getJacobian_mp_sub(mp_index,coord_list );
+    g_i = J'*W_e*delta_x_i;
+    W_d = 1/2*delta_x_i'*W_e*delta_x_i*eye(length(q_value)) + 1e-7*eye(length(q_value));
+    delta_q = inv(J'*W_e*J + W_d) * g_i;
     q_value = q_value + delta_q; 
 
 end
