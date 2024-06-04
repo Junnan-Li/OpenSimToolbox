@@ -288,7 +288,7 @@ classdef osim_model < handle
                 if value_i < range_i(1) || value_i > range_i(2)
                     fprintf('the value of coordinate %s is out of range! \n', coordinate_name_list{i})
                 end
-                om.CoordinateSet.get(coordinate_name_list{i}).setValue(om.state,value_i);
+                om.CoordinateSet.get(coordinate_name_list{i}).setValue(om.state,value_i,0);
             end
             om.model.equilibrateMuscles(om.state);
         end

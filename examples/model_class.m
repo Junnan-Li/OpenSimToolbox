@@ -12,7 +12,8 @@ folder_path = pwd;
 geometry_folder_path = strcat(folder_path,'\geometry_folder\Geometry_MoBL_ARMS\');
 ModelVisualizer.addDirToGeometrySearchPaths(geometry_folder_path);
 
-IK_on = 1;
+IK_on = 0;
+FK_on = 1;
 
 %% load model
 
@@ -28,7 +29,7 @@ model.MuscleSet_list;
 model.delete_all_markers;
 %% add endefector/interest points as marker_point 
 body_name = {'hand'}; % name of the attached body
-pos_vec = {Vec3(0,-0.1,0)}; % relative position in corresponding body frame
+pos_vec = {Vec3(0,-0,0)}; % relative position in corresponding body frame
 model.add_marker_points('Hand_endeffector', body_name,pos_vec);
 model.set_visualize;
 %% set the list of the target coordinates/frames and muscles
@@ -98,6 +99,33 @@ end
 state_name = model.get_systemStateNames;
 state_value = model.get_systemStateValues;
 
+%% Forward kinematic test
+close all
 
+q_init = [0.1, 0.1,0.1,0.1,0.1,0.2,0.1];
+step = 100;
 
+delta_x = [0.0001,0,0,0,0,0]'; 
+model.set_coordinate_value(coord_list,q_des);
+x_init = model.get_mp_frame(1);
+q_all = zeros(length(coord_list),step);
+q_all(:,1) = q_init;
+x_p = zeros(6,step);
+figure(1)
+model.plot_world_frame;
+for i = 1:step
+    q_i = q_all(:,i);
+    model.set_coordinate_value(coord_list,q_i);
+    J1 = model.getJacobian_mp_sub(1,coord_list ); 
+    if mod(i,5) == 0
+        model.plot_mp_frame;
+%         model.model_visualize
+    end
+    delta_q = pinv(J1) * delta_x;
+    x_p(:,i) = model.get_mp_frame(1);
+    q_all(:,i+1) = q_i + delta_q;
+    state_name = model.get_systemStateNames;
+    state_value = model.get_systemStateValues;
+
+end 
 
