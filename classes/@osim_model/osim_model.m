@@ -300,6 +300,14 @@ classdef osim_model < handle
             end
         end
 
+        function set_constrain_disable(om, constrains_diasble)
+           % disable constrains
+            for i = 1: length(constrains_diasble)
+                con_i = om.ConstraintSet.get(constrains_diasble{i});
+                con_i.setIsEnforced(om.state,0);
+            end
+        end
+
 
         function Jacobian_matrix = getJacobian_mp_all(om, marker_point_index)
             % Jacobian matrix according to the selected marker_point

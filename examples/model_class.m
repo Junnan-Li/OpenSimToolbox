@@ -38,6 +38,10 @@ muscle_list = {'ECRL','ECRB','ECU','FCR','FCU','EDCI'};
 coord_list = {'elv_angle','shoulder_elv', 'shoulder_rot', 'elbow_flexion',...
     'pro_sup','deviation','flexion'};
 
+% disable constrains
+% constrains_diasble = {'wrist_hand_r1_con', 'wrist_hand_r3_con'};
+% model.set_constrain_disable(constrains_diasble);
+
 coord_value = rand(7,1);%[0 0 0 1 1 0 1];
 model.set_coordinate_value(coord_list,coord_value);
 coord_q_value = model.get_coordinate_value(coord_list);
@@ -102,10 +106,14 @@ state_value = model.get_systemStateValues;
 %% Forward kinematic test
 close all
 
-q_init = [0.1, 0.1,0.1,0.1,0.1,0.2,0.1];
-step = 100;
+% q_init = [0.1, 0.1,0.1,0.1,0.1,0.2,0.1];
+q_init = [0.4, 0.2,0.1,0.4,0.1,0.2,0.1];
+step = 300;
+% q1 = model.CoordinateSet.get('wrist_hand_r1')
+con1 = model.ConstraintSet.get('wrist_hand_r1_con')
+% con1.setIsEnforced(model.state,0)
 
-delta_x = [0.0001,0,0,0,0,0]'; 
+delta_x = [0.0002,0,0,0,0,0]'; 
 model.set_coordinate_value(coord_list,q_des);
 x_init = model.get_mp_frame(1);
 q_all = zeros(length(coord_list),step);
@@ -118,8 +126,8 @@ for i = 1:step
     model.set_coordinate_value(coord_list,q_i);
     J1 = model.getJacobian_mp_sub(1,coord_list ); 
     if mod(i,5) == 0
-        model.plot_mp_frame;
-%         model.model_visualize
+%         model.plot_mp_frame;
+        model.model_visualize
     end
     delta_q = pinv(J1) * delta_x;
     x_p(:,i) = model.get_mp_frame(1);
