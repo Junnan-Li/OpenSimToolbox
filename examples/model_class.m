@@ -12,7 +12,8 @@ folder_path = pwd;
 geometry_folder_path = strcat(folder_path,'\geometry_folder\Geometry_MoBL_ARMS\');
 ModelVisualizer.addDirToGeometrySearchPaths(geometry_folder_path);
 
-IK_on = 0;
+
+IK_on = 1;
 FK_on = 0;
 
 %% load model
@@ -77,7 +78,7 @@ MA_matrix = model.get_MomentArmMatrix(coord_list, muscle_list);
 %% inverse kinematic
 % iterative ik
 q_init = model.get_coordinate_value(coord_list);
-q_des = coord_q_value + 0.1*rand(7,1)-0.1;
+q_des = 1*rand(7,1)-0.1; %coord_q_value + 
 model.set_coordinate_value(coord_list,q_des);
 x_p_des = model.get_mp_frame(1);
 q_init = 1*rand(7,1);
@@ -91,9 +92,9 @@ if IK_on
     model.plot_frame(x_p_des(1:3), euler2R_XYZ(x_p_des(4:6)),0.15);
 
 
-    [q,x_res,phi_x,iter] = model.ik_numeric( coord_list, 1, x_p_des,200, [1e-4*ones(3,1);1e-2*ones(3,1)],0.15);
+    [q,x_res,phi_x,iter] = model.ik_numeric( coord_list, 1, x_p_des,200, [1e-4*ones(3,1);1e-2*ones(3,1)],0.5);
 %     [q2,x_res2,phi_x2,iter2] = model.IK_numeric_LM(coord_list, 1, x_p_des, ...
-%                 diag([1,1,1,1,1,1]), 0.1*diag([1,1,1,1,1,1,1]),200, [1e-4*ones(3,1);1e-2*ones(3,1)],0.15)
+%                 diag([1,1,1,1,1,1]), 1*diag([1,1,1,1,1,1,1]),200, [1e-4*ones(3,1);1e-2*ones(3,1)],0.15);
 %     [q3,x_res3,phi_x3,iter3] = model.IK_numeric_LM_adaptive(coord_list, 1, x_p_des, ...
 %                 diag([1,1,1,1,1,1]),200, [1e-4*ones(3,1);1e-2*ones(3,1)])
 end
