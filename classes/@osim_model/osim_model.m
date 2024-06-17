@@ -112,7 +112,34 @@ classdef osim_model < handle
             for i = 1:CNIMTO.capacity
                 om.CoordinateInOrder = [om.CoordinateInOrder;{char(CNIMTO.getElt(i-1))}];
             end
-            
+            % update constraints information
+            om.update_ConstraintsInfo_in_CoordinateList;
+        end
+
+        function update_ConstraintsInfo_in_CoordinateList(om)
+            % in the coordinateSet_list
+            % column 1: constraint names
+            %        2: the parent coordinate if exists
+            %        3: cubicspline points X values 
+            %        4: cubicspline points Y values
+            % if only two points exist, linear
+            import org.opensim.modeling.*;
+            if ~isempty(om.ConstraintSet_list)
+                for i = 1:length(om.ConstraintSet_list)
+                    con_i = om.ConstraintSet.get(i-1);
+                    coor_name = con_i.getPropertyByIndex(3).toString; % parent coord. name
+                    coord_parent = char(coor_name.substring(1,coor_name.length-1));
+                    coord_child = char(con_i.getPropertyByIndex(4)); % child coord. name
+                    coor_child_index = find(ismember(om.CoordinateSet_list(:,1),coord_child));
+                    om.CoordinateSet_list(coor_child_index,2) = {coord_parent};
+
+                    func = con_i.getPropertyByIndex(2).getValueAsObject(0);
+                    x = func.getPropertyByIndex(0); % SimmSpline viapoints X values
+                    y = func.getPropertyByIndex(1); % SimmSpline viapoints Y values
+                    om.CoordinateSet_list(coor_child_index,3) = x.toString;
+                    om.CoordinateSet_list(coor_child_index,4) = y.toString;
+                end
+            end
         end
 
         function update_system(om)
