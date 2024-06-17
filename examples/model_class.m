@@ -13,7 +13,7 @@ geometry_folder_path = strcat(folder_path,'\geometry_folder\Geometry_MoBL_ARMS\'
 ModelVisualizer.addDirToGeometrySearchPaths(geometry_folder_path);
 
 IK_on = 0;
-FK_on = 1;
+FK_on = 0;
 
 %% load model
 
@@ -104,6 +104,8 @@ state_name = model.get_systemStateNames;
 state_value = model.get_systemStateValues;
 
 %% Forward kinematic test
+
+if FK_on
 close all
 
 % q_init = [0.1, 0.1,0.1,0.1,0.1,0.2,0.1];
@@ -136,4 +138,51 @@ for i = 1:step
     state_value = model.get_systemStateValues;
 
 end 
+end
+
+%%
+
+coord_list = {'deviation'};
+q = 1;
+model.set_coordinate_value(coord_list,q);
+coord_q_value = model.get_coordinate_value({'wrist_hand_r1'})
+
+state_name = model.get_systemStateNames;
+state_value = model.get_systemStateValues;
+
+a = model.ConstraintSet.get("wrist_hand_r1_con")
+% b = model.CoordinateSet.get("wrist_hand_r1")
+func = a.getPropertyByIndex(2).getValueAsObject(0);
+x = func.getPropertyByIndex(0);
+y = func.getPropertyByIndex(1);
+
+
+% b = a.getPrescribedFunction
+
+import org.opensim.modeling.*
+
+f1 = SimmSpline();
+f1.addPoint(-0.174533,-0.261799);
+f1.addPoint(0,-0);
+f1.addPoint(0.436332,0.436332);
+f1.calcValue(Vector(StdVectorDouble(q)))
+f1.calcDerivativeVector(StdVectorDouble(q))
+
+%%
+
+for i = 1:length(model.ConstraintSet_list)
+    con_i = model.ConstraintSet.get(i-1);
+    % b = model.CoordinateSet.get("wrist_hand_r1")
+    coor_name = con_i.getPropertyByIndex(3).toString;
+    coord_parent = char(coor_name.substring(1,coor_name.length-1));
+    coord_child = char(con_i.getPropertyByIndex(4));
+    coor_child_index = find(ismember(model.CoordinateSet_list(:,1),coord_child));
+    model.CoordinateSet_list(coor_child_index,2) = {coord_parent};
+
+    func = con_i.getPropertyByIndex(2).getValueAsObject(0);
+    x = func.getPropertyByIndex(0);
+    y = func.getPropertyByIndex(1);
+    model.CoordinateSet_list(coor_child_index,3) = x.toString;
+    model.CoordinateSet_list(coor_child_index,4) = y.toString;
+end
 
