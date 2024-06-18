@@ -32,6 +32,8 @@ classdef osim_model < handle
         BodySet_list
         CoordinateSet
         CoordinateSet_list
+        Coord_minimal               % index of minimal set of coordinates of body
+        Coord_minimal_range         % range of minimal coordinates
         CoordinateInOrder           % getCoordinateNamesInMultibodyTreeOrder the order in smss system
         ConstraintSet
         ConstraintSet_list
@@ -114,14 +116,30 @@ classdef osim_model < handle
             end
             % update constraints information
             om.update_ConstraintsInfo_in_CoordinateList;
+            
+            % update the minimal set of coordinates
+            om.Coord_minimal = {};
+%             om.coord_min_index
+            for i = 1:size(om.CoordinateSet_list,1)
+                if isempty(om.CoordinateSet_list{i,2})
+                    om.Coord_minimal = [om.Coord_minimal; ...
+                        [om.CoordinateSet_list{i,1},num2cell(i)]];
+                end
+            end
+            om.Coord_minimal_range = zeros(size(om.Coord_minimal,1),2);
+            for i = 1:size(om.Coord_minimal,1)
+                coor_i = om.CoordinateSet.get(om.Coord_minimal{i,1});
+                om.Coord_minimal_range(i,:)  = [coor_i.getRangeMin,coor_i.getRangeMax];
+            end
+            
         end
 
         function update_ConstraintsInfo_in_CoordinateList(om)
             % in the coordinateSet_list
             % column 1: constraint names
             %        2: the parent coordinate if exists
-            %        3: cubicspline points X values 
-            %        4: cubicspline points Y values
+            %        3: cubicspline points coor [x,y] with nx2 dimension
+            %       
             % if only two points exist, linear
             import org.opensim.modeling.*;
             if ~isempty(om.ConstraintSet_list)
@@ -134,10 +152,14 @@ classdef osim_model < handle
                     om.CoordinateSet_list(coor_child_index,2) = {coord_parent};
 
                     func = con_i.getPropertyByIndex(2).getValueAsObject(0);
-                    x = func.getPropertyByIndex(0); % SimmSpline viapoints X values
-                    y = func.getPropertyByIndex(1); % SimmSpline viapoints Y values
-                    om.CoordinateSet_list(coor_child_index,3) = x.toString;
-                    om.CoordinateSet_list(coor_child_index,4) = y.toString;
+                    text = {};
+                    text(1) = func.getPropertyByIndex(0).toString; % SimmSpline viapoints X values
+                    text(2) = func.getPropertyByIndex(1).toString; % SimmSpline viapoints Y values
+                    % convert String to num
+                    x_split = split(erase(text{1},{'(',')'}),' ');
+                    y_split = split(erase(text{2},{'(',')'}),' ');
+
+                    om.CoordinateSet_list{coor_child_index,3} = [str2double(x_split),str2double(y_split)];
                 end
             end
         end
@@ -176,7 +198,9 @@ classdef osim_model < handle
             % U: coordinate velocity
             % Z: auxiliary variables (muscle activation and fiber length)
             import org.opensim.modeling.*;
-            states = [om.get_systemStateValues(),om.get_systemState()];
+            states = {};
+            states(:,1) = om.get_systemStateNames();
+            states(:,2) = num2cell(om.get_systemStateValues());
         end
         
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -314,9 +338,14 @@ classdef osim_model < handle
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         %%% Coordinate operations
 
-        function set_coordinate_value(om, coordinate_name_list, coordinate_value)
+        function set_coordinate_value(om, coordinate_name_list, coordinate_value,varargin)
             % set the value to the given coordinates
             assert(length(coordinate_value) == length(coordinate_name_list),'input dimension wrong')
+            if nargin == 3
+                diasble_con = 1;
+            elseif nargin == 4
+                diasble_con = varargin{1};
+            end
             for i = 1: length(coordinate_name_list)
                 value_i = coordinate_value(i);
                 range_i = [om.CoordinateSet.get(coordinate_name_list{i}).getRangeMin,...
@@ -324,7 +353,7 @@ classdef osim_model < handle
                 if value_i < range_i(1) || value_i > range_i(2)
                     fprintf('the value of coordinate %s is out of range! \n', coordinate_name_list{i})
                 end
-                om.CoordinateSet.get(coordinate_name_list{i}).setValue(om.state,value_i,0);
+                om.CoordinateSet.get(coordinate_name_list{i}).setValue(om.state,value_i,diasble_con);
             end
             om.model.equilibrateMuscles(om.state);
         end
@@ -384,6 +413,37 @@ classdef osim_model < handle
             Jacobian_matrix(1:3,:) = Jacobian_matrix_revert(4:6,coord_index);
             Jacobian_matrix(4:6,:) = Jacobian_matrix_revert(1:3,coord_index);
         end
+
+        function J_syn = getJacobian_mp_minimal(om, marker_point_index )
+            % J_syn = J_min + * J_con * df/dq  
+            % dx = J_syn * dq_minimal
+            import org.opensim.modeling.*
+            coord_minimal_list = om.Coord_minimal(:,1);
+            coord_con_index = [1:length(om.CoordinateInOrder)];
+            coord_con_index([om.Coord_minimal{:,2}]) = [];
+            n_qmin = length([om.Coord_minimal{:,2}]); % number of indep. coord.
+            n_qcon = length(om.CoordinateInOrder)-n_qmin;
+            J_all = om.getJacobian_mp_all(marker_point_index);
+%             J_min = om.getJacobian_mp_sub(marker_point_index,coord_minimal_list);
+            J_min = J_all(:,[om.Coord_minimal{:,2}]);
+            J_con = J_all;
+            J_con(:,[om.Coord_minimal{:,2}]) = [];
+            dfdq = zeros(n_qcon,n_qmin);
+
+            for i = 1:n_qcon
+                coordinate_name_i = om.CoordinateSet_list(coord_con_index(i),1);
+                q_con_i = om.get_coordinate_value(coordinate_name_i);
+                x_i = om.CoordinateSet_list{coord_con_index(i),3};
+                f_i = spline(x_i(:,1),x_i(:,2));
+                p_der=fnder(f_i,1);
+                y_prime= ppval(p_der,q_con_i);
+                paraent_frame_name = om.CoordinateSet_list{coord_con_index(i),2};
+                coord_index_j = find(matches([om.Coord_minimal(:,1)],paraent_frame_name));
+
+                dfdq(i,coord_index_j) = y_prime;
+            end
+            J_syn = J_min + J_con * dfdq;
+        end
         
         function Jacobian_matrix = getJacobian_point(om, body_name, pos_vec3 )
             import org.opensim.modeling.*
@@ -408,6 +468,8 @@ classdef osim_model < handle
             Jacobian_matrix(1:3,:) = Jacobian_matrix_revert(4:6,coord_index);
             Jacobian_matrix(4:6,:) = Jacobian_matrix_revert(1:3,coord_index);
         end
+
+        
 
 
         function Jacobian_ana = getJacobian_mp_sub_ana(om, marker_point_index,coordinate_name_list )

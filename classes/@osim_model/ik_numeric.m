@@ -1,5 +1,5 @@
-% iterative inverse kinematic calculation   
-% 
+% iterative inverse kinematic calculation
+%
 % input:
 %       x_d: [pos;eulerxyz]
 %       varargin:   1: iter_max
@@ -52,12 +52,12 @@ for retry_i = 0:retry_num
             delta_x_i = [phi_p_i;phi_R_i_eul];
 
             if isempty(find(abs(delta_x_i)-tol>0))
-                disp('ik_numeric: ik finished!')
+                disp('ik_numeric: ik finished!') 
                 info.status = 1;
                 break
             end
-            J = om.getJacobian_mp_sub_ana(mp_index,coord_list );
-            %     J = om.getJacobian_point_sub(mp_index,coord_list );
+%             J = om.getJacobian_mp_sub_ana(mp_index,coord_list );
+            J = om.getJacobian_mp_minimal(mp_index );
             J_inv = pinv(J);
             if rank(J) < min(size(J)) | rank(J_inv) < min(size(J_inv))
                 disp('ik_numeric: Jacobian rank deficit')

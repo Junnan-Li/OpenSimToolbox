@@ -56,7 +56,8 @@ for retry_i = 0:retry_num
                 info.status = 1;
                 break
             end
-            J = om.getJacobian_mp_sub(mp_index,coord_list );
+%             J = om.getJacobian_mp_sub(mp_index,coord_list );
+            J = om.getJacobian_mp_minimal(mp_index);
             %     if rank(J) < min(size(J)) | rank(J_inv) < min(size(J_inv))
             %         disp('IK_numeric_LM: Jacobian rank deficit')
             %     end
