@@ -169,6 +169,15 @@ classdef osim_model < handle
             import org.opensim.modeling.*;
             stateValues = osimMatrix2matrix(om.model.getStateVariableValues(om.state));
         end
+
+        function states = get_systemState(om)
+            % system state includes Y = [Q,U,Z];
+            % Q: joint angle
+            % U: coordinate velocity
+            % Z: auxiliary variables (muscle activation and fiber length)
+            import org.opensim.modeling.*;
+            states = [om.get_systemStateValues(),om.get_systemState()];
+        end
         
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         %%% visualization

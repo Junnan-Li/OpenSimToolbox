@@ -75,7 +75,7 @@ mus_FFAT_vec = model.get_FiberForceAlongTendon(muscle_list);% fiber force along 
 MA_matrix = model.get_MomentArmMatrix(coord_list, muscle_list);
 
 
-%% inverse kinematic
+%% inverse kinematic test
 % iterative ik
 q_init = model.get_coordinate_value(coord_list);
 q_des = 1*rand(7,1)-0.1; %coord_q_value + 
@@ -86,24 +86,46 @@ q_init = 1*rand(7,1);
 if IK_on
     close all
     model.set_coordinate_value(coord_list,q_init);
-    model.plot_all_body;
-    model.plot_world_frame;
-    model.plot_mp_frame;
-    model.plot_frame(x_p_des(1:3), euler2R_XYZ(x_p_des(4:6)),0.15);
+%     figure(1)
+%     model.plot_all_body;
+%     model.plot_world_frame;
+%     model.plot_mp_frame;
+%     model.plot_frame(x_p_des(1:3), euler2R_XYZ(x_p_des(4:6)),0.15);
 
+    % Newton Raphson
+    par_ik = model.IK_numeric_par();
+    tic
+    [q,info1] = model.IK_numeric( coord_list, 1, x_p_des,par_ik);
+    t1 = toc;
+    % LM method
+    model.set_coordinate_value(coord_list,q_init);
+%     figure(2)
+%     model.plot_all_body;
+%     model.plot_world_frame;
+%     model.plot_mp_frame;
+%     model.plot_frame(x_p_des(1:3), euler2R_XYZ(x_p_des(4:6)),0.15);
+    ik_lm_par = model.IK_numeric_LM_par(length(q_init));
+    tic
+    ik_lm_par.W_d = 1e-7*diag(ones(length(q_init),1));
+    [q2,info2] = model.IK_numeric_LM(coord_list, 1, x_p_des,ik_lm_par);
+    t2 = toc;
 
-    [q,x_res,phi_x,iter] = model.ik_numeric( coord_list, 1, x_p_des,200, [1e-4*ones(3,1);1e-2*ones(3,1)],0.5);
-%     [q2,x_res2,phi_x2,iter2] = model.IK_numeric_LM(coord_list, 1, x_p_des, ...
-%                 diag([1,1,1,1,1,1]), 1*diag([1,1,1,1,1,1,1]),200, [1e-4*ones(3,1);1e-2*ones(3,1)],0.15);
-%     [q3,x_res3,phi_x3,iter3] = model.IK_numeric_LM_adaptive(coord_list, 1, x_p_des, ...
-%                 diag([1,1,1,1,1,1]),200, [1e-4*ones(3,1);1e-2*ones(3,1)])
+    % adaptive LM not finished
+%     model.set_coordinate_value(coord_list,q_init);
+%     tic
+%     [q3,info3] = model.IK_numeric_LM_adaptive(coord_list, 1, x_p_des, ...
+%                 diag([1,1,1,1,1,1]),200, [1e-4*ones(3,1);1e-2*ones(3,1)]);
+
+    fprintf('IK test: \n')
+    fprintf('Method 1 (NR): status: %d; time: %f; iter: %d \n', info1.status,t1,info1.iter)
+    fprintf('Method 2 (LM): status: %d; time: %f; iter: %d \n', info2.status,t2,info2.iter)
 end
 
 %% system state
 
 state_name = model.get_systemStateNames;
 state_value = model.get_systemStateValues;
-
+state_list = model.get_systemState;
 %% Forward kinematic test
 
 if FK_on
