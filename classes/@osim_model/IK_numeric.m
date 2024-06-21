@@ -37,7 +37,8 @@ for retry_i = 0:retry_num
         for i = 1:iter_max
             om.set_coordinate_value(coord_list, q_value);
             q_value = om.get_coordinate_value(coord_list);
-            x_p_i = om.get_mp_frame(mp_index);
+%             x_p_i = om.get_mp_frame(mp_index);
+            [x_p_i, w_p_i, w_R_i]  = om.get_mp_frame(mp_index);
             if par.visual % visualization
                 %     om.plot_all_body;
                 om.plot_mp_frame
@@ -45,9 +46,9 @@ for retry_i = 0:retry_num
             end
 
             % update
-            phi_p_i = x_d(1:3) - x_p_i(1:3);
-            phi_R_i = euler2R_XYZ(x_d(4:6)) * euler2R_XYZ(x_p_i(4:6))';
-            phi_R_i_eul = R2euler_XYZ(phi_R_i);
+            phi_p_i = x_d(1:3) - w_p_i;
+            phi_R_i = euler2R_XYZ(x_d(4:6)) * w_R_i';
+            phi_R_i_eul = rotm2eul(phi_R_i,'XYZ');
             %     delta_x_i = x_d - x_p_i;
             delta_x_i = [phi_p_i;phi_R_i_eul];
 
@@ -56,8 +57,12 @@ for retry_i = 0:retry_num
                 info.status = 1;
                 break
             end
-%             J = om.getJacobian_mp_sub_ana(mp_index,coord_list );
-            J = om.getJacobian_mp_minimal(mp_index );
+            if om.Constraint_on
+                J = om.getJacobian_mp_minimal(mp_index );
+            else
+%                 J = om.getJacobian_mp_sub_ana(mp_index,coord_list );
+                J = om.getJacobian_mp_sub(mp_index,coord_list );
+            end
             J_inv = pinv(J);
             if rank(J) < min(size(J)) | rank(J_inv) < min(size(J_inv))
                 disp('ik_numeric: Jacobian rank deficit')

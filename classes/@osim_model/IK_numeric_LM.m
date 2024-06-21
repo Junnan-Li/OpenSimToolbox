@@ -47,7 +47,8 @@ for retry_i = 0:retry_num
             % update
             phi_p_i = x_d(1:3) - x_p_i(1:3);
             phi_R_i = euler2R_XYZ(x_d(4:6)) * euler2R_XYZ(x_p_i(4:6))';
-            phi_R_i_eul = R2euler_XYZ(phi_R_i);
+%             phi_R_i_eul = R2euler_XYZ(phi_R_i);
+            phi_R_i_eul = rotm2eul(phi_R_i,'XYZ');
             %     delta_x_i = x_d - x_p_i;
             delta_x_i = [phi_p_i;phi_R_i_eul];
 
@@ -56,11 +57,12 @@ for retry_i = 0:retry_num
                 info.status = 1;
                 break
             end
-%             J = om.getJacobian_mp_sub(mp_index,coord_list );
-            J = om.getJacobian_mp_minimal(mp_index);
-            %     if rank(J) < min(size(J)) | rank(J_inv) < min(size(J_inv))
-            %         disp('IK_numeric_LM: Jacobian rank deficit')
-            %     end
+%             
+            if om.Constraint_on
+                J = om.getJacobian_mp_minimal(mp_index );
+            else
+                J = om.getJacobian_mp_sub(mp_index,coord_list );
+            end
             g_i = J'* W_e *delta_x_i;
             delta_q = inv(J'*W_e*J + W_d) * g_i;
             q_value = q_value + delta_q;

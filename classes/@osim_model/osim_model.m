@@ -36,7 +36,8 @@ classdef osim_model < handle
         Coord_minimal_range         % range of minimal coordinates
         CoordinateInOrder           % getCoordinateNamesInMultibodyTreeOrder the order in smss system
         ConstraintSet
-        ConstraintSet_list
+        ConstraintSet_list  
+        Constraint_on               % [1] consider constraints while set_coordinate, IK  
         FrameList
         JointSet
         JointSet_list
@@ -80,7 +81,7 @@ classdef osim_model < handle
             om.update_system;
             om.update_set(); % update all set and lists of the model
             om.marker_point_list = {};
-%             om.scale_tool = ScaleTool();
+            om.Constraint_on = 1;
 
 %             om.noutput = om.muscleSet.getSize();    
         end
@@ -338,14 +339,10 @@ classdef osim_model < handle
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         %%% Coordinate operations
 
-        function set_coordinate_value(om, coordinate_name_list, coordinate_value,varargin)
+        function set_coordinate_value(om, coordinate_name_list, coordinate_value)
             % set the value to the given coordinates
             assert(length(coordinate_value) == length(coordinate_name_list),'input dimension wrong')
-            if nargin == 3
-                diasble_con = 1;
-            elseif nargin == 4
-                diasble_con = varargin{1};
-            end
+            
             for i = 1: length(coordinate_name_list)
                 value_i = coordinate_value(i);
                 range_i = [om.CoordinateSet.get(coordinate_name_list{i}).getRangeMin,...
@@ -353,7 +350,12 @@ classdef osim_model < handle
                 if value_i < range_i(1) || value_i > range_i(2)
                     fprintf('the value of coordinate %s is out of range! \n', coordinate_name_list{i})
                 end
-                om.CoordinateSet.get(coordinate_name_list{i}).setValue(om.state,value_i,diasble_con);
+                if om.Constraint_on
+                    om.CoordinateSet.get(coordinate_name_list{i}).setValue(om.state,value_i);
+                else
+                    om.CoordinateSet.get(coordinate_name_list{i}).setValue(om.state,value_i,0);
+                end
+                
             end
             om.model.equilibrateMuscles(om.state);
         end
@@ -734,8 +736,8 @@ classdef osim_model < handle
             w_body_p = osimMatrix2matrix(body_i.getTransformInGround(om.state).p);
             w_R = osimMatrix2matrix(body_i.getTransformInGround(om.state).R);
             w_p = w_body_p; % + w_R*mp_i.p;
+%             x_p = [w_body_p;rotm2eul(w_R,'XYZ')'];
             x_p = [w_body_p;R2euler_XYZ(w_R)];
-
         end
 
 
