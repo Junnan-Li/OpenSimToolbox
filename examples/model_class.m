@@ -14,7 +14,7 @@ ModelVisualizer.addDirToGeometrySearchPaths(geometry_folder_path);
 
 
 IK_on = 1;
-FK_on = 1;
+FK_on = 0;
 
 %% load model
 
@@ -90,7 +90,11 @@ model.set_coordinate_value(coord_list,q_des);
 q_des = model.get_coordinate_value(coord_list);
 x_p_des = model.get_mp_frame(1);
 q_init = diff(model.Coord_minimal_range,1,2) .* rand(7,1) +model.Coord_minimal_range(:,1);
+q_init = q_des-0.2*rand(7,1); 
 
+model.set_coordinate_value(coord_list,q_init);
+x_p_init = model.get_mp_frame(1);
+model.Constraint_on = 1;
 if IK_on
     close all
     model.set_coordinate_value(coord_list,q_init);
@@ -103,7 +107,7 @@ if IK_on
     % Newton Raphson
     par_ik = model.IK_numeric_par();
     par_ik.visual = 1;
-    par_ik.alpha = 0.3;
+    par_ik.alpha = 0.1;
     tic
     [q,info1] = model.IK_numeric( coord_list, 1, x_p_des,par_ik);
     t1 = toc;
@@ -115,7 +119,7 @@ if IK_on
     model.plot_mp_frame;
     model.plot_frame(x_p_des(1:3), euler2R_XYZ(x_p_des(4:6)),0.15);
     ik_lm_par = model.IK_numeric_LM_par(length(q_init));
-    ik_lm_par.visual = 1;
+    ik_lm_par.visual = 0;
     tic
     ik_lm_par.W_d = 1e-7*diag(ones(length(q_init),1));
     [q2,info2] = model.IK_numeric_LM(coord_list, 1, x_p_des,ik_lm_par);
