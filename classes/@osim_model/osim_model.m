@@ -140,6 +140,7 @@ classdef osim_model < handle
             % column 1: constraint names
             %        2: the parent coordinate if exists
             %        3: cubicspline points coor [x,y] with nx2 dimension
+            %        4: the matlab cubic function according to the points
             %       
             % if only two points exist, linear
             import org.opensim.modeling.*;
@@ -159,8 +160,13 @@ classdef osim_model < handle
                     % convert String to num
                     x_split = split(erase(text{1},{'(',')'}),' ');
                     y_split = split(erase(text{2},{'(',')'}),' ');
-
+                    % update the third column of the CoordinateSet_list
+                    % with constrainted point 
                     om.CoordinateSet_list{coor_child_index,3} = [str2double(x_split),str2double(y_split)];
+                    % generate cubic function to the fourth column
+                    x_i = [str2double(x_split),str2double(y_split)];
+                    f_i = spline(x_i(:,1),x_i(:,2));
+                    om.CoordinateSet_list{coor_child_index,4} = f_i;
                 end
             end
         end
@@ -435,8 +441,9 @@ classdef osim_model < handle
             for i = 1:n_qcon
                 coordinate_name_i = om.CoordinateSet_list(coord_con_index(i),1);
                 q_con_i = om.get_coordinate_value(coordinate_name_i);
-                x_i = om.CoordinateSet_list{coord_con_index(i),3};
-                f_i = spline(x_i(:,1),x_i(:,2));
+                % the cubic function is imported from
+                % model.CoordinateSet_list{:,4}
+                f_i = om.CoordinateSet_list{coord_con_index(i),4};
                 p_der=fnder(f_i,1);
                 y_prime= ppval(p_der,q_con_i);
                 paraent_frame_name = om.CoordinateSet_list{coord_con_index(i),2};

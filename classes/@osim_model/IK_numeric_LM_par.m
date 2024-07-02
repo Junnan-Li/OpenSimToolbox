@@ -10,7 +10,7 @@ par_Struct.iter_max = 100;
 par_Struct.retry_num = 10;
 par_Struct.tol = [1e-3*ones(3,1);1e-2*ones(3,1)];
 par_Struct.W_e = diag([1,1,1,1,1,1]);
-par_Struct.W_d = 1e-6*diag(ones(num_q,1));
+par_Struct.W_d = 1e-4*diag(ones(num_q,1));
 par_Struct.visual = 0;
 
 end
