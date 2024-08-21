@@ -48,7 +48,9 @@ for retry_i = 0:retry_num
             % update
             phi_p_i = x_d(1:3) - w_p_i;
             phi_R_i = euler2R_XYZ(x_d(4:6)) * w_R_i';
-            phi_R_i_eul = rotm2eul(phi_R_i,'XYZ')';
+%             phi_R_i_eul = rotm2eul(phi_R_i,'XYZ');
+            phi_R_i_eul = R2euler_XYZ(phi_R_i);
+
             %     delta_x_i = x_d - x_p_i;
             delta_x_i = [phi_p_i;phi_R_i_eul];
 

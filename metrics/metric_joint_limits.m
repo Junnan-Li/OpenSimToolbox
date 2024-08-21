@@ -1,5 +1,5 @@
 %   Penaliyation of the joint limits;
-% 
+%   parameter is set as the q value in rad
 % 
 % source:
 % [1] T. F. Chan and R. V Dubey, "A Weighted Least-Norm Solution Based Scheme 
@@ -9,12 +9,12 @@
 
 
 
-function  penal_jl = penalty_joint_limits(q, q_limit,varargin)
+function  metric_jl = metric_joint_limits(q, q_limit,varargin)
 
 if nargin == 2
-    par = 4;
+    par = 4*180/pi;
 else
-    par = varargin{1};
+    par = varargin{1}*180/pi;
 end
 % q: [nj,n]
 nj = size(q,2);
@@ -28,7 +28,7 @@ q_limits_high = q_limit(:,2);
 Hdot = 1/par*(q_limits_high-q_limits_low).^2 .* (2*q - q_limits_high-q_limits_low) ./ ...
                                         ((q_limits_high - q).^2 .* (q-q_limits_low).^2);
 
-penal_jl = 1./(sqrt(1+abs(Hdot)));
+metric_jl = 1./(sqrt(1+abs(Hdot)));
 
 
 end

@@ -365,12 +365,36 @@ classdef osim_model < handle
             end
             om.model.equilibrateMuscles(om.state);
         end
+        
+        function set_coordinate_value_minimal(om, coordinate_value)
+            % set the minimal coordinate values
+           assert(length(coordinate_value) == size(om.Coord_minimal_range,1),'input dimension wrong')
+            
+            for i = 1: size(om.Coord_minimal_range,1)
+                value_i = coordinate_value(i);
+                range_i = om.Coord_minimal_range(i,:);
+                if value_i < range_i(1) || value_i > range_i(2)
+                    fprintf('the value of coordinate %s is out of range! \n', om.Coord_minimal{i,1})
+                end
+                if om.Constraint_on
+                    om.CoordinateSet.get(om.Coord_minimal{i,1}).setValue(om.state,value_i);
+                else
+                    om.CoordinateSet.get(om.Coord_minimal{i,1}).setValue(om.state,value_i,0);
+                end 
+            end
+            om.model.equilibrateMuscles(om.state);
+        end
 
         function coord_value = get_coordinate_value(om, coordinate_name_list)
            coord_value = zeros(length(coordinate_name_list),1);
             for i = 1: length(coordinate_name_list)
                 coord_value(i) = om.CoordinateSet.get(coordinate_name_list{i}).getValue(om.state);
             end
+        end
+
+        function q_minimal = get_coordinate_value_minimal(om)
+           q_all = osimMatrix2matrix(om.state.getQ);
+           q_minimal = q_all([om.Coord_minimal{:,2}]);
         end
 
         function set_constrain_disable(om, constrains_diasble)
@@ -490,14 +514,14 @@ classdef osim_model < handle
             Jacobian_ana = [Jacobian_matrix(1:3,:);w_R'*Jacobian_matrix(4:6,:)];
         end
 
-        function MassMatrix = getMassMatrix_all(om)
+        function MassMatrix = get_MassMatrix_all(om)
             import org.opensim.modeling.*;
             M = Matrix();
             om.smss.calcM(om.state,M);
             MassMatrix = osimMatrix2matrix(M);
         end
         
-        function MassMatrix_sub = getMassMatrix_sub(om, coordinate_name_list)
+        function MassMatrix_sub = get_MassMatrix_sub(om, coordinate_name_list)
             import org.opensim.modeling.*;
             M = Matrix();
             om.smss.calcM(om.state,M);
@@ -506,6 +530,11 @@ classdef osim_model < handle
                 coord_index(i) = find(matches(om.CoordinateInOrder,coordinate_name_list{i}));
             end
             MassMatrix_sub = MassMatrix(coord_index,coord_index);
+        end
+        function MassMatrix = get_MassMatrix_minimal(om)
+            import org.opensim.modeling.*;
+            M = om.get_MassMatrix_all;
+            MassMatrix = M([om.Coord_minimal{:,2}],[om.Coord_minimal{:,2}]);
         end
 
 
@@ -530,6 +559,40 @@ classdef osim_model < handle
                 end
             end
         end
+
+        function set_Activation_all(om, mus_act)
+            % set all muscle activation
+            import org.opensim.modeling.*
+            assert(length(mus_act) == length(om.MuscleSet_list), '[set_Activation_all]: input dimension is incorrect!');
+            for i = 1:length(om.MuscleSet_list)
+                muscle_i = om.MuscleSet.get(om.MuscleSet_list{i});
+                muscle_i.setActivation(om.state,mus_act(i));
+            end
+        end
+
+        function mus_act = get_Activation_all(om)
+            % set all muscle activation
+            import org.opensim.modeling.*
+            mus_act = zeros(length(om.MuscleSet_list),1);
+            for i = 1:length(om.MuscleSet_list)
+                muscle_i = om.MuscleSet.get(om.MuscleSet_list{i});
+                mus_act(i) = muscle_i.getActivation(om.state);
+            end
+        end
+
+        function MA_matrix = get_MomentArmMatrix_minimal_AllMus(om)
+            % moment arm matrix of all muscle and minimcal coordinates
+            %   row: coordinates
+            %   colomn: muscles
+            import org.opensim.modeling.*
+            MA_matrix = zeros(size(om.Coord_minimal_range,1),length(om.MuscleSet_list));
+            for i = 1:length(om.MuscleSet_list)
+                for j = 1:size(om.Coord_minimal_range,1)
+                    muscle_i = om.MuscleSet.get(om.MuscleSet_list{i});
+                    MA_matrix(j,i) = muscle_i.computeMomentArm(om.state,om.CoordinateSet.get(om.Coord_minimal{j,1}));
+                end
+            end
+        end
         
         % muscle forces
         function mus_MIF_vec = get_MaxIsometricForce(om, mus_name_list)
@@ -543,9 +606,25 @@ classdef osim_model < handle
             end
         end
 
-        function mus_TF_vec = get_TendonForce(om, mus_name_list)
+        function mus_MIF_vec = get_MaxIsometricForce_all_diag(om)
+            % maximal isometric force
+            import org.opensim.modeling.*
+            nmus = length(om.MuscleSet_list);
+            mus_MIF_vec = zeros(nmus,nmus);
+            for i = 1:nmus
+                muscle_i = om.MuscleSet.get(om.MuscleSet_list{i});
+                mus_MIF_vec(i,i) = muscle_i.getMaxIsometricForce;
+            end
+        end
+
+        function mus_TF_vec = get_TendonForce(om, varargin)
             % passive tendon force
             import org.opensim.modeling.*
+            if nargin == 1
+                mus_name_list = om.MuscleSet_list;
+            else 
+                mus_name_list = varargin{1};
+            end
             mus_TF_vec = zeros(length(mus_name_list),1);
             for i = 1:length(mus_name_list)
                 muscle_i = om.MuscleSet.get(mus_name_list{i});
@@ -553,9 +632,14 @@ classdef osim_model < handle
             end
         end
         
-        function mus_AFF_vec = get_ActiveFiberForce(om, mus_name_list)
+        function mus_AFF_vec = get_ActiveFiberForce(om, varargin)
             % passive fiber force
             import org.opensim.modeling.*
+            if nargin == 1
+                mus_name_list = om.MuscleSet_list;
+            else 
+                mus_name_list = varargin{1};
+            end
             mus_AFF_vec = zeros(length(mus_name_list),1);
             for i = 1:length(mus_name_list)
                 muscle_i = om.MuscleSet.get(mus_name_list{i});
@@ -563,9 +647,29 @@ classdef osim_model < handle
             end
         end
 
-        function mus_PFF_vec = get_PassiveFiberForce(om, mus_name_list)
+        function mus_FLM = get_FIberForceLengthMultiplier_matrix(om, varargin)
+            % Fiber Force Length Multiplier
+            import org.opensim.modeling.*
+            if nargin == 1
+                mus_name_list = om.MuscleSet_list;
+            else 
+                mus_name_list = varargin{1};
+            end
+            mus_FLM = zeros(length(mus_name_list),length(mus_name_list));
+            for i = 1:length(mus_name_list)
+                muscle_i = om.MuscleSet.get(mus_name_list{i});
+                mus_FLM(i,i) = muscle_i.getActiveForceLengthMultiplier(om.state);
+            end
+        end
+
+        function mus_PFF_vec = get_PassiveFiberForce(om, varargin)
             % passive fiber force
             import org.opensim.modeling.*
+            if nargin == 1
+                mus_name_list = om.MuscleSet_list;
+            else 
+                mus_name_list = varargin{1};
+            end
             mus_PFF_vec = zeros(length(mus_name_list),1);
             for i = 1:length(mus_name_list)
                 muscle_i = om.MuscleSet.get(mus_name_list{i});
@@ -573,9 +677,14 @@ classdef osim_model < handle
             end
         end
         
-        function mus_FF_vec = get_FiberForce(om, mus_name_list)
+        function mus_FF_vec = get_FiberForce(om, varargin)
             % Fiber force = PFF + AFF
             import org.opensim.modeling.*
+            if nargin == 1
+                mus_name_list = om.MuscleSet_list;
+            else 
+                mus_name_list = varargin{1};
+            end
             mus_FF_vec = zeros(length(mus_name_list),1);
             for i = 1:length(mus_name_list)
                 muscle_i = om.MuscleSet.get(mus_name_list{i});
@@ -594,9 +703,14 @@ classdef osim_model < handle
         end
 
         % length
-        function mus_PA_vec = get_PennationAngle(om, mus_name_list)
+        function mus_PA_vec = get_PennationAngle(om, varargin)
             % Pennation angle
             import org.opensim.modeling.*
+            if nargin == 1
+                mus_name_list = om.MuscleSet_list;
+            else 
+                mus_name_list = varargin{1};
+            end
             mus_PA_vec = zeros(length(mus_name_list),1);
             for i = 1:length(mus_name_list)
                 muscle_i = om.MuscleSet.get(mus_name_list{i});
@@ -750,6 +864,20 @@ classdef osim_model < handle
 
 
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+        %% metrics
+
+        function [metric_JL,metric_JL_joints] = metric_joint_limits(om)
+            % calculate the minimal coordinates
+
+            import org.opensim.modeling.*;
+            joint_limits = om.Coord_minimal_range;
+            q_all = osimMatrix2matrix(om.state.getQ);
+            q_minimal = q_all([om.Coord_minimal{:,2}]);
+            metric_JL_joints = metric_joint_limits(q_minimal, joint_limits);
+            metric_JL = prod(metric_JL_joints);
+        end
+
     
 %         function om = actuate(om, action)
 %             action(action>1) = 1;

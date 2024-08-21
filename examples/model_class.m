@@ -13,7 +13,7 @@ geometry_folder_path = strcat(folder_path,'\geometry_folder\Geometry_MoBL_ARMS\'
 ModelVisualizer.addDirToGeometrySearchPaths(geometry_folder_path);
 
 
-IK_on = 1;
+IK_on = 0;
 FK_on = 0;
 
 %% load model
@@ -62,8 +62,8 @@ Jacobian_all = model.getJacobian_mp_all(1); % Jacobian of all coordinates
 Jacobian_sub = model.getJacobian_mp_sub(1,coord_list ); % Jacobian of selected coord.
 %% Mass matrix
 
-M_all = model.getMassMatrix_all;
-M_sub = model.getMassMatrix_sub(coord_list);
+% M_all = model.getMassMatrix_all;
+% M_sub = model.getMassMatrix_sub(coord_list);
 
 %% Muscle parameters
 mus_MIF_vec = model.get_MaxIsometricForce(muscle_list);
@@ -171,3 +171,69 @@ if FK_on
 
     end
 end
+
+%% test metric
+close all
+model.Constraint_on = 1;
+% joint limits
+[metric_JL,metric_JL_joints] = model.metric_joint_limits;
+q = model.get_coordinate_value_minimal;
+% model.set_coordinate_value_minimal([2.26,0,0,0,0,0,1.22]')
+% metric_JL2 = model.metric_joint_limits
+% q2 = model.get_coordinate_value_minimal;
+
+
+
+% Dynamic Manipulability
+% xdd = J*inv(M)*A * (F_MIF * m * alpha + F_p )
+
+q = rand(7,1);
+q(6) = 0.4 * rand(1);
+model.set_coordinate_value_minimal(q);
+
+% Jacobian 
+J = model.getJacobian_mp_minimal(1);
+% Mass matrix
+M = model.get_MassMatrix_minimal;
+% Moment arm matrix 
+MA = model.get_MomentArmMatrix_minimal_AllMus;
+% Maximal Isomatrix force as diagonal matrix
+F_MIF = model.get_MaxIsometricForce_all_diag;
+% Force Length Multiplier as diagonal matrix
+mus_FLM = model.get_FIberForceLengthMultiplier_matrix;
+% get Passive force vector
+F_P = model.get_PassiveFiberForce();
+
+
+% create the optimization settings
+opt = init_metric_opt();
+% fmincon method 
+[x_fmc,acc_fmc] = cal_max_acc(model,opt);
+norm(acc_fmc);
+alpha = model.get_PennationAngle;
+f_t = cos(alpha) .* (F_MIF * mus_FLM * x_fmc(:,1) + F_P);
+f_end = pinv(J')*MA*f_t;
+model.set_Activation_all(x_fmc);
+mus_act = model.get_Activation_all;
+f_ten = model.get_TendonForce;
+% lsqlin method 
+% currently this method is calculating the minimal accelerations 
+% 
+% opt.method = 'lsqlin';
+% [x_lsq,acc_lsq] = cal_max_acc(model, opt);
+% norm(acc_lsq)
+
+% Force Index
+% calculting the endeffector force in each directions
+% f = pinv(J) * MA * F(alpha)
+
+
+%% 
+
+muscle_list = {'TRIlong'};
+mus_i = model.MuscleSet.get(muscle_list{1});
+mus_i.getActivation(model.state)
+mus_i.setActivation(model.state,0.2)
+
+
+
