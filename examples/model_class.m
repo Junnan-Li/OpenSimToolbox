@@ -200,7 +200,7 @@ MA = model.get_MomentArmMatrix_minimal_AllMus;
 % Maximal Isomatrix force as diagonal matrix
 F_MIF = model.get_MaxIsometricForce_all_diag;
 % Force Length Multiplier as diagonal matrix
-mus_FLM = model.get_FIberForceLengthMultiplier_matrix;
+mus_FLM = model.get_FiberForceLengthMultiplier;
 % get Passive force vector
 F_P = model.get_PassiveFiberForce();
 
@@ -211,11 +211,26 @@ opt = init_metric_opt();
 [x_fmc,acc_fmc] = cal_max_acc(model,opt);
 norm(acc_fmc);
 alpha = model.get_PennationAngle;
-f_t = cos(alpha) .* (F_MIF * mus_FLM * x_fmc(:,1) + F_P);
+mus_PLM = model.get_PassiveForceLengthMultiplier;
+mus_FVM = model.get_FiberForceVelocityMultiplier;
+
+f_t = F_MIF * (mus_FLM .* x_fmc(:,1) + mus_PLM) .*cos(alpha);
+f_ta = F_MIF * mus_FLM .* x_fmc(:,1) .*mus_FVM;
+f_tp = F_MIF *mus_PLM;
 f_end = pinv(J')*MA*f_t;
-model.set_Activation_all(x_fmc);
+
+
+
+
+model.set_Activation_all(x_fmc(:,1));
 mus_act = model.get_Activation_all;
 f_ten = model.get_TendonForce;
+f_ten_a = model.get_ActiveFiberForce;
+f_ten_p = model.get_PassiveFiberForce;
+
+f_t_error = f_t - f_ten;
+f_ta_error = f_ta - f_ten_a;
+f_tp_error = f_tp - f_ten_p;
 % lsqlin method 
 % currently this method is calculating the minimal accelerations 
 % 
@@ -230,10 +245,41 @@ f_ten = model.get_TendonForce;
 
 %% 
 
-muscle_list = {'TRIlong'};
-mus_i = model.MuscleSet.get(muscle_list{1});
-mus_i.getActivation(model.state)
-mus_i.setActivation(model.state,0.2)
+muscle_list = {model.MuscleSet_list(10),model.MuscleSet_list(16)}';
+q = rand(7,1);
+q(6) = 0.4 * rand(1);
+model.set_coordinate_value_minimal(q);
+
+% Jacobian 
+J = model.getJacobian_mp_minimal(1);
+% Mass matrix
+M = model.get_MassMatrix_minimal;
+% Moment arm matrix 
+MA = model.get_MomentArmMatrix_minimal_AllMus;
+% Maximal Isomatrix force as diagonal matrix
+F_MIF = model.get_MaxIsometricForce_all_diag;
+% Force Length Multiplier as diagonal matrix
+mus_FLM = model.get_FiberForceLengthMultiplier;
+% get pennetion angle
+alpha = model.get_PennationAngle;
+
+% get Passive force vector
+F_P = F_MIF *mus_PLM;
+
+% set minimal actuation to 0 (not consistent to opensim)
+F_min = F_P .*cos(alpha);
+F_max = F_MIF * (mus_FLM + mus_PLM) .*cos(alpha);
+
+
+muscle_index = [10:38];
+
+force_limits = [F_min, F_max];
+
+
+[P_tau] = polytope_torque(MA(:,muscle_index), force_limits(muscle_index,:));
+P_tau.minHRep;
+P_tau.minVRep;
+P_tau.volume
 
 
 

@@ -568,6 +568,7 @@ classdef osim_model < handle
                 muscle_i = om.MuscleSet.get(om.MuscleSet_list{i});
                 muscle_i.setActivation(om.state,mus_act(i));
             end
+            om.model.equilibrateMuscles(om.state);
         end
 
         function mus_act = get_Activation_all(om)
@@ -647,7 +648,7 @@ classdef osim_model < handle
             end
         end
 
-        function mus_FLM = get_FIberForceLengthMultiplier_matrix(om, varargin)
+        function mus_FLM = get_FiberForceLengthMultiplier(om, varargin)
             % Fiber Force Length Multiplier
             import org.opensim.modeling.*
             if nargin == 1
@@ -655,10 +656,25 @@ classdef osim_model < handle
             else 
                 mus_name_list = varargin{1};
             end
-            mus_FLM = zeros(length(mus_name_list),length(mus_name_list));
+            mus_FLM = zeros(length(mus_name_list),1);
             for i = 1:length(mus_name_list)
                 muscle_i = om.MuscleSet.get(mus_name_list{i});
-                mus_FLM(i,i) = muscle_i.getActiveForceLengthMultiplier(om.state);
+                mus_FLM(i) = muscle_i.getActiveForceLengthMultiplier(om.state);
+            end
+        end
+
+        function mus_FVM = get_FiberForceVelocityMultiplier(om, varargin)
+            % Fiber Force Length Multiplier
+            import org.opensim.modeling.*
+            if nargin == 1
+                mus_name_list = om.MuscleSet_list;
+            else 
+                mus_name_list = varargin{1};
+            end
+            mus_FVM = zeros(length(mus_name_list),1);
+            for i = 1:length(mus_name_list)
+                muscle_i = om.MuscleSet.get(mus_name_list{i});
+                mus_FVM(i) = muscle_i.getActiveForceLengthMultiplier(om.state);
             end
         end
 
@@ -676,7 +692,22 @@ classdef osim_model < handle
                 mus_PFF_vec(i) = muscle_i.getPassiveFiberForce(om.state);
             end
         end
-        
+
+        function mus_PLM = get_PassiveForceLengthMultiplier(om, varargin)
+            % Fiber Force Length Multiplier
+            import org.opensim.modeling.*
+            if nargin == 1
+                mus_name_list = om.MuscleSet_list;
+            else 
+                mus_name_list = varargin{1};
+            end
+            mus_PLM = zeros(length(mus_name_list),1);
+            for i = 1:length(mus_name_list)
+                muscle_i = om.MuscleSet.get(mus_name_list{i});
+                mus_PLM(i) = muscle_i.getPassiveForceMultiplier(om.state);
+            end
+        end
+
         function mus_FF_vec = get_FiberForce(om, varargin)
             % Fiber force = PFF + AFF
             import org.opensim.modeling.*

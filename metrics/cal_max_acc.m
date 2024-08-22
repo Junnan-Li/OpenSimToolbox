@@ -21,14 +21,16 @@ MA = model.get_MomentArmMatrix_minimal_AllMus;
 % Maximal Isomatrix force as diagonal matrix
 F_MIF = model.get_MaxIsometricForce_all_diag;
 % Force Length Multiplier as diagonal matrix
-mus_FLM = model.get_FIberForceLengthMultiplier_matrix;
+mus_FLM = model.get_FiberForceLengthMultiplier;
 % get Passive force vector
 F_P = model.get_PassiveFiberForce();
+mus_PLM = model.get_PassiveForceLengthMultiplier;
+alpha = model.get_PennationAngle;
 
 % optimization settings
 x0 = zeros(length(model.MuscleSet_list),1);
 
-lb = zeros(length(model.MuscleSet_list),1);
+lb = 0.1*ones(length(model.MuscleSet_list),1);
 ub = ones(length(model.MuscleSet_list),1);
 nonlcon = [];
 
@@ -53,7 +55,8 @@ switch opt.acc_direction_opt
                 % function of calculating acceleration
                 if strcmp(opt.method,'fmincon')
 %                     fun = @(x) Dir_Sel_vsc*J*inv(M)*MA*(F_MIF * mus_FLM * x + F_P);
-                    fun = @(x) -norm(J*inv(M)*MA*(F_MIF * mus_FLM * x + F_P));
+%                     f_t = F_MIF * (mus_FLM .* x_fmc(:,1) + mus_PLM) .*cos(alpha);
+                    fun = @(x) -norm(J*inv(M)*MA*(F_MIF * mus_FLM .* x + F_P));
                     A = [];
                     b = [];
                     options = optimoptions('fmincon','Display','none');
@@ -73,7 +76,7 @@ switch opt.acc_direction_opt
 %                 x_sol(:,2*i+j-2) = x_opt;
 %                 acc(1:6,2*i+j-2) = J*inv(M)*MA*(F_MIF * mus_FLM * x_opt + F_P);
                 x_sol(:,1) = x_opt;
-                acc(1:6,1) = J*inv(M)*MA*(F_MIF * mus_FLM * x_opt + F_P);
+                acc(1:6,1) = J*inv(M)*MA*(F_MIF * mus_FLM .* x_opt + F_P);
 %                 f = pinv(J')*MA*(F_MIF * mus_FLM * x_sol(:,i) + F_P);
 %             end
 %         end
