@@ -8,7 +8,7 @@
 
 
 
-function  [x_sol,acc] = cal_max_acc(model, opt)
+function  [x_sol,acc] = cal_max_acc_subdirection(model, opt)
 
 
 % Jacobian 
@@ -30,7 +30,7 @@ alpha = model.get_PennationAngle;
 % optimization settings
 x0 = rand(length(model.MuscleSet_list),1);
 
-lb = 0.1*ones(length(model.MuscleSet_list),1);
+lb = 0.001 *ones(length(model.MuscleSet_list),1);
 ub = ones(length(model.MuscleSet_list),1);
 nonlcon = [];
 
@@ -41,45 +41,40 @@ switch opt.acc_direction_opt
         x_sol = zeros(length(model.MuscleSet_list),6);
         acc = zeros(6,6);
         tic
-%         for i = 1:3 % x, y, z axis
-%             for j = 1:2 % + and - along each axis
-%                 Dir_Sel_vsc = zeros(1,6);
-%                 Dir_Sel_vsc(i) = sign(j-1.5)*1;      
-%                 index = [1:6]; % in equality constraints consider other dimensions
-%                 index(i) = [];
-%                 Aeq = J(index,:)*inv(M)*MA*F_MIF * mus_FLM ;
-%                 beq = -J(index,:)*inv(M)*MA*F_P;
-                Aeq = [];
-                beq = [];
-
+        for i = 1:3 % x, y, z axis
+            for j = 1:2 % + and - along each axis
+                Dir_Sel_vsc = zeros(1,6);
+                Dir_Sel_vsc(i) = sign(j-1.5)*1     
+                index = [1:6]; % in equality constraints consider other dimensions
+                index(i) = []
+                Aeq = J(index,:)*inv(M)*MA*F_MIF * diag(mus_FLM) ;
+                beq = -J(index,:)*inv(M)*MA*F_P;
                 % function of calculating acceleration
                 if strcmp(opt.method,'fmincon')
-%                     fun = @(x) Dir_Sel_vsc*J*inv(M)*MA*(F_MIF * mus_FLM * x + F_P);
-%                     f_t = F_MIF * (mus_FLM .* x_fmc(:,1) + mus_PLM) .*cos(alpha);
-                    fun = @(x) -norm(J*inv(M)*MA*(F_MIF * mus_FLM .* x + F_P));
+                    fun = @(x) Dir_Sel_vsc*J*inv(M)*MA*((F_MIF * diag(mus_FLM) * x + F_P) .*cos(alpha));
                     A = [];
                     b = [];
-                    options = optimoptions('fmincon','Display','none');
+                    options = optimoptions('fmincon','Algorithm','sqp','Display','iter-detailed');
                     x_opt = fmincon(fun,x0,A,b,Aeq,beq,lb,ub,nonlcon,options);
 
                 elseif strcmp(opt.method,'lsqlin')
                     % to be corrected. Currently calculating the minimal
-%                     C = Dir_Sel_vsc*J*inv(M)*MA*F_MIF * mus_FLM;
-%                     d = Dir_Sel_vsc*J*inv(M)*MA*F_P;
-                    C = J*inv(M)*MA*F_MIF * mus_FLM;
-                    d = J*inv(M)*MA*F_P;
+                    C = Dir_Sel_vsc*J*inv(M)*MA*F_MIF * diag(mus_FLM);
+                    d = Dir_Sel_vsc*J*inv(M)*MA*F_P;
+%                     C = J*inv(M)*MA*F_MIF * mus_FLM;
+%                     d = J*inv(M)*MA*F_P;
                     A = [];
                     b = [];
                     options = optimoptions('lsqlin','Algorithm','active-set','Display','iter-detailed');
                     [x_opt,resnorm,residual,exitflag,output,lambda] = lsqlin(C,d,A,b,Aeq,beq,lb,ub,x0,options);
                 end
-%                 x_sol(:,2*i+j-2) = x_opt;
-%                 acc(1:6,2*i+j-2) = J*inv(M)*MA*(F_MIF * mus_FLM * x_opt + F_P);
-                x_sol(:,1) = x_opt;
-                acc(1:6,1) = J*inv(M)*MA*(F_MIF * mus_FLM .* x_opt + F_P);
+                x_sol(:,2*i+j-2) = x_opt;
+                acc(1:6,2*i+j-2) = J*inv(M)*MA*(F_MIF * diag(mus_FLM) * x_opt + F_P);
+%                 x_sol(:,1) = x_opt;
+%                 acc(1:6,1) = J*inv(M)*MA*(F_MIF * mus_FLM .* x_opt + F_P);
 %                 f = pinv(J')*MA*(F_MIF * mus_FLM * x_sol(:,i) + F_P);
-%             end
-%         end
+            end
+        end
          t = toc;
 
 end

@@ -32,7 +32,7 @@ model.delete_all_markers;
 body_name = {'hand'}; % name of the attached body
 pos_vec = {Vec3(0,-0,0)}; % relative position in corresponding body frame
 model.add_marker_points('Hand_endeffector', body_name,pos_vec);
-model.set_visualize;
+% model.set_visualize;
 %% set the list of the target coordinates/frames and muscles
 
 muscle_list = {'ECRL','ECRB','ECU','FCR','FCU','EDCI'};
@@ -44,7 +44,7 @@ coord_value = rand(7,1);%[0 0 0 1 1 0 1];
 model.set_coordinate_value(coord_list,coord_value);
 coord_q_value = model.get_coordinate_value(coord_list);
 %% Visualization
-model.model_visualize
+% model.model_visualize
 model.plot_all_body;
 model.plot_world_frame;
 model.plot_mp_frame;
@@ -208,7 +208,15 @@ F_P = model.get_PassiveFiberForce();
 % create the optimization settings
 opt = init_metric_opt();
 % fmincon method 
-[x_fmc,acc_fmc] = cal_max_acc(model,opt);
+tic
+acc_fmc = zeros(6,100);
+for i = 1:100
+[x_fmc,acc_fmci] = cal_max_acc(model,opt);
+acc_fmc(:,i) = acc_fmci(:,1);
+end
+t = toc
+% opt.method = 'lsqlin';
+[x_fmc_sub,acc_fmc_sub] = cal_max_acc_subdirection(model,opt);
 norm(acc_fmc);
 alpha = model.get_PennationAngle;
 mus_PLM = model.get_PassiveForceLengthMultiplier;
@@ -276,10 +284,10 @@ muscle_index = [10:38];
 force_limits = [F_min, F_max];
 
 
-[P_tau] = polytope_torque(MA(:,muscle_index), force_limits(muscle_index,:));
-P_tau.minHRep;
-P_tau.minVRep;
-P_tau.volume
-
-
+% [P_tau] = polytope_torque(MA(:,muscle_index), force_limits(muscle_index,:));
+% P_tau.minHRep;
+% P_tau.minVRep;
+% P_tau.volume
+% 
+% P_f = pinv(J') * P_tau
 
