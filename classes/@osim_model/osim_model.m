@@ -596,10 +596,14 @@ classdef osim_model < handle
         end
         
         % muscle forces
-        function mus_MIF_vec = get_MaxIsometricForce(om, mus_name_list)
+        function mus_MIF_vec = get_MaxIsometricForce(om, varargin)
             % maximal isometric force
             import org.opensim.modeling.*
-
+            if nargin == 1
+                mus_name_list = om.MuscleSet_list;
+            else 
+                mus_name_list = varargin{1};
+            end
             mus_MIF_vec = zeros(length(mus_name_list),1);
             for i = 1:length(mus_name_list)
                 muscle_i = om.MuscleSet.get(mus_name_list{i});

@@ -1,4 +1,5 @@
-%   Calculate the maximal Cartesian acceleration of the markerpoint
+%   Calculate the maximal Cartesian acceleration of the markerpoint in all
+%   directions, originated from [0,0,0]
 % 
 % input:
 %       model: 
@@ -6,9 +7,12 @@
 %       acc_direction_opt:  
 %                           1: 6 directions along axes
 
+% 
+% Optimization:
+%               x: points on the polytope
 
 
-function  [x_sol,acc] = cal_max_acc(model, opt)
+function  [x_sol,acc] = cal_max_acc_radius(model, opt)
 
 
 % Jacobian 
@@ -34,37 +38,36 @@ lb = 0.1*ones(length(model.MuscleSet_list),1);
 ub = ones(length(model.MuscleSet_list),1);
 nonlcon = [];
 
-
+n_mus = size(MA,2);
 
 switch opt.acc_direction_opt
     case 1
         x_sol = zeros(length(model.MuscleSet_list),1);
         acc = zeros(6,1);
 %         tic
-        Aeq = [];
+        Aeq = [eye(n_mus);-eye(n_mus)];
         beq = [];
 
         % function of calculating acceleration
         if strcmp(opt.method,'fmincon')
-            fun = @(x) -norm(J*inv(M)*MA*(F_MIF .* (mus_FLM .* x + mus_PLM) .* cos(alpha)));
-            A = [];
-            b = [];
-%             options = optimoptions('fmincon','Display','none');
-%             x_opt = fmincon(fun,x0,A,b,Aeq,beq,lb,ub,nonlcon,options);
-            problem = createOptimProblem('fmincon',...
-                'objective',fun,...
-                'x0',x0,...
-                'lb',lb,'ub',ub,'Aeq',Aeq,'beq',beq,...
-                'options',optimoptions(@fmincon,'Algorithm','sqp','Display','off'));
-            gs = GlobalSearch;
-            [x_opt,~] = run(gs,problem);
         elseif strcmp(opt.method,'lsqlin')
-            C = J*inv(M)*MA*F_MIF * mus_FLM;
-            d = J*inv(M)*MA*F_P;
-            A = [];
-            b = [];
-            options = optimoptions('lsqlin','Algorithm','active-set','Display','iter-detailed');
-            x_opt = lsqlin(C,d,A,b,Aeq,beq,lb,ub,x0,options);
+        elseif strcmp(opt.method,'global')
+            if opt.only_translational
+                fun = @(x) norm(pinv(J(1:3,:)')*MA*(F_MIF.*mus_FLM.*cos(alpha).* x)); % + F_P
+            else
+            end
+            x_opt = zeros(n_mus,n_mus);
+            for j = 1:n_mus
+                lb = 0.1*ones(length(model.MuscleSet_list),1);
+                lb(j) = 1;
+                problem = createOptimProblem('fmincon',...
+                    'objective',fun,...
+                    'x0',x0,...
+                    'lb',lb,'ub',ub,...
+                    'options',optimoptions(@fmincon,'Algorithm','sqp','Display','off','ConstraintTolerance',1e-6));
+                gs = GlobalSearch;
+                [x_opt(:,j),~] = run(gs,problem);
+            end
         end
         x_sol(:,1) = x_opt;
         acc(1:6,1) = J*inv(M)*MA*(F_MIF .* (mus_FLM .* x_opt + mus_PLM) .* cos(alpha)); %  + F_P

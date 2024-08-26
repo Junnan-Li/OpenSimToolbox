@@ -186,7 +186,7 @@ q = model.get_coordinate_value_minimal;
 
 % Dynamic Manipulability
 % xdd = J*inv(M)*A * (F_MIF * m * alpha + F_p )
-
+% for acceleration
 q = rand(7,1);
 q(6) = 0.4 * rand(1);
 model.set_coordinate_value_minimal(q);
@@ -204,51 +204,86 @@ mus_FLM = model.get_FiberForceLengthMultiplier;
 % get Passive force vector
 F_P = model.get_PassiveFiberForce();
 
-
-% create the optimization settings
+% Calculate maximal Cartesian acceleration vector 
 opt = init_metric_opt();
-% fmincon method 
-tic
-acc_fmc = zeros(6,100);
-for i = 1:100
-[x_fmc,acc_fmci] = cal_max_acc(model,opt);
-acc_fmc(:,i) = acc_fmci(:,1);
+% fmincon method: 
+n_iter = 10;
+acc_fmc = zeros(6,n_iter);
+for i = 1:n_iter
+    [x_fmc,acc_fmci] = cal_max_acc(model,opt);
+    acc_fmc(:,i) = acc_fmci(:,1);
 end
-t = toc
 % opt.method = 'lsqlin';
-[x_fmc_sub,acc_fmc_sub] = cal_max_acc_subdirection(model,opt);
-norm(acc_fmc);
+% [x_fmc_sub,acc_fmc_sub] = cal_max_acc_subdirection(model,opt);
+% norm(acc_fmc);
+% alpha = model.get_PennationAngle;
+% mus_PLM = model.get_PassiveForceLengthMultiplier;
+% mus_FVM = model.get_FiberForceVelocityMultiplier;
+
+% Calculate the maximal acceleration in axes direction
+opt.method = 'global';
+[x_acc_global,acc_fmc_global] = cal_max_acc_subdirection(model,opt);
+
+
+% Calculate the maximal acceleration in all directions
+% unfinished
+% opt.method = 'global';
+% opt.only_translational = 1;
+% [x_fmc_global,acc_fmc_global] = cal_max_acc_radius(model,opt);
+
+
+% Force index
+% calculate maximal force resistance along each direction
+opt.method = 'global';
+[x_F_global,F_global] = cal_max_force_subdirection(model,opt);
+
+
+
+return
+%% Test muscle formulation
+
+model.set_Activation_all(x_fmc(:,1));
+F_MIF = model.get_MaxIsometricForce_all_diag;
 alpha = model.get_PennationAngle;
+mus_FLM = model.get_FiberForceLengthMultiplier;
 mus_PLM = model.get_PassiveForceLengthMultiplier;
 mus_FVM = model.get_FiberForceVelocityMultiplier;
-
 f_t = F_MIF * (mus_FLM .* x_fmc(:,1) + mus_PLM) .*cos(alpha);
-f_ta = F_MIF * mus_FLM .* x_fmc(:,1) .*mus_FVM;
-f_tp = F_MIF *mus_PLM;
+f_ta = F_MIF * mus_FLM .* x_fmc(:,1);% .*mus_FVM;
+f_tp = F_MIF * mus_PLM;
 f_end = pinv(J')*MA*f_t;
 
 
 
-
-model.set_Activation_all(x_fmc(:,1));
 mus_act = model.get_Activation_all;
+
+% alpha2 = model.get_PennationAngle;
 f_ten = model.get_TendonForce;
 f_ten_a = model.get_ActiveFiberForce;
 f_ten_p = model.get_PassiveFiberForce;
-
+f_ten2 = (f_ten_a + f_ten_p).*cos(alpha);
 f_t_error = f_t - f_ten;
 f_ta_error = f_ta - f_ten_a;
 f_tp_error = f_tp - f_ten_p;
-% lsqlin method 
-% currently this method is calculating the minimal accelerations 
-% 
-% opt.method = 'lsqlin';
-% [x_lsq,acc_lsq] = cal_max_acc(model, opt);
-% norm(acc_lsq)
 
-% Force Index
-% calculting the endeffector force in each directions
-% f = pinv(J) * MA * F(alpha)
+% Test formulation of muscle force calculation 
+n_loop = 10;
+F_MIF = zeros(50,n_loop);
+alpha = zeros(50,n_loop);
+mus_FLM = zeros(50,n_loop);
+mus_PLM = zeros(50,n_loop);
+mus_FVM = zeros(50,n_loop);
+a = zeros(50,n_loop);
+for i = 1:10
+    a(:,i) = rand(50,1);
+    model.set_Activation_all(a(:,i));
+    F_MIF(:,i) = model.get_MaxIsometricForce;
+    alpha(:,i) = model.get_PennationAngle;
+    mus_FLM(:,i) = model.get_FiberForceLengthMultiplier;
+    mus_PLM(:,i) = model.get_PassiveForceLengthMultiplier;
+    mus_FVM(:,i) = model.get_FiberForceVelocityMultiplier;
+end
+
 
 
 %% 

@@ -1,4 +1,4 @@
-%   Calculate the maximal Cartesian acceleration of the markerpoint
+%   Calculate the maximal Cartesian Force/Moment resistance of the markerpoint
 % current version:
 %       ignore the passive force
 % 
@@ -10,13 +10,12 @@
 
 
 
-function  [x_sol,acc] = cal_max_acc_subdirection(model, opt)
+function  [x_sol,F] = cal_max_force_subdirection(model, opt)
 
 
 % Jacobian 
 J = model.getJacobian_mp_minimal(opt.mp_index);
-% Mass matrix
-M = model.get_MassMatrix_minimal;
+
 % Moment arm matrix 
 MA = model.get_MomentArmMatrix_minimal_AllMus;
 
@@ -40,7 +39,7 @@ nonlcon = [];
 switch opt.acc_direction_opt
     case 1 
         x_sol = zeros(length(model.MuscleSet_list),6);
-        acc = zeros(6,6);
+        F = zeros(6,6);
         tic
         for i = 1:3 % x, y, z axis
             for j = 1:2 % + and - along each axis
@@ -48,9 +47,9 @@ switch opt.acc_direction_opt
                 Dir_Sel_vsc(i) = sign(j-1.5)*1     
                 index = [1:6]; % in equality constraints consider other dimensions
                 index(i) = []
-
-                Aeq = J(index,:)*inv(M)*MA*F_MIF * diag(mus_FLM) * diag(cos(alpha)) ;
-                beq = -J(index,:)*inv(M)*MA*F_MIF*mus_PLM;
+                pinvJ = pinv(J');
+                Aeq = pinvJ(index,:)* MA*F_MIF*diag(mus_FLM) * diag(cos(alpha)) ;
+                beq = -pinvJ(index,:)*MA*F_MIF*mus_PLM;
                 beq_nopassive = zeros(length(index),1); % equality constraint without passive force
 
                 % function of calculating acceleration
@@ -63,8 +62,8 @@ switch opt.acc_direction_opt
 
                 elseif strcmp(opt.method,'lsqlin')
                     % to be corrected. Currently calculating the minimal
-                    C = Dir_Sel_vsc*J*inv(M)*MA*F_MIF * diag(mus_FLM);
-                    d = Dir_Sel_vsc*J*inv(M)*MA*F_P;
+                    C = Dir_Sel_vsc*pinv(J')*MA*F_MIF * diag(mus_FLM);
+                    d = Dir_Sel_vsc*pinv(J')*MA*F_P;
 %                     C = J*inv(M)*MA*F_MIF * mus_FLM;
 %                     d = J*inv(M)*MA*F_P;
                     A = [];
@@ -72,7 +71,7 @@ switch opt.acc_direction_opt
                     options = optimoptions('lsqlin','Algorithm','active-set','Display','iter-detailed');
                     x_opt = lsqlin(C,d,A,b,Aeq,beq,lb,ub,x0,options);
                 elseif strcmp(opt.method,'global')
-                    fun = @(x) Dir_Sel_vsc*J*inv(M)*MA*((F_MIF * diag(mus_FLM) * x ) .*cos(alpha)); % + F_P
+                    fun = @(x) Dir_Sel_vsc*pinvJ*MA*((F_MIF * diag(mus_FLM) * x ) .*cos(alpha)); % + F_P
 %                     A = [Aeq;-Aeq];
 %                     b = [-beq+2e1*ones(2,1);beq+2e1*ones(2,1)];
                     
@@ -85,14 +84,12 @@ switch opt.acc_direction_opt
                     [x_opt,~] = run(gs,problem);
                 end
                 x_sol(:,2*i+j-2) = x_opt;
-                acc(1:6,2*i+j-2) = J*inv(M)*MA*((F_MIF * diag(mus_FLM) * x_opt).*cos(alpha)); % + F_P
+                F(1:6,2*i+j-2) = pinv(J')*MA*((F_MIF * diag(mus_FLM) * x_opt).*cos(alpha)); % + F_P
 %                 x_sol(:,1) = x_opt;
 %                 acc(1:6,1) = J*inv(M)*MA*(F_MIF * mus_FLM .* x_opt + F_P);
 %                 f = pinv(J')*MA*(F_MIF * mus_FLM * x_sol(:,i) + F_P);
             end
         end
-         t = toc;
-
 end
 
 
