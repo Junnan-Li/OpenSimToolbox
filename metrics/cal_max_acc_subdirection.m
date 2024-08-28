@@ -32,7 +32,7 @@ alpha = model.get_PennationAngle;
 % optimization settings
 x0 = rand(length(model.MuscleSet_list),1);
 
-lb = 0.1 * ones(length(model.MuscleSet_list),1);
+lb = 0.01 * ones(length(model.MuscleSet_list),1);
 ub = ones(length(model.MuscleSet_list),1);
 nonlcon = [];
 
@@ -45,12 +45,18 @@ switch opt.acc_direction_opt
         for i = 1:3 % x, y, z axis
             for j = 1:2 % + and - along each axis
                 Dir_Sel_vsc = zeros(1,6);
-                Dir_Sel_vsc(i) = sign(j-1.5)*1     
-                index = [1:6]; % in equality constraints consider other dimensions
-                index(i) = []
+                Dir_Sel_vsc(i) = sign(j-1.5)*1;
+                if opt.only_translational
+                    index = [1:3]; % in equality constraints consider other dimensions
+                    index(i) = [];
+                else
+                    index = [1:6]; % in equality constraints consider other dimensions
+                    index(i) = [];
+                end
 
-                Aeq = J(index,:)*inv(M)*MA*F_MIF * diag(mus_FLM) * diag(cos(alpha)) ;
-                beq = -J(index,:)*inv(M)*MA*F_MIF*mus_PLM;
+                Aeq = J(index,:)*inv(M)*MA*F_MIF*diag(mus_FLM)*diag(cos(alpha));
+                mus_PLM(20) = 0;
+                beq = -J(index,:)*inv(M)*MA*F_MIF*(mus_PLM.*cos(alpha));
                 beq_nopassive = zeros(length(index),1); % equality constraint without passive force
 
                 % function of calculating acceleration
@@ -72,20 +78,19 @@ switch opt.acc_direction_opt
                     options = optimoptions('lsqlin','Algorithm','active-set','Display','iter-detailed');
                     x_opt = lsqlin(C,d,A,b,Aeq,beq,lb,ub,x0,options);
                 elseif strcmp(opt.method,'global')
-                    fun = @(x) Dir_Sel_vsc*J*inv(M)*MA*((F_MIF * diag(mus_FLM) * x ) .*cos(alpha)); % + F_P
+                    fun = @(x) Dir_Sel_vsc*J*inv(M)*MA*F_MIF*((diag(mus_FLM)*x+mus_PLM).*cos(alpha)); % + F_P
 %                     A = [Aeq;-Aeq];
 %                     b = [-beq+2e1*ones(2,1);beq+2e1*ones(2,1)];
-                    
                     problem = createOptimProblem('fmincon',...
                              'objective',fun,...
                                 'x0',x0,...
-                                'lb',lb,'ub',ub,'Aeq',Aeq,'beq',beq_nopassive,...
+                                'lb',lb,'ub',ub,'Aeq',Aeq,'beq',beq,...
                             'options',optimoptions(@fmincon,'Algorithm','sqp','Display','off','ConstraintTolerance',1e-6));
                     gs = GlobalSearch;
                     [x_opt,~] = run(gs,problem);
                 end
                 x_sol(:,2*i+j-2) = x_opt;
-                acc(1:6,2*i+j-2) = J*inv(M)*MA*((F_MIF * diag(mus_FLM) * x_opt).*cos(alpha)); % + F_P
+                acc(1:6,2*i+j-2) = J*inv(M)*MA*F_MIF*((diag(mus_FLM)*x_opt+mus_PLM).*cos(alpha)); % + F_P
 %                 x_sol(:,1) = x_opt;
 %                 acc(1:6,1) = J*inv(M)*MA*(F_MIF * mus_FLM .* x_opt + F_P);
 %                 f = pinv(J')*MA*(F_MIF * mus_FLM * x_sol(:,i) + F_P);

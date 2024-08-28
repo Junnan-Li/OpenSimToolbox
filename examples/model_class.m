@@ -189,6 +189,7 @@ q = model.get_coordinate_value_minimal;
 % for acceleration
 q = rand(7,1);
 q(6) = 0.4 * rand(1);
+q(5) = 0.17;
 model.set_coordinate_value_minimal(q);
 
 % Jacobian 
@@ -207,12 +208,9 @@ F_P = model.get_PassiveFiberForce();
 % Calculate maximal Cartesian acceleration vector 
 opt = init_metric_opt();
 % fmincon method: 
-n_iter = 10;
-acc_fmc = zeros(6,n_iter);
-for i = 1:n_iter
-    [x_fmc,acc_fmci] = cal_max_acc(model,opt);
-    acc_fmc(:,i) = acc_fmci(:,1);
-end
+
+[x_fmc,acc_fmci] = cal_max_acc(model,opt);
+
 % opt.method = 'lsqlin';
 % [x_fmc_sub,acc_fmc_sub] = cal_max_acc_subdirection(model,opt);
 % norm(acc_fmc);
@@ -222,6 +220,7 @@ end
 
 % Calculate the maximal acceleration in axes direction
 opt.method = 'global';
+opt.only_translational = 0;
 [x_acc_global,acc_fmc_global] = cal_max_acc_subdirection(model,opt);
 
 

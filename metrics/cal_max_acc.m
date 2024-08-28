@@ -25,6 +25,7 @@ mus_FLM = model.get_FiberForceLengthMultiplier;
 % get Passive force vector
 F_P = model.get_PassiveFiberForce();
 mus_PLM = model.get_PassiveForceLengthMultiplier;
+mus_PLM(20) = 0; % disa
 alpha = model.get_PennationAngle;
 
 % optimization settings
@@ -40,17 +41,11 @@ switch opt.acc_direction_opt
     case 1
         x_sol = zeros(length(model.MuscleSet_list),1);
         acc = zeros(6,1);
-%         tic
         Aeq = [];
         beq = [];
-
         % function of calculating acceleration
         if strcmp(opt.method,'fmincon')
-            fun = @(x) -norm(J*inv(M)*MA*(F_MIF .* (mus_FLM .* x + mus_PLM) .* cos(alpha)));
-            A = [];
-            b = [];
-%             options = optimoptions('fmincon','Display','none');
-%             x_opt = fmincon(fun,x0,A,b,Aeq,beq,lb,ub,nonlcon,options);
+            fun = @(x) -norm(J*inv(M)*MA*((F_MIF.*mus_FLM.*x+mus_PLM).*cos(alpha)));
             problem = createOptimProblem('fmincon',...
                 'objective',fun,...
                 'x0',x0,...
@@ -67,9 +62,7 @@ switch opt.acc_direction_opt
             x_opt = lsqlin(C,d,A,b,Aeq,beq,lb,ub,x0,options);
         end
         x_sol(:,1) = x_opt;
-        acc(1:6,1) = J*inv(M)*MA*(F_MIF .* (mus_FLM .* x_opt + mus_PLM) .* cos(alpha)); %  + F_P
-%         t = toc;
-
+        acc(1:6,1) = J*inv(M)*MA*(F_MIF.*(mus_FLM.*x_opt+mus_PLM).*cos(alpha)); %  + F_P
 end
 
 
