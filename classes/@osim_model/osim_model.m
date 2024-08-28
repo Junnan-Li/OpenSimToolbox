@@ -19,7 +19,7 @@ classdef osim_model < handle
     properties
         model_path
         
-%         integrator_accuracy = 5e-5;
+%         integrator_accuracy = 5e5;
         model
         init_state % init state
         state % state for update
