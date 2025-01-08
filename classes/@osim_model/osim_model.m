@@ -245,6 +245,21 @@ classdef osim_model < handle
             grid on
             end
         end
+
+        function plot_all_body_frame(om)
+            % plot the body frame origin in matlab plot
+            import org.opensim.modeling.*;
+            num_body = om.BodySet.getSize;
+            for i = 1:num_body % eul2rotm([0,0,pi/2])*
+                w_p_bodyi_pos = osimMatrix2matrix(om.BodySet.get(i-1).getTransformInGround(om.state).p);
+                w_R_bodyi_pos = osimMatrix2matrix(om.BodySet.get(i-1).getTransformInGround(om.state).R);
+                plot3(w_p_bodyi_pos(1),w_p_bodyi_pos(2),w_p_bodyi_pos(3),'.-',MarkerSize=15,Color='r')
+                hold on
+                axis equal
+                grid on
+                om.plot_frame(w_p_bodyi_pos,w_R_bodyi_pos,0.01);
+            end
+        end
         
         function plot_body(om, body_list)
             % plot the body frame origin in matlab plot
@@ -280,6 +295,30 @@ classdef osim_model < handle
             for i = 1:num_marker_point
                 [~, w_p, w_R] = om.get_mp_frame(i);
                 om.plot_frame(w_p,w_R,0.1);
+            end
+            axis equal
+            grid on
+        end
+
+        function plot_muscle_path(om,mus_list)
+            % plot the body frame origin in matlab plot
+            import org.opensim.modeling.*;
+
+            num_muscle = length(mus_list);
+            for i = 1:num_muscle
+                PathPoints = om.get_musclePathPoint(mus_list(i));
+                num_pp = size(PathPoints,2)-1;
+                for j = 1:num_pp
+                    body_name = PathPoints{1,j+1};
+                    w_p_b = osimMatrix2matrix(om.BodySet.get(body_name).getTransformInGround(om.state).p);
+                    w_R_b = osimMatrix2matrix(om.BodySet.get(body_name).getTransformInGround(om.state).R);
+                    p = PathPoints{2,j+1}';
+                    w_p = w_R_b * p + w_p_b;
+                    plot3(w_p(1),w_p(2),w_p(3),'.-',MarkerSize=8,Color='b')
+                    hold on
+                    axis equal
+                    grid on
+                end
             end
             axis equal
             grid on
@@ -773,9 +812,14 @@ classdef osim_model < handle
             end
         end
 
-        function mus_FL_vec = get_FiberLength(om, mus_name_list)
+        function mus_FL_vec = get_FiberLength(om, varargin)
             % fiber length
             import org.opensim.modeling.*
+            if nargin == 1
+                mus_name_list = om.MuscleSet_list;
+            else 
+                mus_name_list = varargin{1};
+            end
             mus_FL_vec = zeros(length(mus_name_list),1);
             for i = 1:length(mus_name_list)
                 muscle_i = om.MuscleSet.get(mus_name_list{i});

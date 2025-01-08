@@ -28,7 +28,7 @@ model.MuscleSet_list;
 model.delete_all_markers;
 %
 % enable visualization
-model.set_visualize;
+% model.set_visualize;
 
 %%
 body_name = {'2distph'}; % name of the attached body
@@ -49,12 +49,22 @@ Jacobian_matrix2 = model.getJacobian_point('2distph', Vec3(0.1,0,0));
 Jacobian_matrix_sub = model.getJacobian_point_sub('2distph', Vec3(0.1,0,0),coord_list);
 %
 
+%% get coordinate axis 
+a = model.CoordinateSet.get(coord_list{2})
+coord_list{1};
+b = a.getJoint;
+c = b.get_coordinates(0);
+
+%% get muscle path
+mus_name_list = {'EDCI'}; 
+[PathPoints] = model.get_musclePathPoint(mus_name_list);
 % return
 %% Visualization
-model.model_visualize
-model.plot_all_body;
+% model.model_visualize
+% model.plot_all_body;
+model.plot_all_body_frame;
 model.plot_world_frame;
-model.plot_mp_frame;
+% model.plot_mp_frame;
 
 %% Jacobian
 
