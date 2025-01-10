@@ -348,6 +348,17 @@ classdef osim_model < handle
             ylabel('y')
             zlabel('z')
         end
+        
+        %% Body information
+
+        function w_T_body = get_body_T(om,Body_name)
+            % plot the body frame origin in matlab plot
+            import org.opensim.modeling.*;
+            w_p = osimMatrix2matrix(om.BodySet.get(Body_name).getTransformInGround(om.state).p);
+            w_R = osimMatrix2matrix(om.BodySet.get(Body_name).getTransformInGround(om.state).R);
+            w_T_body = [w_R,w_p;0,0,0,1];
+        end
+
 
         %%
 
@@ -943,6 +954,7 @@ classdef osim_model < handle
 
 
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        
 
         %% metrics
 
