@@ -50,7 +50,27 @@ Jacobian_matrix_sub = model.getJacobian_point_sub('2distph', Vec3(0.1,0,0),coord
 %
 
 %% get coordinate axis 
+joint = model.JointSet.get('CMC1a');
+coord = joint.getCoordinate();
+coord.getName();
+coord.getMotionType()
+
+CJ = org.opensim.modeling.CustomJoint.safeDownCast(joint)
+spatialTransform = CJ.getSpatialTransform();
+
+a = spatialTransform.get_rotation1
+
+%%
+w_aor_all = model.get_coordinate_axis_all()
+w_x_all = model.get_coordinate_pos_all()
+%%
 a = model.CoordinateSet.get(coord_list{2})
+a = model.JointSet.get('CMC1a')
+b = a.get_coordinates(0)
+c = b
+pfo = model.getJointSet().get('femur_femur_distal_r').get_frames(0).clone()
+
+
 coord_list{1};
 b = a.getJoint;
 c = b.get_coordinates(0);
@@ -60,12 +80,14 @@ mus_name_list = {'EDCI'};
 [PathPoints] = model.get_musclePathPoint(mus_name_list);
 % return
 %% Visualization
+model.set_coordinate_value(model.CoordinateSet_list(:,1),0.5*zeros(model.CoordinateSet.getSize(),1));
+
 % model.model_visualize
 % model.plot_all_body;
 model.plot_all_body_frame;
 model.plot_world_frame;
 % model.plot_mp_frame;
-
+model.plot_all_Coordinate(0.02)
 %% Jacobian
 
 

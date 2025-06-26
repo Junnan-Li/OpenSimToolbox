@@ -31,7 +31,10 @@ classdef osim_model < handle
         BodySet
         BodySet_list
         CoordinateSet
-        CoordinateSet_list
+        CoordinateSet_list          % colume 1: Coordinate names
+                                    % colume 2: constrained parent coordinates  
+                                    % colume 3: 
+        Coordinate_body                                         
         Coord_minimal               % index of minimal set of coordinates of body
         Coord_minimal_range         % range of minimal coordinates
         CoordinateInOrder           % getCoordinateNamesInMultibodyTreeOrder the order in smss system
@@ -276,6 +279,17 @@ classdef osim_model < handle
             end
         end
 
+        function plot_all_Coordinate(om, axis_length)
+            % plot the body frame origin in matlab plot
+            import org.opensim.modeling.*;
+            
+            w_aor_all = om.get_coordinate_axis_all();
+            w_x_all = om.get_coordinate_pos_all();
+            for i = 1:size(w_x_all,2)
+                om.plot_axis( w_x_all(:,i), w_aor_all(:,i), axis_length)
+            end
+
+        end
 
         function plot_world_frame(om)
             % plot the body frame origin in matlab plot
@@ -299,6 +313,8 @@ classdef osim_model < handle
             axis equal
             grid on
         end
+        
+        
 
         function plot_muscle_path(om,mus_list)
             % plot the body frame origin in matlab plot
@@ -348,6 +364,30 @@ classdef osim_model < handle
             ylabel('y')
             zlabel('z')
         end
+        function plot_axis(om, w_p, axis, axis_len)
+            % plot the x y z axis with given transformation matrix
+            % x: red
+            % y: blue
+            % z: black
+            assert(length(w_p)==3,'plot_axis: incorrect input dimension!')
+%             assert(isequal(size(w_R),[3 3]),'plot_frame: incorrect input dimension!')
+            color_axis = {'r'};
+            linewidth = 2;
+
+
+            axis_pos_i = axis_len*axis;
+            w_p_axis = axis_pos_i;% + w_p;
+            h = quiver3(w_p(1),w_p(2),w_p(3),...
+                w_p_axis(1),w_p_axis(2),w_p_axis(3),...
+                'Color',color_axis{1},'LineWidth',linewidth);
+            set(h,'AutoScale','on', 'AutoScaleFactor',1)
+            hold on
+            drawnow
+
+            xlabel('x')
+            ylabel('y')
+            zlabel('z')
+        end
         
         %% Body information
 
@@ -368,7 +408,6 @@ classdef osim_model < handle
             om.scale_tool = ScaleTool(setting);
 
         end
-
 
 
         function show_scale_info(om)
@@ -454,7 +493,81 @@ classdef osim_model < handle
                 con_i.setIsEnforced(om.state,0);
             end
         end
+        
 
+        function w_x_i = get_coordinate_pos(om, Coord_Name)
+           % get coordinate position in world frame 
+           % Omit local position of child frame in parent frame
+           % Coord_Name: string
+           import org.opensim.modeling.*;
+
+           coord_i = om.CoordinateSet.get(Coord_Name);
+           joint_i = coord_i.getJoint();
+%            parentFrame = joint_i.getParentFrame();
+           childFrame = joint_i.getChildFrame();
+           childOrigin = Vec3(0);
+           worldLocationVec3 = childFrame.findStationLocationInGround(om.state, childOrigin);
+           w_x_i = [worldLocationVec3.get(0), worldLocationVec3.get(1), worldLocationVec3.get(2)]';
+        end
+
+        function w_x_all = get_coordinate_pos_all(om)
+            % get coordinate position in world frame
+            % Omit local position of child frame in parent frame
+            % Coord_Name: string
+            import org.opensim.modeling.*;
+            w_x_all = [];
+            for i = 1: om.CoordinateSet.getSize
+                w_x_all(:,i) = om.get_coordinate_pos(om.CoordinateSet_list{i,1});
+            end
+        end
+
+        function w_aor = get_coordinate_axis(om, Coord_Name)
+            % get coordinate position in world frame
+            % Coord_Name: string
+            import org.opensim.modeling.*;
+
+            coord_i = om.CoordinateSet.get(Coord_Name);
+            joint_i = coord_i.getJoint();
+            joint_Name = joint_i.getName();
+            jointType = char(joint_i.getConcreteClassName());
+            childFrame = joint_i.getChildFrame();
+            switch jointType
+                case 'CustomJoint'
+                    % Cast to CustomJoint
+                    customJoint = CustomJoint.safeDownCast(joint_i);
+                    spatialTransform = customJoint.getSpatialTransform();
+                    % Check each rotation to find which one contains this coordinate
+                    rotations = {spatialTransform.get_rotation1(), ...
+                        spatialTransform.get_rotation2(), ...
+                        spatialTransform.get_rotation3()};
+                    for i = 1:3
+                        rotation = rotations{i};
+                        coordName = rotation.getCoordinateNames();
+                        coordName_char = char(coordName.toString);
+                        if strcmp(Coord_Name,coordName_char(2:end-1)) == 1
+                            axis = rotation.getAxis();
+                            localAxis = Vec3(axis.get(0), axis.get(1), axis.get(2));
+
+                            % Transform to world frame using the appropriate frame
+                            worldAxisVec3 = childFrame.expressVectorInGround(om.state, localAxis);
+                            w_aor = [worldAxisVec3.get(0), worldAxisVec3.get(1), worldAxisVec3.get(2)]';
+                        end
+                    end
+                otherwise
+                    fprintf('[get_coordinate_axis]: joint type not defined \n')
+            end
+        end
+        
+        function w_aor_all = get_coordinate_axis_all(om)
+            % get coordinate position in world frame
+            % Omit local position of child frame in parent frame
+            % Coord_Name: string
+            import org.opensim.modeling.*;
+            w_aor_all = [];
+            for i = 1: om.CoordinateSet.getSize
+                w_aor_all(:,i) = om.get_coordinate_axis(om.CoordinateSet_list{i,1});
+            end
+        end
 
         function Jacobian_matrix = getJacobian_mp_all(om, marker_point_index)
             % Jacobian matrix according to the selected marker_point
